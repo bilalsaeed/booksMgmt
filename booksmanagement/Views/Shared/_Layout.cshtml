@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @*css does here*@
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
+    <link href="~/Scripts/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/pages/waves/css/waves.min.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/icon/feather/css/feather.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/icon/themify-icons/themify-icons.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/icon/icofont/css/icofont.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/icon/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Scripts/vendor/chartist/css/chartist.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/css/style.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/css/widget.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/css/pages.css" rel="stylesheet" />
+</head>
+<body themebg-pattern="theme1">
+    <div class="loader-bg">
+        <div class="loader-bar"></div>
+    </div>
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>*@
+
+    @if (Request.IsAuthenticated)
+    {
+        <div id="pcoded" 
+             class="pcoded iscollapsed" 
+             nav-type="st2" theme-layout="vertical" 
+             vertical-placement="left" 
+             vertical-layout="wide" 
+             pcoded-device-type="desktop" 
+             vertical-nav-type="expanded" 
+             vertical-effect="shrink" 
+             vnavigation-view="view1" 
+             fream-type="theme1" 
+             layout-type="light">
+            <div class="pcoded-overlay-box"></div>
+            <div class="pcoded-container navbar-wrapper">
+                @Html.Partial("_LoginPartial")
+                <div class="pcoded-main-container" style="margin-top: 73px;">
+                    <div class="pcoded-wrapper">
+                        @Html.Partial("_SideBar")
+                        <div class="pcoded-content">
+                            <!-- [ breadcrumb ] start -->
+                            <div class="page-header card">
+                                <div class="row align-items-end">
+                                    <div class="col-lg-12">
+                                        <div class="page-header-title">
+                                            <i class="feather icon-home bg-c-blue"></i>
+                                            <div class="d-inline">
+                                                <h5>@ViewBag.Title</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pcoded-inner-content">
+                                <div class="main-body">
+                                    <div class="page-wrapper">
+                                        <div class="page-body">
+                                            @RenderBody()
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="styleSelector">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        @RenderBody()
+    }
+    <script src="~/Scripts/vendor/jquery/js/jquery.min.js"></script>
+    <script src="~/Scripts/vendor/jquery-ui/js/jquery-ui.min.js"></script>
+    <script src="~/Scripts/vendor/popper.js/js/popper.min.js"></script>
+    <script src="~/Scripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/assets/pages/waves/js/waves.min.js"></script>
+    <script src="~/Scripts/vendor/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+    <script src="~/Scripts/assets/js/pcoded.min.js"></script>
+    <script src="~/Scripts/assets/js/vertical/vertical-layout.min.js"></script>
+    <script src="~/Scripts/vendor/modernizr/js/modernizr.js"></script>
+    <script src="~/Scripts/vendor/modernizr/js/css-scrollbars.js"></script>
+    <script src="~/Scripts/assets/js/common-pages.js"></script>
+    <script src="~/Scripts/assets/js/script.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
