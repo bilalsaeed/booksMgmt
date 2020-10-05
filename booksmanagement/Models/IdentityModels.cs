@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -28,6 +29,10 @@ namespace booksmanagement.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public DbSet<CarBrand> CarBrands { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<CarPart> CarParts { get; set; }
 
         public static ApplicationDbContext Create()
         {

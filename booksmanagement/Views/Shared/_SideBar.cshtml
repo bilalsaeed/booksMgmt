@@ -2,133 +2,52 @@
 <nav class="pcoded-navbar">
     <div class="nav-list">
         <div class="pcoded-inner-navbar main-menu">
-            <div class="pcoded-navigation-label">Navigation</div>
             <ul class="pcoded-item pcoded-left-item">
-                <li class="pcoded-hasmenu active pcoded-trigger">
-                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                        <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                <li class="@Html.IsSelected(actions: "Index", controllers: "Home", cssClass:"active")">
+                    <a href="~/" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-home"></i>
+                        </span>
                         <span class="pcoded-mtext">Dashboard</span>
                     </a>
-                    <ul class="pcoded-submenu">
-                        <li class="active">
-                            <a href="index-2.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Default</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="default/dashboard-crm.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">CRM</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="default/dashboard-analytics.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Analytics</span>
-                                <span class="pcoded-badge label label-info ">NEW</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                <li class="pcoded-hasmenu">
-                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                        <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
-                        <span class="pcoded-mtext">Page layouts</span>
-                        <span class="pcoded-badge label label-warning">NEW</span>
-                    </a>
-                    <ul class="pcoded-submenu">
-                        <li class=" pcoded-hasmenu">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Vertical</span>
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li class="">
-                                    <a href="default/menu-static.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Static Layout</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="default/menu-header-fixed.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Header Fixed</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="default/menu-compact.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Compact</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="default/menu-sidebar.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Sidebar Fixed</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class=" pcoded-hasmenu">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Horizontal</span>
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li class="">
-                                    <a href="default/menu-horizontal-static.html" target="_blank" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Static Layout</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="default/menu-horizontal-fixed.html" target="_blank" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Fixed layout</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="default/menu-horizontal-icon.html" target="_blank" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Static With Icon</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="default/menu-horizontal-icon-fixed.html" target="_blank" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Fixed With Icon</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="">
-                            <a href="default/menu-bottom.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Bottom Menu</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a href="default/navbar-light.html" class="waves-effect waves-dark">
+            </ul>
+            <div class="pcoded-navigation-label" menu-title-theme="theme1">Setups</div>
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="@Html.IsSelected(actions: "", controllers: "CarBrands", cssClass:"active")">
+                    <a href="~/CarBrands" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="feather icon-menu"></i>
+                            <i class="fas fa-registered"></i>
                         </span>
-                        <span class="pcoded-mtext">Navigation</span>
+                        <span class="pcoded-mtext">Car Brands</span>
                     </a>
                 </li>
-                <li class="pcoded-hasmenu">
-                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                <li class="@Html.IsSelected(actions: "", controllers: "Cars", cssClass:"active")">
+                    <a href="~/Cars" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="feather icon-layers"></i>
+                            <i class="fas fa-automobile"></i>
                         </span>
-                        <span class="pcoded-mtext">Widget</span>
-                        <span class="pcoded-badge label label-danger">100+</span>
+                        <span class="pcoded-mtext">Cars</span>
                     </a>
-                    <ul class="pcoded-submenu">
-                        <li class="">
-                            <a href="default/widget-statistic.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Statistic</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="default/widget-data.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Data</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="default/widget-chart.html" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Chart Widget</span>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="@Html.IsSelected(actions: "", controllers: "CarParts", cssClass:"active")">
+                    <a href="~/CarParts" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </span>
+                        <span class="pcoded-mtext">Car Parts</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="pcoded-navigation-label" menu-title-theme="theme1">Admin area</div>
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="@Html.IsSelected(actions: "", controllers: "Account", cssClass:"active")">
+                    <a href="#" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-users"></i>
+                        </span>
+                        <span class="pcoded-mtext">User Management</span>
+                    </a>
                 </li>
             </ul>
         </div>

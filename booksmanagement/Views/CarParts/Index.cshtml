@@ -1,0 +1,46 @@
+﻿@model IEnumerable<booksmanagement.Models.CarPart>
+
+@{
+    ViewBag.Title = "Car parts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a href="@Url.Action("Create", "CarParts")" class="btn btn-primary shadow-sm">
+        <i class="fas fa-plus fa-sm text-white-50"></i>
+        Create New
+    </a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Car name
+        </th>
+        <th>
+            Created at
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Car.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedAt)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

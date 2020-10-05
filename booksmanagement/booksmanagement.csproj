@@ -183,11 +183,15 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CarBrandsController.cs" />
+    <Compile Include="Controllers\CarPartsController.cs" />
+    <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Helpers\RoleName.cs" />
     <Compile Include="Migrations\202010031415495_firstnLastNamefieldsadded.cs" />
     <Compile Include="Migrations\202010031415495_firstnLastNamefieldsadded.Designer.cs">
@@ -205,8 +209,27 @@
     <Compile Include="Migrations\202010031453309_test.Designer.cs">
       <DependentUpon>202010031453309_test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010051045248_CarBrandAdded.cs" />
+    <Compile Include="Migrations\202010051045248_CarBrandAdded.Designer.cs">
+      <DependentUpon>202010051045248_CarBrandAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010051117597_CarsAdded.cs" />
+    <Compile Include="Migrations\202010051117597_CarsAdded.Designer.cs">
+      <DependentUpon>202010051117597_CarsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010051147587_CarPartsAdded.cs" />
+    <Compile Include="Migrations\202010051147587_CarPartsAdded.Designer.cs">
+      <DependentUpon>202010051147587_CarPartsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010051154142_CreatedateAddedInCarParts.cs" />
+    <Compile Include="Migrations\202010051154142_CreatedateAddedInCarParts.Designer.cs">
+      <DependentUpon>202010051154142_CreatedateAddedInCarParts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\CarBrand.cs" />
+    <Compile Include="Models\CarPart.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2178,6 +2201,21 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\CarBrands\Create.cshtml" />
+    <Content Include="Views\CarBrands\Delete.cshtml" />
+    <Content Include="Views\CarBrands\Details.cshtml" />
+    <Content Include="Views\CarBrands\Edit.cshtml" />
+    <Content Include="Views\CarBrands\Index.cshtml" />
+    <Content Include="Views\Cars\Create.cshtml" />
+    <Content Include="Views\Cars\Delete.cshtml" />
+    <Content Include="Views\Cars\Details.cshtml" />
+    <Content Include="Views\Cars\Edit.cshtml" />
+    <Content Include="Views\Cars\Index.cshtml" />
+    <Content Include="Views\CarParts\Create.cshtml" />
+    <Content Include="Views\CarParts\Delete.cshtml" />
+    <Content Include="Views\CarParts\Details.cshtml" />
+    <Content Include="Views\CarParts\Edit.cshtml" />
+    <Content Include="Views\CarParts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2199,6 +2237,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010031453309_test.resx">
       <DependentUpon>202010031453309_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010051045248_CarBrandAdded.resx">
+      <DependentUpon>202010051045248_CarBrandAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010051117597_CarsAdded.resx">
+      <DependentUpon>202010051117597_CarsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010051147587_CarPartsAdded.resx">
+      <DependentUpon>202010051147587_CarPartsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010051154142_CreatedateAddedInCarParts.resx">
+      <DependentUpon>202010051154142_CreatedateAddedInCarParts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -2226,7 +2276,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>40674</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/booksmanagement</IISUrl>
+          <IISUrl>http://localhost:90/booksmanagement</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
