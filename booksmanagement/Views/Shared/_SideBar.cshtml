@@ -39,17 +39,20 @@
                     </a>
                 </li>
             </ul>
-            <div class="pcoded-navigation-label" menu-title-theme="theme1">Admin area</div>
-            <ul class="pcoded-item pcoded-left-item">
-                <li class="@Html.IsSelected(actions: "", controllers: "Account", cssClass:"active")">
-                    <a href="#" class="waves-effect waves-dark">
-                        <span class="pcoded-micon">
-                            <i class="fas fa-users"></i>
-                        </span>
-                        <span class="pcoded-mtext">User Management</span>
-                    </a>
-                </li>
-            </ul>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="pcoded-navigation-label" menu-title-theme="theme1">Admin area</div>
+                <ul class="pcoded-item pcoded-left-item">
+                    <li class="@Html.IsSelected(actions: "", controllers: "Account", cssClass:"active")">
+                        <a href="~/Account" class="waves-effect waves-dark">
+                            <span class="pcoded-micon">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <span class="pcoded-mtext">User Management</span>
+                        </a>
+                    </li>
+                </ul>
+            }
         </div>
     </div>
 </nav>

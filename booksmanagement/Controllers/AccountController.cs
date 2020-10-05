@@ -10,17 +10,23 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using booksmanagement.Models;
 using booksmanagement.Helpers;
+using booksmanagement.ViewModels;
+using System.Net;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Security;
 
 namespace booksmanagement.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext _context;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -53,6 +59,131 @@ namespace booksmanagement.Controllers
             }
         }
 
+        [Authorize(Roles = RoleName.Admin)]
+        public ActionResult Index()
+        {
+            var users = (from user in _context.Users
+                         select new
+                         {
+                             user.Id,
+                             user.FirstName,
+                             user.LastName,
+                             user.UserName,
+                             user.Email,
+                             user.PhoneNumber,
+                             user.ContactNumber,
+                             user.ServiceNumber,
+                             user.Department,
+                             user.CreatedDate,
+                             user.IsActive,
+                             RoleNames = (from userRole in user.Roles
+                                          join role in _context.Roles on userRole.RoleId
+                                          equals role.Id
+                                          select role.Name).ToList()
+                         }).OrderBy(u => u.IsActive).ToList().Select(p => new UserListViewModel()
+
+                         {
+                             UserId = p.Id,
+                             FirstName = p.FirstName,
+                             LastName = p.LastName,
+                             UserName = p.UserName,
+                             Email = p.Email,
+                             Phone = p.PhoneNumber,
+                             ContactNumber = p.ContactNumber,
+                             ServiceNumber = p.ServiceNumber,
+                             Department = p.Department,
+                             CreatedDate = p.CreatedDate,
+                             IsActive = p.IsActive,
+                             Role = string.Join(",", p.RoleNames)
+                         });
+
+            return View(users);
+        }
+
+
+        [Authorize(Roles = RoleName.Admin)]
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var rolelist = _context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
+            new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = rolelist;
+
+            ApplicationUser appUser = new ApplicationUser();
+            appUser = UserManager.FindById(id);
+            var userroles = UserManager.GetRoles(appUser.Id);
+
+            UserEditViewModel user = new UserEditViewModel();
+            user.Id = id;
+            user.FirstName = appUser.FirstName;
+            user.LastName = appUser.LastName;
+            user.UserName = appUser.UserName;
+            user.Email = appUser.Email;
+            user.Phone = appUser.PhoneNumber;
+            user.ContactNumber = appUser.ContactNumber;
+            user.ServiceNumber = appUser.ServiceNumber;
+            user.Department = appUser.Department;
+            user.Role = string.Join("", userroles);
+            user.IsActive = appUser.IsActive;
+
+            return View(user);
+
+        }
+
+        [Authorize(Roles = RoleName.Admin)]
+        [HttpPost]
+        public async Task<ActionResult> Edit(UserEditViewModel useredit)
+        {
+            if (ModelState.IsValid)
+            {
+                var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+                var manager = new UserManager<ApplicationUser>(store);
+                var currentUser = manager.FindById(useredit.Id);
+
+                if (!manager.IsInRole(currentUser.Id, useredit.Role))
+                {
+                    var roles = await manager.GetRolesAsync(currentUser.Id);
+                    await manager.RemoveFromRolesAsync(currentUser.Id, roles.ToArray());
+
+                    manager.AddToRole(currentUser.Id, useredit.Role);
+                }
+
+                currentUser.FirstName = useredit.FirstName;
+                currentUser.LastName = useredit.LastName;
+                currentUser.Email = useredit.Email;
+                currentUser.ContactNumber = useredit.ContactNumber;
+                currentUser.ServiceNumber = useredit.ServiceNumber;
+                currentUser.Department = useredit.Department;
+                currentUser.IsActive = useredit.IsActive;
+
+                if (!string.IsNullOrWhiteSpace(useredit.Pasword))
+                {
+                    currentUser.PasswordHash = manager.PasswordHasher.HashPassword(useredit.Pasword);
+                }
+
+                await manager.UpdateAsync(currentUser);
+                var ctx = store.Context;
+                ctx.SaveChanges();
+                TempData["msg"] = "User Changes Saved!";
+                return RedirectToAction("Index");
+            }
+
+
+            var rolelist = _context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
+            new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = rolelist;
+
+            return View(useredit);
+
+        }
+
+
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -76,7 +207,7 @@ namespace booksmanagement.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -137,27 +268,40 @@ namespace booksmanagement.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
+            var rolelist = _context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
+            new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = rolelist;
+
             return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(UserRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new ApplicationUser { 
+                    UserName = model.UserName, 
+                    Email = model.Email, 
+                    FirstName = model.FirstName, 
+                    LastName = model.LastName,
+                    ContactNumber = model.ContactNumber,
+                    ServiceNumber = model.ServiceNumber,
+                    Department = model.Department,
+                    IsActive = model.IsActive
+            };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user.Id, RoleName.User);
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    var userStore = new UserStore<ApplicationUser>(_context);
+                    var userManager = new UserManager<ApplicationUser>(userStore);
+                    userManager.AddToRole(user.Id, model.Role);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -165,12 +309,16 @@ namespace booksmanagement.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Account");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            var rolelist = _context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
+            new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = rolelist;
+
             return View(model);
         }
 

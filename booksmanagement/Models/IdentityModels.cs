@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace booksmanagement.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ContactNumber { get; set; }
+        public string ServiceNumber { get; set; }
+        public string Department { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; }
     }
 
