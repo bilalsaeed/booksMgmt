@@ -18,6 +18,12 @@
     <link href="~/Scripts/assets/css/widget.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/pages.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/font-awesome-n.min.css" rel="stylesheet" />
+
+    <!-- Data Table Css -->
+    <link rel="stylesheet" type="text/css" href="~/Scripts/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Scripts/assets/pages/data-table/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Scripts/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+
 </head>
 <body themebg-pattern="theme1">
     <div class="loader-bg">
@@ -46,16 +52,16 @@
 
     @if (Request.IsAuthenticated)
     {
-        <div id="pcoded" 
-             class="pcoded iscollapsed" 
-             nav-type="st2" theme-layout="vertical" 
-             vertical-placement="left" 
-             vertical-layout="wide" 
-             pcoded-device-type="desktop" 
-             vertical-nav-type="expanded" 
-             vertical-effect="shrink" 
-             vnavigation-view="view1" 
-             fream-type="theme1" 
+        <div id="pcoded"
+             class="pcoded iscollapsed"
+             nav-type="st2" theme-layout="vertical"
+             vertical-placement="left"
+             vertical-layout="wide"
+             pcoded-device-type="desktop"
+             vertical-nav-type="expanded"
+             vertical-effect="shrink"
+             vnavigation-view="view1"
+             fream-type="theme1"
              layout-type="light">
             <div class="pcoded-overlay-box"></div>
             <div class="pcoded-container navbar-wrapper">
@@ -110,6 +116,18 @@
     <script src="~/Scripts/vendor/modernizr/js/css-scrollbars.js"></script>
     <script src="~/Scripts/assets/js/common-pages.js"></script>
     <script src="~/Scripts/assets/js/script.min.js"></script>
+
+    <!-- data-table js -->
+    <script src="~/Scripts/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/assets/pages/data-table/js/jszip.min.js"></script>
+    <script src="~/Scripts/assets/pages/data-table/js/pdfmake.min.js"></script>
+    <script src="~/Scripts/assets/pages/data-table/js/vfs_fonts.js"></script>
+    <script src="~/Scripts/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Scripts/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Scripts/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
