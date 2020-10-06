@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CarBrandsController.cs" />
     <Compile Include="Controllers\CarPartsController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
@@ -229,8 +230,21 @@
     <Compile Include="Migrations\202010051832519_PropsAddedInApplicationUser.Designer.cs">
       <DependentUpon>202010051832519_PropsAddedInApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010061055598_BooksAdded.cs" />
+    <Compile Include="Migrations\202010061055598_BooksAdded.Designer.cs">
+      <DependentUpon>202010061055598_BooksAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010061101493_CarAddedInBook.cs" />
+    <Compile Include="Migrations\202010061101493_CarAddedInBook.Designer.cs">
+      <DependentUpon>202010061101493_CarAddedInBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010061136284_QuantityMadeNullableInBook.cs" />
+    <Compile Include="Migrations\202010061136284_QuantityMadeNullableInBook.Designer.cs">
+      <DependentUpon>202010061136284_QuantityMadeNullableInBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarBrand.cs" />
     <Compile Include="Models\CarPart.cs" />
@@ -319,7 +333,9 @@
     <Content Include="Scripts\assets\images\error\error-5.jpg" />
     <Content Include="Scripts\assets\images\error\error-6.jpg" />
     <Content Include="Scripts\assets\images\favicon.ico" />
+    <Content Include="Scripts\assets\images\lib_logo.png" />
     <Content Include="Scripts\assets\images\logo.png" />
+    <Content Include="Scripts\assets\images\logo_car.png" />
     <Content Include="Scripts\assets\images\mega-menu\01.jpg" />
     <Content Include="Scripts\assets\images\mega-menu\03.jpg" />
     <Content Include="Scripts\assets\images\Modal\overflow.html" />
@@ -1130,6 +1146,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\extra-pages\404\1\css\bootstrap.min.css" />
     <Content Include="Scripts\extra-pages\404\1\css\font-awesome.min.css" />
@@ -2225,6 +2242,11 @@
     <Content Include="Views\CarParts\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Books\Create.cshtml" />
+    <Content Include="Views\Books\Delete.cshtml" />
+    <Content Include="Views\Books\Details.cshtml" />
+    <Content Include="Views\Books\Edit.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2262,6 +2284,15 @@
     <EmbeddedResource Include="Migrations\202010051832519_PropsAddedInApplicationUser.resx">
       <DependentUpon>202010051832519_PropsAddedInApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061055598_BooksAdded.resx">
+      <DependentUpon>202010061055598_BooksAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061101493_CarAddedInBook.resx">
+      <DependentUpon>202010061101493_CarAddedInBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010061136284_QuantityMadeNullableInBook.resx">
+      <DependentUpon>202010061136284_QuantityMadeNullableInBook.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -2288,7 +2319,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>40674</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/booksmanagement</IISUrl>
+          <IISUrl>http://localhost:90/booksmanagement</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -11,6 +11,7 @@ using booksmanagement.Models;
 
 namespace booksmanagement.Controllers
 {
+    [Authorize]
     public class CarBrandsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

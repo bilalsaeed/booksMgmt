@@ -38,6 +38,14 @@
                         <span class="pcoded-mtext">Car Parts</span>
                     </a>
                 </li>
+                <li class="@Html.IsSelected(actions: "", controllers: "Books", cssClass:"active")">
+                    <a href="~/Books" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span class="pcoded-mtext">Books</span>
+                    </a>
+                </li>
             </ul>
             @if (User.IsInRole("Admin"))
             {

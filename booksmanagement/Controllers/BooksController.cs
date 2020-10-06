@@ -11,113 +11,133 @@ using booksmanagement.Models;
 
 namespace booksmanagement.Controllers
 {
-    [Authorize]
-    public class CarPartsController : Controller
+    public class BooksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: CarParts
+        // GET: Books
         public async Task<ActionResult> Index()
         {
-            var carParts = db.CarParts.Include(c => c.Car);
-            return View(await carParts.ToListAsync());
+            var books = db.Books.Include(b => b.Car);
+            return View(await books.ToListAsync());
         }
 
-        // GET: CarParts/Details/5
+        // GET: Books/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            Book book = await db.Books.FindAsync(id);
+            if (book == null)
             {
                 return HttpNotFound();
             }
-            return View(carPart);
+            return View(book);
         }
 
-        // GET: CarParts/Create
+        // GET: Books/Create
         public ActionResult Create()
         {
             ViewBag.CarId = new SelectList(db.Cars, "Id", "Name");
+            ViewBag.TypeId = new List<SelectListItem>
+            {
+                new SelectListItem{ Text="Soft copy", Value = "1", Selected= true },
+                new SelectListItem{ Text="Hard copy", Value = "2" },
+            };
+
             return View();
         }
 
-        // POST: CarParts/Create
+        // POST: Books/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,CarId,CreatedAt")] CarPart carPart)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Keywords,CarId,TypeId,Quantity,IsActive,CreatedDate")] Book book)
         {
             if (ModelState.IsValid)
             {
-                db.CarParts.Add(carPart);
+                db.Books.Add(book);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", carPart.CarId);
-            return View(carPart);
+            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", book.CarId);
+            ViewBag.TypeId = new List<SelectListItem>
+            {
+                new SelectListItem{ Text="Soft copy", Value = "1", Selected= true },
+                new SelectListItem{ Text="Hard copy", Value = "2" },
+            };
+            return View(book);
         }
 
-        // GET: CarParts/Edit/5
+        // GET: Books/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            Book book = await db.Books.FindAsync(id);
+            if (book == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", carPart.CarId);
-            return View(carPart);
+            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", book.CarId);
+            ViewBag.TypeId = new SelectList(new[]
+            {
+                new { Id = "1", Name = "Soft copy" },
+                new { Id = "2", Name = "Hard copy" }
+            }, "Id", "Name", book.TypeId);
+            return View(book);
         }
 
-        // POST: CarParts/Edit/5
+        // POST: Books/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarId,CreatedAt")] CarPart carPart)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Keywords,CarId,TypeId,Quantity,IsActive,CreatedDate")] Book book)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(carPart).State = EntityState.Modified;
+                db.Entry(book).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", carPart.CarId);
-            return View(carPart);
+            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", book.CarId);
+            ViewBag.TypeId = new List<SelectListItem>
+            {
+                new SelectListItem{ Text="Soft copy", Value = "1" },
+                new SelectListItem{ Text="Hard copy", Value = "2" },
+            };
+            return View(book);
         }
 
-        // GET: CarParts/Delete/5
+        // GET: Books/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            Book book = await db.Books.FindAsync(id);
+            if (book == null)
             {
                 return HttpNotFound();
             }
-            return View(carPart);
+            return View(book);
         }
 
-        // POST: CarParts/Delete/5
+        // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            db.CarParts.Remove(carPart);
+            Book book = await db.Books.FindAsync(id);
+            db.Books.Remove(book);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
