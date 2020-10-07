@@ -1,0 +1,33 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Requesting {{book.Title}}</h3>
+
+</div>
+<div class="modal-body">
+    <form role="form" name="requestForm">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">From date</label>
+                    <input type="date" required="required" name="fromDate" class="form-control" placeholder="From date" ng-model="fromDate" />
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">To date</label>
+                    <input type="date" required="required" name="toDate" class="form-control" placeholder="To date" ng-model="toDate" />
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">Purpose</label>
+                    <input type="text" required="required" name="purpose" class="form-control" placeholder="What is purpose to borrow book" ng-model="purpose" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" data-exclude="true">
+    <button class="btn btn-primary" ng-click="ok()">Submit request</button>
+    <br />
+    <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>

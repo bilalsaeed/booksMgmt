@@ -47,6 +47,17 @@
                     </a>
                 </li>
             </ul>
+            <div class="pcoded-navigation-label" menu-title-theme="theme1">Transactions</div>
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="@Html.IsSelected(actions: "", controllers: "BookBorrow", cssClass:"active")">
+                    <a href="~/BookBorrow" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="fas fa-calendar-check-o"></i>
+                        </span>
+                        <span class="pcoded-mtext">Book borrow</span>
+                    </a>
+                </li>
+            </ul>
             @if (User.IsInRole("Admin"))
             {
                 <div class="pcoded-navigation-label" menu-title-theme="theme1">Admin area</div>

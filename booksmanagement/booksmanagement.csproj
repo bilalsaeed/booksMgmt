@@ -183,12 +183,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\api\BookBorrowController.cs" />
+    <Compile Include="Controllers\api\BooksController.cs" />
+    <Compile Include="Controllers\BookBorrowController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CarBrandsController.cs" />
     <Compile Include="Controllers\CarPartsController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Dtos\BookRequestDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -242,9 +246,18 @@
     <Compile Include="Migrations\202010061136284_QuantityMadeNullableInBook.Designer.cs">
       <DependentUpon>202010061136284_QuantityMadeNullableInBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010070932566_DownloadLinkAddedInBook.cs" />
+    <Compile Include="Migrations\202010070932566_DownloadLinkAddedInBook.Designer.cs">
+      <DependentUpon>202010070932566_DownloadLinkAddedInBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010070954284_BookBorrowOrderAdded.cs" />
+    <Compile Include="Migrations\202010070954284_BookBorrowOrderAdded.Designer.cs">
+      <DependentUpon>202010070954284_BookBorrowOrderAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookBorrowOrder.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarBrand.cs" />
     <Compile Include="Models\CarPart.cs" />
@@ -1073,6 +1086,8 @@
     <Content Include="Scripts\assets\pages\widget\widget-statistic.js" />
     <Content Include="Scripts\assets\pages\wysiwyg-editor\js\tinymce.min.js" />
     <Content Include="Scripts\assets\pages\wysiwyg-editor\wysiwyg-editor.js" />
+    <Content Include="Scripts\css\angular-confirm.min.css" />
+    <Content Include="Scripts\css\toaster.min.css" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -1974,6 +1989,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\angular-scripts.js" />
+    <Content Include="Scripts\js\ng-controllers\book-borrow-ctrl.js" />
+    <Content Include="Scripts\js\ng-modules\angular-animate.min.js" />
+    <Content Include="Scripts\js\ng-modules\angular-confirm.min.js" />
+    <Content Include="Scripts\js\ng-modules\toaster.min.js" />
+    <Content Include="Scripts\js\ng-templates\book-borrow-request-template.html" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -2247,6 +2268,7 @@
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\BookBorrow\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2292,6 +2314,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010061136284_QuantityMadeNullableInBook.resx">
       <DependentUpon>202010061136284_QuantityMadeNullableInBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010070932566_DownloadLinkAddedInBook.resx">
+      <DependentUpon>202010070932566_DownloadLinkAddedInBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010070954284_BookBorrowOrderAdded.resx">
+      <DependentUpon>202010070954284_BookBorrowOrderAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

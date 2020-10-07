@@ -38,6 +38,7 @@ namespace booksmanagement.Models
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarPart> CarParts { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<BookBorrowOrder> BookBorrowOrders { get; set; }
 
         public static ApplicationDbContext Create()
         {

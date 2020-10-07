@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Book borrow";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" ng-controller="BookBorrowCtrl">
+    <div class="col-sm-12 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Hard Books</h5>
+            </div>
+            <div class="card-block">
+                <div class="align-middle m-b-25 border-bottom pb-2" ng-repeat="book in hardBooks">
+                    <div class="d-inline-block">
+                        <h6>{{book.Title}}</h6>
+                        <p ng-if="book.Quantity>0" class="text-muted m-b-0" 
+                           style="cursor:pointer;" ng-click="openBorrowRequestModal(book)">Get this book</p>
+                        <p ng-if="!book.Quantity || book.Quantity==0" class="text-muted m-b-0">N/A</p>
+                        <span class="status active"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Soft Books</h5>
+            </div>
+            <div class="card-block">
+                <div class="align-middle m-b-25 border-bottom pb-2" ng-repeat="book in softBooks">
+                    <div class="d-inline-block">
+                        <h6>{{book.Title}}</h6>
+                        <a href="{{book.DownloadLink}}" target="_blank">
+                            <p ng-if="book.DownloadLink" class="text-muted m-b-0">Get this book</p>
+                            <p ng-if="!book.DownloadLink" class="text-muted m-b-0">N/A</p>
+                        </a>
+                        <span class="status active"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/js/ng-controllers/book-borrow-ctrl.js"></script>
+}

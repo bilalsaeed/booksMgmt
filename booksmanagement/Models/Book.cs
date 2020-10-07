@@ -14,7 +14,10 @@ namespace booksmanagement.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Keywords { get; set; }
-        
+
+        [Display(Name = "Download link")]
+        public string DownloadLink { get; set; }
+
         public Car Car { get; set; }
 
         [Required]

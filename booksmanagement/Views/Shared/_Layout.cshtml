@@ -19,6 +19,9 @@
     <link href="~/Scripts/assets/css/pages.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/font-awesome-n.min.css" rel="stylesheet" />
 
+    <link href="~/Scripts/css/toaster.min.css" rel="stylesheet" />
+    <link href="~/Scripts/css/angular-confirm.min.css" rel="stylesheet" />
+
     <!-- Switch component css -->
     <link rel="stylesheet" type="text/css" href="~/Scripts/vendor/switchery/css/switchery.min.css">
 
@@ -55,6 +58,7 @@
 
     @if (Request.IsAuthenticated)
     {
+        <a id="rootPath" href="~/" style="display:none"></a> @*to get root path*@
         <div id="pcoded"
              class="pcoded iscollapsed"
              nav-type="st2" theme-layout="vertical"
@@ -89,7 +93,9 @@
                             <div class="pcoded-inner-content">
                                 <div class="main-body">
                                     <div class="page-wrapper">
-                                        <div class="page-body">
+                                        <div class="page-body" ng-app="myApp">
+                                            <toaster-container toaster-options="{'time-out': 3000, 'close-button': true, 'limit':5}">
+                                            </toaster-container>
                                             @RenderBody()
                                         </div>
                                     </div>
@@ -110,6 +116,16 @@
     <script src="~/Scripts/vendor/jquery/js/jquery.min.js"></script>
     <script src="~/Scripts/vendor/jquery-ui/js/jquery-ui.min.js"></script>
     <script src="~/Scripts/vendor/popper.js/js/popper.min.js"></script>
+
+    @* Angularjs library *@
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-sanitize.min.js"></script>
+
+    <script src="~/Scripts/js/ng-modules/angular-animate.min.js"></script>
+    <script src="~/Scripts/js/ng-modules/toaster.min.js"></script>
+    <script src="~/Scripts/js/ng-modules/angular-confirm.min.js"></script>
+
+
     <script src="~/Scripts/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/Scripts/assets/pages/waves/js/waves.min.js"></script>
     <script src="~/Scripts/vendor/jquery-slimscroll/js/jquery.slimscroll.js"></script>
@@ -119,6 +135,12 @@
     <script src="~/Scripts/vendor/modernizr/js/css-scrollbars.js"></script>
     <script src="~/Scripts/assets/js/common-pages.js"></script>
     <script src="~/Scripts/assets/js/script.min.js"></script>
+
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+
+    @* Custom angular scripts *@
+    <script src="~/Scripts/js/angular-scripts.js"></script>
+
 
     <!-- Switch component js -->
     <script type="text/javascript" src="~/Scripts/vendor/switchery/js/switchery.min.js"></script>
