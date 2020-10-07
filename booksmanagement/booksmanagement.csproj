@@ -1991,6 +1991,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\angular-scripts.js" />
     <Content Include="Scripts\js\ng-controllers\book-borrow-ctrl.js" />
+    <Content Include="Scripts\js\ng-controllers\home-ctrl.js" />
     <Content Include="Scripts\js\ng-modules\angular-animate.min.js" />
     <Content Include="Scripts\js\ng-modules\angular-confirm.min.js" />
     <Content Include="Scripts\js\ng-modules\toaster.min.js" />
