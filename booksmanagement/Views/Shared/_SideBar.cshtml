@@ -6,7 +6,7 @@
                 <li class="@Html.IsSelected(actions: "Index", controllers: "Home", cssClass:"active")">
                     <a href="~/" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="feather icon-home"></i>
+                            <i class="icon-home"></i>
                         </span>
                         <span class="pcoded-mtext">Dashboard</span>
                     </a>
@@ -17,7 +17,7 @@
                 <li class="@Html.IsSelected(actions: "", controllers: "CarBrands", cssClass:"active")">
                     <a href="~/CarBrands" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="fas fa-registered"></i>
+                            <i class="fa fa-registered"></i>
                         </span>
                         <span class="pcoded-mtext">Car Brands</span>
                     </a>
@@ -25,7 +25,7 @@
                 <li class="@Html.IsSelected(actions: "", controllers: "Cars", cssClass:"active")">
                     <a href="~/Cars" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="fas fa-automobile"></i>
+                            <i class="fa fa-automobile"></i>
                         </span>
                         <span class="pcoded-mtext">Cars</span>
                     </a>
@@ -33,7 +33,7 @@
                 <li class="@Html.IsSelected(actions: "", controllers: "CarParts", cssClass:"active")">
                     <a href="~/CarParts" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="fas fa-puzzle-piece"></i>
+                            <i class="icon-puzzle"></i>
                         </span>
                         <span class="pcoded-mtext">Car Parts</span>
                     </a>
@@ -41,7 +41,7 @@
                 <li class="@Html.IsSelected(actions: "", controllers: "Books", cssClass:"active")">
                     <a href="~/Books" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="fas fa-book"></i>
+                            <i class="fa fa-book"></i>
                         </span>
                         <span class="pcoded-mtext">Books</span>
                     </a>
@@ -52,9 +52,19 @@
                 <li class="@Html.IsSelected(actions: "", controllers: "BookBorrow", cssClass:"active")">
                     <a href="~/BookBorrow" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
-                            <i class="fas fa-calendar-check-o"></i>
+                            <i class="icon-note"></i>
                         </span>
-                        <span class="pcoded-mtext">Book borrow</span>
+                        <span class="pcoded-mtext">Borrow Book</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="@Html.IsSelected(actions: "", controllers: "BookRequests", cssClass:"active")">
+                    <a href="~/BookRequests" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="icon-layers"></i>
+                        </span>
+                        <span class="pcoded-mtext">Book Borrow Requests</span>
                     </a>
                 </li>
             </ul>
@@ -65,7 +75,7 @@
                     <li class="@Html.IsSelected(actions: "", controllers: "Account", cssClass:"active")">
                         <a href="~/Account" class="waves-effect waves-dark">
                             <span class="pcoded-micon">
-                                <i class="fas fa-users"></i>
+                                <i class="icon-people"></i>
                             </span>
                             <span class="pcoded-mtext">User Management</span>
                         </a>
