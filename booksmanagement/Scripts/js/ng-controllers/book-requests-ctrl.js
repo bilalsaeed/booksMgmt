@@ -10,6 +10,42 @@
         }, function error() { });
     }
 
+    $scope.approveBookRequest = function (requestId) {
+        $ngConfirm({
+            title: 'Approve Request?',
+            content: 'Are you sure to approve this Request?',
+            autoClose: 'cancel|10000',
+            buttons: {
+                submitRequest: {
+                    text: 'Approve',
+                    btnClass: 'btn-success',
+                    action: function () {
+                        $http.post(root + 'api/BookBorrow/ApproveBookRequest', requestId).then(function success(response) {
+                            if (response.status == 200) {
+                                toaster.pop({
+                                    type: 'success',
+                                    title: '',
+                                    body: "Request is Approved. Please grant user the book from requests page.",
+                                });
+                                $scope.getAllBookRequests();
+                            }
+                        }, function error(err) {
+                            toaster.pop({
+                                type: 'error',
+                                title: 'Error',
+                                body: err.data,
+                            });
+                        });
+                    }
+                },
+
+                cancel: function () {
+
+                }
+            }
+        });
+    }
+
     $scope.grantBook = function (requestId) {
         $ngConfirm({
             title: 'Grant this Book?',
