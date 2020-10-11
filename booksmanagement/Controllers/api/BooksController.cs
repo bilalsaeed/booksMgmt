@@ -9,7 +9,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using booksmanagement.Dtos;
 using booksmanagement.Models;
+using Microsoft.AspNet.Identity;
 
 namespace booksmanagement.Controllers.api
 {
@@ -29,6 +31,17 @@ namespace booksmanagement.Controllers.api
         public IQueryable<Book> GetHardBooks()
         {
             return db.Books.Where(b => b.TypeId == 2 && b.IsActive);
+        }
+
+        public IQueryable<AppUserDto> GetAllUsers()
+        {
+            return db.Users.Where(u => u.IsActive).Select(u => new AppUserDto()
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                FullName = u.FirstName +" "+ u.LastName
+            });
         }
 
         // GET: api/Books/5

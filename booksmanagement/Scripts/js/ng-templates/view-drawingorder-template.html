@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Drawing order for <u>{{order.CarPart.Name}}</u></h3>
+
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label class="form-label">Description:</label><br />
+                <label class=" font-weight-bold"><b>{{order.Description}}</b></label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label class="form-label">Purpose:</label><br />
+                <label class="form-label"><b>{{order.Purpose}}</b></label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <label class="form-label">Location:</label><br />
+                <label class="form-label"><b>{{order.Location}}</b></label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12" ng-if="order.AssignedTo">
+            <div class="form-group">
+                <label class="form-label">Assigned to:</label><br />
+                <label class="form-label"><b>{{order.AssignedTo.FirstName}} {{order.AssignedTo.LastName}}</b></label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" data-exclude="true">
+    <button class="btn btn-danger" ng-click="cancel()">Close</button>
+</div>

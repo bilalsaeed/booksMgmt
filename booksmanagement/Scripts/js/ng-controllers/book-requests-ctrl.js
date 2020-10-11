@@ -1,7 +1,5 @@
 ﻿myApp.controller('BookRequestsCtrl', function ($scope, $filter, $http, $uibModal, toaster, $ngConfirm) {
 
-    var vm = this;
-
     $scope.getAllBookRequests = function () {
         $http.get(root + 'api/BookBorrow/GetAllRequests').then(function success(response) {
             $scope.allRequests = response.data;

@@ -1,0 +1,33 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Creating drawing order for <b><u>{{part.Name}}</u></b></h3>
+
+</div>
+<div class="modal-body">
+    <form role="form" name="orderForm">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <input type="text" required="required" name="description" class="form-control" placeholder="Write Description here" ng-model="Description" />
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">Purpose</label>
+                    <input type="text" required="required" name="purpose" class="form-control" placeholder="What is Purpose of this order?" ng-model="Purpose" />
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" required="required" name="location" class="form-control" placeholder="Location..." ng-model="Location" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" data-exclude="true">
+    <button class="btn btn-primary" ng-click="ok()">Submit Order</button>
+    <br />
+    <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>

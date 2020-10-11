@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Drawing Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row" ng-controller="DrawingOrderNewCtrl">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Create a new drawing order</h5>
+            </div>
+            <div class="card-block">
+                <input type="text" class="form-control" placeholder="Search here..." ng-model="query" value="" />
+                <br />
+                <div class="align-middle m-b-25 border-bottom pb-2" ng-repeat="part in carParts | filter:query"
+                     style="cursor:pointer;" ng-click="openDrawingOrderModal(part)">
+                    <div class="d-inline-block">
+                        <h6>{{part.Name}}</h6>
+                        <p class="text-muted m-b-0">{{part.Car.CarBrand.Name}} {{part.Car.Name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/js/ng-controllers/drawingorder-new-ctrl.js"></script>
+}

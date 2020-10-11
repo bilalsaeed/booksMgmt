@@ -47,7 +47,7 @@
                     </a>
                 </li>
             </ul>
-            <div class="pcoded-navigation-label" menu-title-theme="theme1">Transactions</div>
+            <div class="pcoded-navigation-label" menu-title-theme="theme1">Book Borrow</div>
             <ul class="pcoded-item pcoded-left-item">
                 <li class="@Html.IsSelected(actions: "", controllers: "BookBorrow", cssClass:"active")">
                     <a href="~/BookBorrow" class="waves-effect waves-dark">
@@ -65,6 +65,27 @@
                             <i class="icon-layers"></i>
                         </span>
                         <span class="pcoded-mtext">Book Borrow Requests</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="pcoded-navigation-label" menu-title-theme="theme1">Drawing Order</div>
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="@Html.IsSelected(actions: "New", controllers: "DrawingOrders", cssClass:"active")">
+                    <a href="~/DrawingOrders/New" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="fa fa-object-ungroup"></i>
+                        </span>
+                        <span class="pcoded-mtext">New Drawing Order</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="@Html.IsSelected(actions: "Index", controllers: "DrawingOrders", cssClass:"active")">
+                    <a href="~/DrawingOrders" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="icon-layers"></i>
+                        </span>
+                        <span class="pcoded-mtext">Drawing Order Requests</span>
                     </a>
                 </li>
             </ul>
