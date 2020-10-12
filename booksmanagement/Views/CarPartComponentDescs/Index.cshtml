@@ -1,0 +1,72 @@
+﻿@model IEnumerable<booksmanagement.Models.CarPartComponentDesc>
+
+@{
+    ViewBag.Title = "Components Description";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    <a href="@Url.Action("Create", "CarPartComponentDescs")" class="btn btn-primary shadow-sm">
+        <i class="fa fa-plus fa-sm text-white-50"></i>
+        Create New
+    </a>
+</p>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block">
+                <div class="dt-responsive table-responsive">
+                    <table id="componentDesc-table" class="table table-striped table-bordered nowrap">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    Component name
+                                </th>
+                                <th>
+                                    Created at
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @item.CarPartComponent.Name (@item.CarPartComponent.CarPart.Car.CarBrand.Name @item.CarPartComponent.CarPart.Car.Name @item.CarPartComponent.CarPart.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#componentDesc-table').DataTable({
+            "order": [
+                [0, "asc"]
+            ]
+        });
+    </script>
+}

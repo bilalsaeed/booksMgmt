@@ -38,6 +38,22 @@
                         <span class="pcoded-mtext">Car Parts</span>
                     </a>
                 </li>
+                <li class="@Html.IsSelected(actions: "", controllers: "CarPartComponents", cssClass:"active")">
+                    <a href="~/CarPartComponents" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="icon-pie-chart"></i>
+                        </span>
+                        <span class="pcoded-mtext">Car Part Components</span>
+                    </a>
+                </li>
+                <li class="@Html.IsSelected(actions: "", controllers: "CarPartComponentDescs", cssClass:"active")">
+                    <a href="~/CarPartComponentDescs" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="icon-doc"></i>
+                        </span>
+                        <span class="pcoded-mtext">Components Description</span>
+                    </a>
+                </li>
                 <li class="@Html.IsSelected(actions: "", controllers: "Books", cssClass:"active")">
                     <a href="~/Books" class="waves-effect waves-dark">
                         <span class="pcoded-micon">

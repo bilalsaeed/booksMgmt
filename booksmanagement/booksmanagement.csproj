@@ -191,6 +191,8 @@
     <Compile Include="Controllers\BookRequestsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CarBrandsController.cs" />
+    <Compile Include="Controllers\CarPartComponentDescsController.cs" />
+    <Compile Include="Controllers\CarPartComponentsController.cs" />
     <Compile Include="Controllers\CarPartsController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\DrawingOrdersController.cs" />
@@ -276,6 +278,14 @@
     <Compile Include="Migrations\202010111745320_DrawingRejectedAdded.Designer.cs">
       <DependentUpon>202010111745320_DrawingRejectedAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010120745123_CarPartComponentAndCarPartComponentDescAdded.cs" />
+    <Compile Include="Migrations\202010120745123_CarPartComponentAndCarPartComponentDescAdded.Designer.cs">
+      <DependentUpon>202010120745123_CarPartComponentAndCarPartComponentDescAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010120749128_RequiredAddedInComponentAndComponentDesc.cs" />
+    <Compile Include="Migrations\202010120749128_RequiredAddedInComponentAndComponentDesc.Designer.cs">
+      <DependentUpon>202010120749128_RequiredAddedInComponentAndComponentDesc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -283,6 +293,8 @@
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarBrand.cs" />
     <Compile Include="Models\CarPart.cs" />
+    <Compile Include="Models\CarPartComponent.cs" />
+    <Compile Include="Models\CarPartComponentDesc.cs" />
     <Compile Include="Models\DrawingOrder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -2332,6 +2344,16 @@
     <Content Include="Views\BookRequests\Index.cshtml" />
     <Content Include="Views\DrawingOrders\Index.cshtml" />
     <Content Include="Views\DrawingOrders\New.cshtml" />
+    <Content Include="Views\CarPartComponents\Create.cshtml" />
+    <Content Include="Views\CarPartComponents\Delete.cshtml" />
+    <Content Include="Views\CarPartComponents\Details.cshtml" />
+    <Content Include="Views\CarPartComponents\Edit.cshtml" />
+    <Content Include="Views\CarPartComponents\Index.cshtml" />
+    <Content Include="Views\CarPartComponentDescs\Create.cshtml" />
+    <Content Include="Views\CarPartComponentDescs\Delete.cshtml" />
+    <Content Include="Views\CarPartComponentDescs\Details.cshtml" />
+    <Content Include="Views\CarPartComponentDescs\Edit.cshtml" />
+    <Content Include="Views\CarPartComponentDescs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2395,6 +2417,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010111745320_DrawingRejectedAdded.resx">
       <DependentUpon>202010111745320_DrawingRejectedAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010120745123_CarPartComponentAndCarPartComponentDescAdded.resx">
+      <DependentUpon>202010120745123_CarPartComponentAndCarPartComponentDescAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010120749128_RequiredAddedInComponentAndComponentDesc.resx">
+      <DependentUpon>202010120749128_RequiredAddedInComponentAndComponentDesc.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
