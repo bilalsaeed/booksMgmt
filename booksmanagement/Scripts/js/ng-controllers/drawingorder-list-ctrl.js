@@ -50,7 +50,7 @@
             $scope.getAllOrders();
         });
     }
-    
+
     $scope.submitDrawing = function (order) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -232,64 +232,98 @@ myApp.controller('AssignOrderCtrl', function ($scope, $uibModalInstance, $http, 
     }
 });
 
-myApp.controller('SubmitOrderCtrl', function ($scope, $uibModalInstance, $http, toaster, $ngConfirm, order) {
-    $scope.order = order;
-
-    $scope.submitDrawingOrder = function (orderData) {
-        $http.post(root + 'api/DrawingOrders/SubmitDrawingOrder', orderData).then(function success(response) {
-            if (response.status == 200) {
-                toaster.pop({
-                    type: 'success',
-                    title: '',
-                    body: "Drawing is Submitted.",
-                });
-                $uibModalInstance.dismiss();
+myApp.controller('SubmitOrderCtrl',
+    function ($scope, $uibModalInstance, $http, toaster, $ngConfirm, order) {
+        $scope.order = order;
+        var uppy = Uppy.Core({
+            debug:
+                true,
+            autoProceed:
+                true,
+            restrictions:
+            {
+                maxFileSize: 1000000,
+                maxNumberOfFiles:
+                    3,
+                minNumberOfFiles:
+                    2,
+                allowedFileTypes:
+                    ['image/*', 'video/*']
             }
-        }, function error(err) {
-            toaster.pop({
-                type: 'error',
-                title: 'Error',
-                body: err.data,
+        });
+        $uibModalInstance.rendered.then(function () {
+
+            uppy.use(Uppy.Dashboard, {
+                inline: true,
+                target: '#uppyUploader',
+                replaceTargetContent: true,
+                showProgressDetails: true,
+                note: 'Images and video only, 2–3 files, up to 1 MB',
+                height: 470,
+                metaFields: [
+                    { id: 'name', name: 'Name', placeholder: 'file name' },
+                    { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }
+                ],
+                browserBackButtonClose: true
             });
+            uppy.use(Uppy.Tus, { endpoint: root + '/tus' });
         });
 
-    }
-
-    $scope.save = function () {
-        if (true) {
-            $ngConfirm({
-                title: 'Submit Drawing?',
-                content: 'Are you sure to submit this drawing?',
-                autoClose: 'cancel|10000',
-                buttons: {
-                    submitRequest: {
-                        text: 'Submit',
-                        btnClass: 'btn-success',
-                        action: function () {
-                            var orderData = {
-                                Id: $scope.order.Id
-                            }
-                            $scope.submitDrawingOrder(orderData);
-                        }
-                    },
-                    cancel: function () {
-
-                    }
+        $scope.submitDrawingOrder = function (orderData) {
+            $http.post(root + 'api/DrawingOrders/SubmitDrawingOrder', orderData).then(function success(response) {
+                if (response.status == 200) {
+                    toaster.pop({
+                        type: 'success',
+                        title: '',
+                        body: "Drawing is Submitted.",
+                    });
+                    $uibModalInstance.dismiss();
                 }
+            }, function error(err) {
+                toaster.pop({
+                    type: 'error',
+                    title: 'Error',
+                    body: err.data,
+                });
             });
 
         }
-        else {
-            toaster.pop({
-                type: 'error',
-                title: '',
-                body: "Please fill the fields before submitting order.",
-            });
-        }
-    }
 
-    
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss();
-    }
-});
+        $scope.save = function () {
+            if (true) {
+                $ngConfirm({
+                    title: 'Submit Drawing?',
+                    content: 'Are you sure to submit this drawing?',
+                    autoClose: 'cancel|10000',
+                    buttons: {
+                        submitRequest: {
+                            text: 'Submit',
+                            btnClass: 'btn-success',
+                            action: function () {
+                                var orderData = {
+                                    Id: $scope.order.Id
+                                }
+                                $scope.submitDrawingOrder(orderData);
+                            }
+                        },
+                        cancel: function () {
+
+                        }
+                    }
+                });
+
+            }
+            else {
+                toaster.pop({
+                    type: 'error',
+                    title: '',
+                    body: "Please fill the fields before submitting order.",
+                });
+            }
+        }
+
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss();
+        }
+    });
