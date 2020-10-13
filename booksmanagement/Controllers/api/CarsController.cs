@@ -13,47 +13,45 @@ using booksmanagement.Models;
 
 namespace booksmanagement.Controllers.api
 {
-    public class CarPartsController : ApiController
+    public class CarsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/CarParts
-        public IQueryable<CarPart> GetCarParts()
+        // GET: api/Cars
+        public IQueryable<Car> GetCars()
         {
-            return db.CarParts
-                .Include(c => c.Car)
-                .Include(c => c.Car.CarBrand);
+            return db.Cars
+                .Include(c => c.CarBrand);
         }
 
-
-        // GET: api/CarParts/5
-        [ResponseType(typeof(CarPart))]
-        public async Task<IHttpActionResult> GetCarPart(int id)
+        // GET: api/Cars/5
+        [ResponseType(typeof(Car))]
+        public async Task<IHttpActionResult> GetCar(int id)
         {
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            Car car = await db.Cars.FindAsync(id);
+            if (car == null)
             {
                 return NotFound();
             }
 
-            return Ok(carPart);
+            return Ok(car);
         }
 
-        // PUT: api/CarParts/5
+        // PUT: api/Cars/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCarPart(int id, CarPart carPart)
+        public async Task<IHttpActionResult> PutCar(int id, Car car)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != carPart.Id)
+            if (id != car.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(carPart).State = EntityState.Modified;
+            db.Entry(car).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +59,7 @@ namespace booksmanagement.Controllers.api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarPartExists(id))
+                if (!CarExists(id))
                 {
                     return NotFound();
                 }
@@ -74,35 +72,35 @@ namespace booksmanagement.Controllers.api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CarParts
-        [ResponseType(typeof(CarPart))]
-        public async Task<IHttpActionResult> PostCarPart(CarPart carPart)
+        // POST: api/Cars
+        [ResponseType(typeof(Car))]
+        public async Task<IHttpActionResult> PostCar(Car car)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.CarParts.Add(carPart);
+            db.Cars.Add(car);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = carPart.Id }, carPart);
+            return CreatedAtRoute("DefaultApi", new { id = car.Id }, car);
         }
 
-        // DELETE: api/CarParts/5
-        [ResponseType(typeof(CarPart))]
-        public async Task<IHttpActionResult> DeleteCarPart(int id)
+        // DELETE: api/Cars/5
+        [ResponseType(typeof(Car))]
+        public async Task<IHttpActionResult> DeleteCar(int id)
         {
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            Car car = await db.Cars.FindAsync(id);
+            if (car == null)
             {
                 return NotFound();
             }
 
-            db.CarParts.Remove(carPart);
+            db.Cars.Remove(car);
             await db.SaveChangesAsync();
 
-            return Ok(carPart);
+            return Ok(car);
         }
 
         protected override void Dispose(bool disposing)
@@ -114,9 +112,9 @@ namespace booksmanagement.Controllers.api
             base.Dispose(disposing);
         }
 
-        private bool CarPartExists(int id)
+        private bool CarExists(int id)
         {
-            return db.CarParts.Count(e => e.Id == id) > 0;
+            return db.Cars.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -41,6 +41,10 @@ namespace booksmanagement.Controllers
         public ActionResult Create()
         {
             ViewBag.CarId = new SelectList(db.Cars, "Id", "Name");
+            ViewBag.CarPartId = new SelectList(db.CarParts.Select(c => new { c.Id, Name = c.Name + " (" + c.Car.CarBrand.Name + " " + c.Car.Name + ")" }), "Id", "Name");
+            ViewBag.CarPartComponentId = new SelectList(db.CarPartComponents.Select(c => new { c.Id, Name = c.Name + " (" + c.CarPart.Car.CarBrand.Name + " " + c.CarPart.Car.Name + " " + c.CarPart.Name + ")" }), "Id", "Name");
+            ViewBag.CarPartComponentDescId = new SelectList(db.CarPartComponentDescs.Select(c => new { c.Id, Name = c.Name + " ("+ c.CarPartComponent.CarPart.Car.CarBrand.Name + " " + c.CarPartComponent.CarPart.Car.Name + " " + c.CarPartComponent.CarPart.Name + ")" }), "Id", "Name");
+
             ViewBag.TypeId = new List<SelectListItem>
             {
                 new SelectListItem{ Text="Soft copy", Value = "1", Selected= true },
@@ -55,7 +59,7 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Keywords,DownloadLink,CarId,TypeId,Quantity,IsActive,CreatedDate")] Book book)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Keywords,DownloadLink,CarId,CarPartId,CarPartComponentId,CarPartComponentDescId,TypeId,Quantity,IsActive,CreatedDate")] Book book)
         {
             if (ModelState.IsValid)
             {

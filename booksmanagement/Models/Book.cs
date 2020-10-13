@@ -23,6 +23,13 @@ namespace booksmanagement.Models
         [Required]
         public int CarId { get; set; }
 
+        public CarPart CarPart { get; set; }
+        public int? CarPartId { get; set; }
+        public CarPartComponent CarPartComponent { get; set; }
+        public int? CarPartComponentId { get; set; }
+        public CarPartComponentDesc CarPartComponentDesc { get; set; }
+        public int? CarPartComponentDescId { get; set; }
+
         [Required]
         [Display(Name = "Book type")]
         public int TypeId { get; set; } //1 => Softcopy, 2 => Hardcopy

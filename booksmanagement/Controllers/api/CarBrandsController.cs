@@ -13,47 +13,44 @@ using booksmanagement.Models;
 
 namespace booksmanagement.Controllers.api
 {
-    public class CarPartsController : ApiController
+    public class CarBrandsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/CarParts
-        public IQueryable<CarPart> GetCarParts()
+        // GET: api/CarBrands
+        public IQueryable<CarBrand> GetCarBrands()
         {
-            return db.CarParts
-                .Include(c => c.Car)
-                .Include(c => c.Car.CarBrand);
+            return db.CarBrands;
         }
 
-
-        // GET: api/CarParts/5
-        [ResponseType(typeof(CarPart))]
-        public async Task<IHttpActionResult> GetCarPart(int id)
+        // GET: api/CarBrands/5
+        [ResponseType(typeof(CarBrand))]
+        public async Task<IHttpActionResult> GetCarBrand(int id)
         {
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            CarBrand carBrand = await db.CarBrands.FindAsync(id);
+            if (carBrand == null)
             {
                 return NotFound();
             }
 
-            return Ok(carPart);
+            return Ok(carBrand);
         }
 
-        // PUT: api/CarParts/5
+        // PUT: api/CarBrands/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCarPart(int id, CarPart carPart)
+        public async Task<IHttpActionResult> PutCarBrand(int id, CarBrand carBrand)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != carPart.Id)
+            if (id != carBrand.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(carPart).State = EntityState.Modified;
+            db.Entry(carBrand).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +58,7 @@ namespace booksmanagement.Controllers.api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarPartExists(id))
+                if (!CarBrandExists(id))
                 {
                     return NotFound();
                 }
@@ -74,35 +71,35 @@ namespace booksmanagement.Controllers.api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CarParts
-        [ResponseType(typeof(CarPart))]
-        public async Task<IHttpActionResult> PostCarPart(CarPart carPart)
+        // POST: api/CarBrands
+        [ResponseType(typeof(CarBrand))]
+        public async Task<IHttpActionResult> PostCarBrand(CarBrand carBrand)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.CarParts.Add(carPart);
+            db.CarBrands.Add(carBrand);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = carPart.Id }, carPart);
+            return CreatedAtRoute("DefaultApi", new { id = carBrand.Id }, carBrand);
         }
 
-        // DELETE: api/CarParts/5
-        [ResponseType(typeof(CarPart))]
-        public async Task<IHttpActionResult> DeleteCarPart(int id)
+        // DELETE: api/CarBrands/5
+        [ResponseType(typeof(CarBrand))]
+        public async Task<IHttpActionResult> DeleteCarBrand(int id)
         {
-            CarPart carPart = await db.CarParts.FindAsync(id);
-            if (carPart == null)
+            CarBrand carBrand = await db.CarBrands.FindAsync(id);
+            if (carBrand == null)
             {
                 return NotFound();
             }
 
-            db.CarParts.Remove(carPart);
+            db.CarBrands.Remove(carBrand);
             await db.SaveChangesAsync();
 
-            return Ok(carPart);
+            return Ok(carBrand);
         }
 
         protected override void Dispose(bool disposing)
@@ -114,9 +111,9 @@ namespace booksmanagement.Controllers.api
             base.Dispose(disposing);
         }
 
-        private bool CarPartExists(int id)
+        private bool CarBrandExists(int id)
         {
-            return db.CarParts.Count(e => e.Id == id) > 0;
+            return db.CarBrands.Count(e => e.Id == id) > 0;
         }
     }
 }

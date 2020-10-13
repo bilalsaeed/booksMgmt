@@ -335,7 +335,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\api\BookBorrowController.cs" />
     <Compile Include="Controllers\api\BooksController.cs" />
+    <Compile Include="Controllers\api\CarBrandsController.cs" />
+    <Compile Include="Controllers\api\CarPartComponentDescsController.cs" />
+    <Compile Include="Controllers\api\CarPartComponentsController.cs" />
     <Compile Include="Controllers\api\CarPartsController.cs" />
+    <Compile Include="Controllers\api\CarsController.cs" />
     <Compile Include="Controllers\api\DrawingOrdersController.cs" />
     <Compile Include="Controllers\BookBorrowController.cs" />
     <Compile Include="Controllers\BookRequestsController.cs" />
@@ -435,6 +439,10 @@
     <Compile Include="Migrations\202010120749128_RequiredAddedInComponentAndComponentDesc.cs" />
     <Compile Include="Migrations\202010120749128_RequiredAddedInComponentAndComponentDesc.Designer.cs">
       <DependentUpon>202010120749128_RequiredAddedInComponentAndComponentDesc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010131718051_FieldsAddedInBook.cs" />
+    <Compile Include="Migrations\202010131718051_FieldsAddedInBook.Designer.cs">
+      <DependentUpon>202010131718051_FieldsAddedInBook.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2176,6 +2184,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\angular-scripts.js" />
     <Content Include="Scripts\js\ng-controllers\book-borrow-ctrl.js" />
+    <Content Include="Scripts\js\ng-controllers\book-create-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-requests-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-list-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-new-ctrl.js" />
@@ -2574,6 +2583,9 @@
     <EmbeddedResource Include="Migrations\202010120749128_RequiredAddedInComponentAndComponentDesc.resx">
       <DependentUpon>202010120749128_RequiredAddedInComponentAndComponentDesc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010131718051_FieldsAddedInBook.resx">
+      <DependentUpon>202010131718051_FieldsAddedInBook.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -2600,7 +2612,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>40674</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/booksmanagement</IISUrl>
+          <IISUrl>http://localhost:90/booksmanagement</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
