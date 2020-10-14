@@ -7,6 +7,16 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
+                    <label class="form-label">Car part component</label>
+                    <select class="form-control custom-select border"
+                            ng-options="item.Id as item.Name for item in carPartComponents"
+                            ng-model="CarPartComponentId">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
                     <label class="form-label">Description</label>
                     <input type="text" required="required" name="description" class="form-control" placeholder="Write Description here" ng-model="Description" />
                 </div>

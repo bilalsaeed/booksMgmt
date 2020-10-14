@@ -13,7 +13,13 @@
             <div class="card-block">
                 <div class="align-middle m-b-25 border-bottom pb-2" ng-repeat="book in hardBooks">
                     <div class="d-inline-block">
-                        <h6>{{book.Title}}</h6>
+                        <h6>
+                            {{book.Title}}
+                            ({{book.Car.Name}}
+                            {{book.CarPart.Name}}
+                            {{book.CarPartComponent.Name}}
+                            {{book.CarPartComponentDesc.Name}})
+                        </h6>
                         <p ng-if="book.Quantity>0" class="text-muted m-b-0" 
                            style="cursor:pointer;" ng-click="openBorrowRequestModal(book)">Get this book</p>
                         <p ng-if="!book.Quantity || book.Quantity==0" class="text-muted m-b-0">N/A</p>
@@ -31,7 +37,13 @@
             <div class="card-block">
                 <div class="align-middle m-b-25 border-bottom pb-2" ng-repeat="book in softBooks">
                     <div class="d-inline-block">
-                        <h6>{{book.Title}}</h6>
+                        <h6>
+                            {{book.Title}}
+                            ({{book.Car.Name}}
+                            {{book.CarPart.Name}}
+                            {{book.CarPartComponent.Name}}
+                            {{book.CarPartComponentDesc.Name}})
+                        </h6>
                         <a href="{{book.DownloadLink}}" target="_blank">
                             <p ng-if="book.DownloadLink" class="text-muted m-b-0">Get this book</p>
                             <p ng-if="!book.DownloadLink" class="text-muted m-b-0">N/A</p>

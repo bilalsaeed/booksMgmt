@@ -444,6 +444,10 @@
     <Compile Include="Migrations\202010131718051_FieldsAddedInBook.Designer.cs">
       <DependentUpon>202010131718051_FieldsAddedInBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010141056195_CarPartComponentAddedInDrawingRequest.cs" />
+    <Compile Include="Migrations\202010141056195_CarPartComponentAddedInDrawingRequest.Designer.cs">
+      <DependentUpon>202010141056195_CarPartComponentAddedInDrawingRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -2185,6 +2189,7 @@
     <Content Include="Scripts\js\angular-scripts.js" />
     <Content Include="Scripts\js\ng-controllers\book-borrow-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-create-ctrl.js" />
+    <Content Include="Scripts\js\ng-controllers\book-edit-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-requests-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-list-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-new-ctrl.js" />
@@ -2585,6 +2590,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010131718051_FieldsAddedInBook.resx">
       <DependentUpon>202010131718051_FieldsAddedInBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010141056195_CarPartComponentAddedInDrawingRequest.resx">
+      <DependentUpon>202010141056195_CarPartComponentAddedInDrawingRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -29,6 +29,7 @@ namespace booksmanagement.Controllers.api
                 .Include(b => b.CarPart)
                 .Include(b => b.CarPart.Car)
                 .Include(b => b.CarPart.Car.CarBrand)
+                .Include(b => b.CarPartComponent)
                 .Include(b => b.Applicant)
                 .Include(b => b.AssignedTo)
                 //.Where(b => b.AssignedTo == null).OrderBy(b => b.AppliedDate)
@@ -40,6 +41,7 @@ namespace booksmanagement.Controllers.api
                 .Include(b => b.CarPart)
                 .Include(b => b.CarPart.Car)
                 .Include(b => b.CarPart.Car.CarBrand)
+                .Include(b => b.CarPartComponent)
                 .Include(b => b.AssignedTo)
                 .Where(b => b.ApplicantId == appUser.Id || b.AssignedToId == appUser.Id).ToListAsync();
             }
@@ -87,6 +89,7 @@ namespace booksmanagement.Controllers.api
             DrawingOrder drawingOrder = new DrawingOrder()
             {
                 CarPartId = carPart.Id,
+                CarPartComponentId = orderRequest.CarPartComponentId,
                 Description = orderRequest.Description,
                 Purpose = orderRequest.Purpose,
                 Location = orderRequest.Location,

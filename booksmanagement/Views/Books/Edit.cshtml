@@ -6,107 +6,136 @@
 }
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-
-    <div class="row">
+    <div class="row" ng-controller="BookEditCtrl">
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-6" })
+                <label class="control-label col-md-6">Title</label>
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    <input class="form-control text-box single-line" type="text"
+                           ng-model="form.Title">
                 </div>
             </div>
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-6" })
+                <label class="control-label col-md-6">Description</label>
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    <input class="form-control text-box single-line" type="text"
+                           ng-model="form.Description">
                 </div>
             </div>
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Keywords, htmlAttributes: new { @class = "control-label col-md-6" })
+                <label class="control-label col-md-6">Keywords</label>
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.Keywords, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
+                    <input class="form-control text-box single-line" type="text"
+                           ng-model="form.Keywords">
                 </div>
             </div>
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.CarId, "Car name", htmlAttributes: new { @class = "control-label col-md-6" })
+                <label class="control-label col-md-6">Car name</label>
                 <div class="col-md-12">
-                    @Html.DropDownList("CarId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CarId, "", new { @class = "text-danger" })
+                    <select class="form-control custom-select" ng-disabled="form.CarPartComponentDescId || form.CarPartComponentId || form.CarPartId"
+                            ng-options="item.Id as item.Name for item in cars"
+                            ng-model="form.CarId">
+                        <option></option>
+                    </select>
                 </div>
             </div>
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.TypeId, "Book type", htmlAttributes: new { @class = "control-label col-md-6" })
+                <label class="control-label col-md-6">Car part</label>
                 <div class="col-md-12">
-                    @Html.DropDownList("TypeId", null, htmlAttributes: new { @class = "form-control", @id = "cmbBookType" })
-                    @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" id="divQuantity">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-6" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" id="divDownloadLink">
-            <div class="form-group">
-                @Html.LabelFor(model => model.DownloadLink, htmlAttributes: new { @class = "control-label col-md-6" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.DownloadLink, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DownloadLink, "", new { @class = "text-danger" })
+                    <select class="form-control custom-select" ng-change="partSelected()" ng-disabled="form.CarPartComponentDescId || form.CarPartComponentId"
+                            ng-options="item.Id as item.Name for item in carParts | filter: { CarId: !!form.CarId?form.CarId: undefined }"
+                            ng-model="form.CarPartId">
+                        <option></option>
+                    </select>
                 </div>
             </div>
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.IsActive, "Book is active", htmlAttributes: new { @class = "control-label col-md-6" })
+                <label class="control-label col-md-6">Car part component</label>
+                <div class="col-md-12">
+                    <select class="form-control custom-select" ng-change="componentSelected()" ng-disabled="form.CarPartComponentDescId"
+                            ng-options="item.Id as item.Name for item in carPartComponents | filter: { CarPartId: !!form.CarPartId?form.CarPartId: undefined }"
+                            ng-model="form.CarPartComponentId">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label class="control-label col-md-6">Component Description</label>
+                <div class="col-md-12">
+                    <select class="form-control custom-select" ng-change="componentDescSelected()"
+                            ng-options="item.Id as item.Name for item in carPartComponentDescs | filter: { CarPartComponentId: !!form.CarPartComponentId?form.CarPartComponentId: undefined}"
+                            ng-model="form.CarPartComponentDescId">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label class="control-label col-md-6">Book type</label>
+                <div class="col-md-12">
+                    <select class="form-control custom-select" ng-options="item.Id as item.Name for item in bookTypes"
+                            ng-model="form.TypeId">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6" ng-if="form.TypeId == 2">
+            <div class="form-group">
+                <label class="control-label col-md-6">Quantity</label>
+                <div class="col-md-12">
+                    <input class="form-control text-box single-line" type="text"
+                           ng-model="form.Quantity">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6" ng-if="form.TypeId == 1">
+            <div class="form-group">
+                <label class="control-label col-md-6">Download Link</label>
+                <div class="col-md-12">
+                    <input class="form-control text-box single-line" type="text"
+                           ng-model="form.DownloadLink">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label class="control-label col-md-6">Book is active</label>
                 <div class="col-md-12">
                     <div class="checkbox">
-                        @Html.EditorFor(model => model.IsActive)
-                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        <input class="check-box" type="checkbox"
+                               ng-model="form.IsActive">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-12">
-                <input type="submit" value="Save" class="btn btn-primary shadow-sm" />
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-12">
+                    <input type="button" value="Save" class="btn btn-primary shadow-sm" ng-click="save()" />
+                </div>
             </div>
         </div>
+        <div class="col-sm-12">
+            @Html.ActionLink("Back to List", "Index")
+        </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/js/ng-controllers/book-edit-ctrl.js"></script>
 
     <script>
         $(document).ready(function () {

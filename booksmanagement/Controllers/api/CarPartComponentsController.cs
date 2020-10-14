@@ -26,6 +26,15 @@ namespace booksmanagement.Controllers.api
                 .Include(c => c.CarPart.Car.CarBrand);
         }
 
+        public IQueryable<CarPartComponent> GetCarPartComponentsByPart(int partId)
+        {
+            return db.CarPartComponents
+                .Include(c => c.CarPart)
+                .Include(c => c.CarPart.Car)
+                .Include(c => c.CarPart.Car.CarBrand)
+                .Where(c => c.CarPartId == partId);
+        }
+
         // GET: api/CarPartComponents/5
         [ResponseType(typeof(CarPartComponent))]
         public async Task<IHttpActionResult> GetCarPartComponent(int id)

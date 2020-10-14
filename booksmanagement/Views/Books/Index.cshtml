@@ -46,7 +46,10 @@
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Car.Name)
+                                        @*@Html.DisplayFor(modelItem => item.Car.Name)*@
+
+                                        @item.Car.Name @((item.CarPart != null || item.CarPartComponent != null || item.CarPartComponentDesc != null) ?"(":"")@(item.CarPart?.Name) @(item.CarPartComponent?.Name) @(item.CarPartComponentDesc?.Name)@((item.CarPart != null || item.CarPartComponent != null || item.CarPartComponentDesc != null) ?")":"")
+
                                     </td>
                                     <td>
                                         @*@Html.DisplayFor(modelItem => item.TypeId == 1 ? "Soft copy" : "Hard copy")*@

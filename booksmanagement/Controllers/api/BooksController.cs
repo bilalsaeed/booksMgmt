@@ -27,11 +27,21 @@ namespace booksmanagement.Controllers.api
         }
         public IQueryable<Book> GetSoftBooks()
         {
-            return db.Books.Where(b => b.TypeId == 1 && b.IsActive);
+            return db.Books
+                .Include(b => b.Car)
+                .Include(b => b.CarPart)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.CarPartComponentDesc)
+                .Where(b => b.TypeId == 1 && b.IsActive);
         }
         public IQueryable<Book> GetHardBooks()
         {
-            return db.Books.Where(b => b.TypeId == 2 && b.IsActive);
+            return db.Books
+                .Include(b => b.Car)
+                .Include(b => b.CarPart)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.CarPartComponentDesc)
+                .Where(b => b.TypeId == 2 && b.IsActive);
         }
 
         public IQueryable<AppUserDto> GetAllUsers()

@@ -37,6 +37,16 @@
 myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $uibModalInstance, toaster, $ngConfirm, part) {
     $scope.part = part;
 
+    $scope.getCarPartComponents = function () {
+        $http.get(root + 'api/CarPartComponents/GetCarPartComponentsByPart?partId=' + $scope.part.Id).then(function success(response) {
+            $scope.carPartComponents = response.data;
+        }, function error() { });
+    }
+
+    $scope.getCarPartComponents();
+
+
+    //Other logical functions here
 
     $scope.saveDrawingOrder = function (orderData) {
         $http.post(root + 'api/DrawingOrders/SaveDrawingOrder', orderData).then(function success(response) {
@@ -71,6 +81,7 @@ myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $ui
                         action: function () {
                             var orderData = {
                                 CarPartId: $scope.part.Id,
+                                CarPartComponentId: $scope.CarPartComponentId,
                                 Description: $scope.Description,
                                 Purpose: $scope.Purpose,
                                 Location: $scope.Location

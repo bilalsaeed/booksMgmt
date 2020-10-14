@@ -18,7 +18,11 @@ namespace booksmanagement.Controllers
         // GET: Books
         public async Task<ActionResult> Index()
         {
-            var books = db.Books.Include(b => b.Car);
+            var books = db.Books
+                .Include(b => b.Car)
+                .Include(b => b.CarPart)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.CarPartComponentDesc);
             return View(await books.ToListAsync());
         }
 
@@ -40,16 +44,16 @@ namespace booksmanagement.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
-            ViewBag.CarId = new SelectList(db.Cars, "Id", "Name");
-            ViewBag.CarPartId = new SelectList(db.CarParts.Select(c => new { c.Id, Name = c.Name + " (" + c.Car.CarBrand.Name + " " + c.Car.Name + ")" }), "Id", "Name");
-            ViewBag.CarPartComponentId = new SelectList(db.CarPartComponents.Select(c => new { c.Id, Name = c.Name + " (" + c.CarPart.Car.CarBrand.Name + " " + c.CarPart.Car.Name + " " + c.CarPart.Name + ")" }), "Id", "Name");
-            ViewBag.CarPartComponentDescId = new SelectList(db.CarPartComponentDescs.Select(c => new { c.Id, Name = c.Name + " ("+ c.CarPartComponent.CarPart.Car.CarBrand.Name + " " + c.CarPartComponent.CarPart.Car.Name + " " + c.CarPartComponent.CarPart.Name + ")" }), "Id", "Name");
+            //ViewBag.CarId = new SelectList(db.Cars, "Id", "Name");
+            //ViewBag.CarPartId = new SelectList(db.CarParts.Select(c => new { c.Id, Name = c.Name + " (" + c.Car.CarBrand.Name + " " + c.Car.Name + ")" }), "Id", "Name");
+            //ViewBag.CarPartComponentId = new SelectList(db.CarPartComponents.Select(c => new { c.Id, Name = c.Name + " (" + c.CarPart.Car.CarBrand.Name + " " + c.CarPart.Car.Name + " " + c.CarPart.Name + ")" }), "Id", "Name");
+            //ViewBag.CarPartComponentDescId = new SelectList(db.CarPartComponentDescs.Select(c => new { c.Id, Name = c.Name + " ("+ c.CarPartComponent.CarPart.Car.CarBrand.Name + " " + c.CarPartComponent.CarPart.Car.Name + " " + c.CarPartComponent.CarPart.Name + ")" }), "Id", "Name");
 
-            ViewBag.TypeId = new List<SelectListItem>
-            {
-                new SelectListItem{ Text="Soft copy", Value = "1", Selected= true },
-                new SelectListItem{ Text="Hard copy", Value = "2" },
-            };
+            //ViewBag.TypeId = new List<SelectListItem>
+            //{
+            //    new SelectListItem{ Text="Soft copy", Value = "1", Selected= true },
+            //    new SelectListItem{ Text="Hard copy", Value = "2" },
+            //};
 
             return View();
         }

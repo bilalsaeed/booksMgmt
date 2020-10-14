@@ -4,6 +4,12 @@
 </div>
 <div class="modal-body">
     <div class="row">
+        <div class="col-md-4 col-sm-12" ng-if="order.CarPartComponent">
+            <div class="form-group">
+                <label class="form-label">Car Component:</label><br />
+                <label class=" font-weight-bold"><b>{{order.CarPartComponent.Name}}</b></label>
+            </div>
+        </div>
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
                 <label class="form-label">Description:</label><br />

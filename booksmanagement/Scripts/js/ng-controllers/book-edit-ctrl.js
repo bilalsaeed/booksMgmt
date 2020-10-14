@@ -1,4 +1,4 @@
-﻿myApp.controller('BookCreateCtrl', function ($scope, $filter, $http, $uibModal, toaster, $ngConfirm) {
+﻿myApp.controller('BookEditCtrl', function ($scope, $filter, $http, $uibModal, toaster, $ngConfirm) {
 
     $scope.form = {};
 
@@ -35,21 +35,32 @@
     }
 
     $scope.bookTypes = [
-        { Name:"Soft copy", Id : "1" },
-        { Name:"Hard copy", Id : "2"}
+        { Name: "Soft copy", Id: 1 },
+        { Name: "Hard copy", Id: 2 }
     ];
+
+    var pathname = window.location.pathname.split("/");
+    $scope.bookId = pathname[pathname.length - 1];
+
+    $scope.getBook = function () {
+        $http.get(root + 'api/Books/GetBook/' + $scope.bookId).then(function success(response) {
+            $scope.form = response.data;
+            console.log('book data:', $scope.form);
+        }, function error() { });
+    }
 
     $scope.getCars();
     $scope.getCarParts();
     $scope.getCarPartComponents();
     $scope.getCarPartComponentDescs();
+    $scope.getBook();
 
 
 
     //Other logical functions here
 
     $scope.carSelected = function () {
-        
+
     }
 
     $scope.partSelected = function () {
@@ -82,11 +93,11 @@
         }
 
         //console.log($scope.form);
-        $http.post(root + 'api/Books/PostBook', $scope.form).then(function success(response) {
-            if (response.status == 201) {
-                window.location.href = root + 'Books';
-            }
-            
+        $http.put(root + 'api/Books/PutBook', $scope.form).then(function success(response) {
+            //if (response.status == 201) {
+            //    window.location.href = root + 'Books';
+            //}
+
         }, function error() { });
     }
 
