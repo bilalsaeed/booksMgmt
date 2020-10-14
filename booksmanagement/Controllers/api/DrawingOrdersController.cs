@@ -216,7 +216,7 @@ namespace booksmanagement.Controllers.api
                            k.Size,
                            k.Type,
                            thumbUrl = $"{address}/api/DrawingOrders/GetFileThumbnail/{k.FileId}/100/100",
-                           url = $"{address}/api/DrawingOrders/GetFileThumbnail/{k.FileId}"
+                           url = $"{address}/api/DrawingOrders/GetFile/{k.FileId}"
 
                        };
 
