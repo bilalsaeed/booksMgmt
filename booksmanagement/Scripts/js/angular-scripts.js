@@ -3,8 +3,8 @@
     'ui.bootstrap',
     'ngSanitize',
     'toaster',
-    'cp.ngConfirm'
-    
+    'cp.ngConfirm',
+    'bootstrapLightbox'
 ]);
 
 var root = $('#rootPath').attr('href');

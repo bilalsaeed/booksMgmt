@@ -35,7 +35,50 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="gallery gallery1">
+                <li ng-repeat="image in files">
+                    <a ng-click="openLightboxModal($index)">
+                        <img ng-src="{{image.thumbUrl}}" class="img-thumbnail">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 <div class="modal-footer" data-exclude="true">
     <button class="btn btn-danger" ng-click="cancel()">Close</button>
 </div>
+
+<style>
+    .gallery {
+        padding: 0;
+    }
+
+    .gallery li {
+        display: inline-block;
+        margin: 0 1em 1em 0;
+        list-style-type: none;
+        text-align: center;
+    }
+
+    @media (max-width: 767px) {
+        .gallery li {
+            margin: 0;
+        }
+    }
+
+    .gallery1 img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .gallery2 img {
+        width: 6em;
+    }
+
+    .gallery5 img {
+        width: 120px;
+    }
+</style>

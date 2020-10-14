@@ -149,12 +149,21 @@
     }
 });
 
-myApp.controller('ViewOrderCtrl', function ($scope, $uibModalInstance, toaster, $ngConfirm, order) {
+myApp.controller('ViewOrderCtrl', function ($scope, $uibModalInstance, toaster, $ngConfirm, order, $http, Lightbox ) {
     $scope.order = order;
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
     }
+
+    $http.get(root + 'api/DrawingOrders/GetDrawingFiles?id=' + order.Id).then(resp => {
+        $scope.files = resp.data;
+    }, error => {
+    });
+
+    $scope.openLightboxModal = function (index) {
+        Lightbox.openModal($scope.files, index);
+    };
 });
 
 myApp.controller('AssignOrderCtrl', function ($scope, $uibModalInstance, $http, toaster, $ngConfirm, order) {
@@ -239,16 +248,13 @@ myApp.controller('SubmitOrderCtrl',
             debug:
                 true,
             autoProceed:
-                true,
+                false,
             restrictions:
             {
-                maxFileSize: 1000000,
                 maxNumberOfFiles:
-                    3,
-                minNumberOfFiles:
-                    2,
+                    10,
                 allowedFileTypes:
-                    ['image/*', 'video/*']
+                    ['image/*']
             }
         });
         $uibModalInstance.rendered.then(function () {
@@ -258,13 +264,14 @@ myApp.controller('SubmitOrderCtrl',
                 target: '#uppyUploader',
                 replaceTargetContent: true,
                 showProgressDetails: true,
-                note: 'Images and video only, 2–3 files, up to 1 MB',
-                height: 470,
+                note: 'Images only, 10 files, up to 1 MB',
+                height: 450,
                 metaFields: [
                     { id: 'name', name: 'Name', placeholder: 'file name' },
                     { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }
                 ],
-                browserBackButtonClose: true
+                browserBackButtonClose: true,
+                proudlyDisplayPoweredByUppy: false
             });
             uppy.use(Uppy.Tus, { endpoint: root + '/tus' });
         });
@@ -272,11 +279,43 @@ myApp.controller('SubmitOrderCtrl',
         $scope.submitDrawingOrder = function (orderData) {
             $http.post(root + 'api/DrawingOrders/SubmitDrawingOrder', orderData).then(function success(response) {
                 if (response.status == 200) {
-                    toaster.pop({
-                        type: 'success',
-                        title: '',
-                        body: "Drawing is Submitted.",
+                    uppy.upload().then((result) => {
+                        $scope.Files = [];
+                        var files = Array.from(result.successful);
+                        files.forEach((file) => {
+                            var resp = file.response.uploadURL;
+                            var id = resp.substring(resp.lastIndexOf("/") + 1, resp.length);
+                            var fileObj = {};
+                            fileObj.FileId = id;
+                            fileObj.Name = file.name;
+                            fileObj.Type = 'P';
+                            fileObj.Size = file.size;
+                            fileObj.ContentType = file.type;
+                            fileObj.DrawingOrderId = orderData.Id;
+                            $scope.Files.push(fileObj);
+                        });
+
+                        if ($scope.Files.length > 0) {
+                            $http.post(root + 'api/DrawingOrders/PostDrawingMediaFiles', $scope.Files).then(function success(response) {
+                                console.log(response);
+                                if (response.status == 200) {
+                                    toaster.pop({
+                                        type: 'success',
+                                        title: '',
+                                        body: "Drawing is Submitted."
+                                    });
+                                }
+                            }, function error() { });
+                        }
+                        else {
+                            toaster.pop({
+                                type: 'success',
+                                title: '',
+                                body: "Drawing is Submitted."
+                            });
+                        }
                     });
+
                     $uibModalInstance.dismiss();
                 }
             }, function error(err) {
