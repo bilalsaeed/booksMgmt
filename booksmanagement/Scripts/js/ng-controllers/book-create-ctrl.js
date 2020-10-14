@@ -29,8 +29,8 @@
     }
 
     $scope.bookTypes = [
-        { Name="Soft copy", Id = "1" },
-        { Name="Hard copy", Id = "2"}
+        { Name:"Soft copy", Id : "1" },
+        { Name:"Hard copy", Id : "2"}
     ];
 
     $scope.getCars();
