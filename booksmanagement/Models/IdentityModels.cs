@@ -43,6 +43,8 @@ namespace booksmanagement.Models
         public DbSet<BookBorrowOrder> BookBorrowOrders { get; set; }
         public DbSet<DrawingOrder> DrawingOrders { get; set; }
 
+        public DbSet<DrawingFiles> DrawingFiles { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
