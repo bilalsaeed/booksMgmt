@@ -330,6 +330,8 @@ angular.module('bootstrapLightbox').provider('Lightbox', function () {
                 // store the modal instance so we can close it manually if we need to
                 Lightbox.modalInstance = $uibModal.open(angular.extend({
                     'templateUrl': Lightbox.templateUrl,
+                    size: 'lg',
+                    animation:false,
                     'controller': ['$scope', function ($scope) {
                         // $scope is the modal scope, a child of $rootScope
                         $scope.Lightbox = Lightbox;
