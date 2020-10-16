@@ -5,8 +5,33 @@
 
 
 <div class="row" ng-controller="HomeCtrl">
+    
+    <div class="col-sm-12 col-md-6" ng-if="carTree" style="font-size:12px">
+        <div class="card table-card">
+            <div class="card-header">
+                <h5>Create a drawing order</h5>
 
-    <div class="col-sm-12 col-md-6" ng-if="pendingRequests.length>0"  style="font-size:12px">
+            </div>
+            <div class="card-block">
+                <div class="row m-3">
+                    <div class="col-sm-12" ng-repeat="carBrand in carTree.CarBrands">
+                        <p class="m-0 text-secondary"><u>{{carBrand.Name}}</u></p>
+                        <div ng-repeat="car in carTree.Cars | filter:{CarBrandId:carBrand.Id}">
+                            <p style="padding-left:20px" class="m-0 text-secondary">{{car.Name}}</p>
+                            <div ng-repeat="carPart in carTree.CarParts | filter:{CarId:car.Id}" >
+                                <a href="~/DrawingOrders/New?part={{carPart.Id}}" style="padding-left:40px">{{carPart.Name}}</a>
+                                <div ng-repeat="carPartComp in carTree.CarPartComponents | filter:{CarPartId:carPart.Id}">
+                                    <a href="~/DrawingOrders/New?part={{carPart.Id}}&comp={{carPartComp.Id}}" style="padding-left:60px">{{carPartComp.Name}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6" ng-if="pendingRequests.length>0" style="font-size:12px">
         <div class="card table-card">
             <div class="card-header">
                 <h5>Pending book requests</h5>
@@ -146,9 +171,117 @@
         </div>
     </div>
 
+    <div class="col-sm-12 col-md-6" ng-if="pendingDrawingOrders.length>0" style="font-size:12px">
+        <div class="card table-card">
+            <div class="card-header">
+                <h5>Pending drawing orders</h5>
+
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0">
+                        <thead>
+                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                            {
+                                <tr>
+                                    <th>Applicant</th>
+                                    <th>Car part</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>Car part</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            }
+
+                        </thead>
+                        <tbody>
+                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                            {
+                                <tr ng-repeat="order in pendingDrawingOrders">
+                                    <td>{{order.Applicant.FirstName}} {{order.Applicant.LastName}}</td>
+                                    <td>
+                                        {{order.CarPart.Name}}
+                                        <span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span>
+                                        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+                                    </td>
+                                    <td>
+                                        <label ng-if="order.DrawingRejected && !order.IsApproved" class="badge badge-inverse-danger">Rejected</label>
+                                        <label ng-if="!order.AssignedTo" class="badge badge-inverse-primary">Pending</label>
+                                        <label ng-if="order.AssignedTo && !order.IsApproved && !order.DrawingSubmitted" class="badge badge-inverse-success">Assigned</label>
+                                        <label ng-if="order.DrawingSubmitted && !order.IsApproved" class="badge badge-inverse-warning">Drawing Submitted</label>
+                                        <label ng-if="order.IsApproved" class="badge badge-inverse-info">Approved</label>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-success" ng-if="!order.AssignedTo" title="Assign order" ng-click="assignOrder(order)">
+                                            <i class="fa fa-check"></i> Assign
+                                        </a>
+                                        <a href="#" class="btn btn-success" ng-if="order.AssignedTo && !order.IsApproved && !order.DrawingSubmitted && currUser == order.AssignedToId" title="Submit drwaing" ng-click="submitDrawing(order)">
+                                            <i class="fa fa-check"></i> Submit
+                                        </a>
+                                        <a href="#" class="btn btn-success" ng-if="order.DrawingSubmitted && !order.IsApproved && currUser == order.ApplicantId" title="Approve drawing" ng-click="approveDrawing(order)">
+                                            <i class="fa fa-check"></i> Approve
+                                        </a>
+                                        <a href="#" class="btn btn-danger" ng-if="order.DrawingSubmitted && !order.IsApproved && currUser == order.ApplicantId" title="Reject drawing" ng-click="rejectDrawing(order)">
+                                            <i class="fa fa-times"></i> Reject
+                                        </a>
+                                        <a href="#" class="btn btn-primary" title="View order" ng-click="openViewOrderModal(order)">
+                                            <i class="fa fa-eye"></i> View
+                                        </a>
+
+                                    </td>
+                                </tr>
+
+                            }
+                            else
+                            {
+                                <tr ng-repeat="order in pendingDrawingOrders">
+                                    <td>
+                                        {{order.CarPart.Name}}
+                                        <span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span>
+                                        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+                                    </td>
+                                    <td>
+                                        <label ng-if="order.DrawingRejected && !order.IsApproved" class="badge badge-inverse-danger">Rejected</label>
+                                        <label ng-if="!order.AssignedTo" class="badge badge-inverse-primary">Pending</label>
+                                        <label ng-if="order.AssignedTo && !order.IsApproved && !order.DrawingSubmitted" class="badge badge-inverse-success">Assigned</label>
+                                        <label ng-if="order.DrawingSubmitted && !order.IsApproved" class="badge badge-inverse-warning">Drawing Submitted</label>
+                                        <label ng-if="order.IsApproved" class="badge badge-inverse-info">Approved</label>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-success" ng-if="order.AssignedTo && !order.IsApproved && !order.DrawingSubmitted && currUser == order.AssignedToId" title="Submit drawing" ng-click="submitDrawing(order)">
+                                            <i class="fa fa-check"></i> Submit
+                                        </a>
+                                        <a href="#" class="btn btn-success" ng-if="order.DrawingSubmitted && !order.IsApproved && currUser == order.ApplicantId" title="Approve drawing" ng-click="approveDrawing(order)">
+                                            <i class="fa fa-check"></i> Approve
+                                        </a>
+                                        <a href="#" class="btn btn-danger" ng-if="order.DrawingSubmitted && !order.IsApproved && currUser == order.ApplicantId" title="Reject drawing" ng-click="rejectDrawing(order)">
+                                            <i class="fa fa-times"></i> Reject
+                                        </a>
+                                        <a href="#" class="btn btn-primary" title="View Order" ng-click="openViewOrderModal(order)">
+                                            <i class="fa fa-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
 @section Scripts {
     <script src="~/Scripts/js/ng-controllers/home-ctrl.js"></script>
+    <script src="~/Scripts/js/ng-controllers/drawingorder-list-ctrl.js"></script>
 }

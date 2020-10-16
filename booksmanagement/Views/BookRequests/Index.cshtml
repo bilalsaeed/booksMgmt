@@ -43,7 +43,14 @@
                             {
                                 <tr ng-repeat="request in allRequests">
                                     <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
-                                    <td>{{request.Book.Title}}</td>
+                                    <td>
+                                        {{request.Book.Title}}
+                                        ({{request.Book.Car.Name}}
+                                        {{request.Book.CarPart.Name}}
+                                        <span ng-if="request.Book.CarPartComponent">>{{request.Book.CarPartComponent.Name}}</span>
+                                        <span ng-if="request.Book.CarPartComponentDesc">>{{request.Book.CarPartComponentDesc.Name}}</span>
+                                        )
+                                    </td>
                                     <td>
                                         <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
                                         <label ng-if="request.Status == 2" class="badge badge-inverse-success">Approved</label>
@@ -72,7 +79,14 @@
                             else
                             {
                                 <tr ng-repeat="request in allRequests">
-                                    <td>{{request.Book.Title}}</td>
+                                    <td>
+                                        {{request.Book.Title}}
+                                        ({{request.Book.Car.Name}}
+                                        {{request.Book.CarPart.Name}}
+                                        <span ng-if="request.Book.CarPartComponent">>{{request.Book.CarPartComponent.Name}}</span>
+                                        <span ng-if="request.Book.CarPartComponentDesc">>{{request.Book.CarPartComponentDesc.Name}}</span>
+                                        )
+                                    </td>
                                     <td>
                                         <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
                                         <label ng-if="request.Status == 2" class="badge badge-inverse-success">Approved</label>

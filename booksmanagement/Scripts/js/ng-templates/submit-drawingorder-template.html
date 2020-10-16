@@ -1,5 +1,10 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Submitting drawing order of <u>{{order.CarPart.Name}}</u></h3>
+    <h3 class="modal-title">
+        Submitting drawing order of
+        <u>{{order.CarPart.Name}}</u>
+        <u><span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span></u>
+        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+    </h3>
 
 </div>
 <div class="modal-body">

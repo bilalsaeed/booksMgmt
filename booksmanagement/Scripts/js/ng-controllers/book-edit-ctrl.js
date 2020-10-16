@@ -93,10 +93,10 @@
         }
 
         //console.log($scope.form);
-        $http.put(root + 'api/Books/PutBook', $scope.form).then(function success(response) {
-            //if (response.status == 201) {
-            //    window.location.href = root + 'Books';
-            //}
+        $http.post(root + 'api/Books/PutBook', $scope.form).then(function success(response) {
+            if (response.status == 204) {
+                window.location.href = root + 'Books';
+            }
 
         }, function error() { });
     }

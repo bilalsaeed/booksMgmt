@@ -1,8 +1,28 @@
-﻿myApp.controller('DrawingOrderNewCtrl', function ($scope, $filter, $http, $uibModal, toaster, $ngConfirm) {
+﻿
+myApp.controller('DrawingOrderNewCtrl', function ($scope, $filter, $http, $location, $uibModal, toaster, $ngConfirm) {
 
     $scope.getCarParts = function () {
         $http.get(root + 'api/CarParts/GetCarParts').then(function success(response) {
             $scope.carParts = response.data;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('part')) {
+                var selectedPart;
+                var keepGoing = true;
+                angular.forEach($scope.carParts, function (item, key) {
+                    if (keepGoing) {
+                        if (item.Id == urlParams.get('part')) {
+                            selectedPart = item;
+                            keepGoing = false;
+                        }
+                    }
+                });
+
+                if (selectedPart) {
+                    $scope.openDrawingOrderModal(selectedPart);
+                }
+            }
+
             console.log('all parts:', $scope.carParts);
 
         }, function error() { });
@@ -40,6 +60,24 @@ myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $ui
     $scope.getCarPartComponents = function () {
         $http.get(root + 'api/CarPartComponents/GetCarPartComponentsByPart?partId=' + $scope.part.Id).then(function success(response) {
             $scope.carPartComponents = response.data;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('comp')) {
+                var selectedComp;
+                var keepGoing = true;
+                angular.forEach($scope.carPartComponents, function (item, key) {
+                    if (keepGoing) {
+                        if (item.Id == urlParams.get('comp')) {
+                            selectedComp = item;
+                            keepGoing = false;
+                        }
+                    }
+                });
+
+                if (selectedComp) {
+                    $scope.CarPartComponentId = selectedComp.Id;
+                }
+            }
         }, function error() { });
     }
 

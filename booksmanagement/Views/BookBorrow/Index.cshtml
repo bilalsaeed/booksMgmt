@@ -17,8 +17,9 @@
                             {{book.Title}}
                             ({{book.Car.Name}}
                             {{book.CarPart.Name}}
-                            {{book.CarPartComponent.Name}}
-                            {{book.CarPartComponentDesc.Name}})
+                            <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
+                            <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
+                            )
                         </h6>
                         <p ng-if="book.Quantity>0" class="text-muted m-b-0" 
                            style="cursor:pointer;" ng-click="openBorrowRequestModal(book)">Get this book</p>
@@ -41,8 +42,9 @@
                             {{book.Title}}
                             ({{book.Car.Name}}
                             {{book.CarPart.Name}}
-                            {{book.CarPartComponent.Name}}
-                            {{book.CarPartComponentDesc.Name}})
+                            <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
+                            <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
+                            )
                         </h6>
                         <a href="{{book.DownloadLink}}" target="_blank">
                             <p ng-if="book.DownloadLink" class="text-muted m-b-0">Get this book</p>

@@ -27,6 +27,20 @@ namespace booksmanagement.Controllers.api
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> GetCarTree()
+        {
+            
+            CarTreeDto carTree = new CarTreeDto() { 
+                CarBrands = db.CarBrands.ToList(),
+                Cars = db.Cars.ToList(),
+                CarParts = db.CarParts.ToList(),
+                CarPartComponents = db.CarPartComponents.ToList()
+            };
+
+            
+            return Ok(carTree);
+        }
 
         [System.Web.Http.HttpGet]
         public async Task<IHttpActionResult> GetAllDrawingOrders()
@@ -70,6 +84,9 @@ namespace booksmanagement.Controllers.api
             {
                 orders = await db.DrawingOrders
                 .Include(b => b.CarPart)
+                .Include(b => b.CarPart.Car)
+                .Include(b => b.CarPart.Car.CarBrand)
+                .Include(b => b.CarPartComponent)
                 .Include(b => b.Applicant)
                 .Where(b => b.AssignedTo == null).OrderBy(b => b.AppliedDate)
                 .ToListAsync();
@@ -78,7 +95,11 @@ namespace booksmanagement.Controllers.api
             {
                 orders = await db.DrawingOrders
                 .Include(b => b.CarPart)
-                .Where(b => b.ApplicantId == appUser.Id && !b.IsApproved).ToListAsync();
+                .Include(b => b.CarPart.Car)
+                .Include(b => b.CarPart.Car.CarBrand)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.AssignedTo)
+                .Where(b => (b.ApplicantId == appUser.Id && !b.IsApproved) || (b.AssignedToId == appUser.Id && !b.IsApproved && !b.DrawingSubmitted)).ToListAsync();
             }
 
             return Ok(orders);
@@ -181,6 +202,12 @@ namespace booksmanagement.Controllers.api
             {
                 if (mediaFiles != null && mediaFiles.Length > 0)
                 {
+                    foreach (DrawingFiles drawing in mediaFiles)
+                    {
+                        var existing = await db.DrawingFiles.Where(d => d.DrawingOrderId == drawing.DrawingOrderId).ToListAsync();
+                        db.DrawingFiles.RemoveRange(existing);
+                    }
+
                     db.DrawingFiles.AddRange(mediaFiles);
                     await db.SaveChangesAsync();
                     return Ok(new { success = true });
@@ -202,7 +229,7 @@ namespace booksmanagement.Controllers.api
             //if (appUrl != "/")
             //    appUrl = "/" + appUrl;
 
-            var address = $"{request.Url.Scheme}://{request.Url.Host}{appUrl}";
+            var address = $"{request.Url.Scheme}://{request.Url.Host}:{request.Url.Port}{appUrl}";
             var files = await db.DrawingFiles.Where(a => a.DrawingOrderId == id).ToListAsync();
             var list = from k in files
                        select new
@@ -333,8 +360,8 @@ namespace booksmanagement.Controllers.api
 
                         return response;
                     }
-                   
-                    
+
+
                 }
                 catch (Exception ex)
                 {

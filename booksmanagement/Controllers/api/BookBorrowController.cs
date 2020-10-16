@@ -100,6 +100,10 @@ namespace booksmanagement.Controllers.api
             {
                 requests = await db.BookBorrowOrders
                 .Include(b => b.Book)
+                .Include(b => b.Book.CarPartComponentDesc)
+                .Include(b => b.Book.CarPartComponent)
+                .Include(b => b.Book.CarPart)
+                .Include(b => b.Book.Car)
                 .Include(b => b.Applicant)
                 .OrderBy(b => b.Status)
                 .ToListAsync();

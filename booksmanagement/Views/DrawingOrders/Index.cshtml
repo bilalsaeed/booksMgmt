@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-@{
+﻿@{
     ViewBag.Title = "Drawing orders list";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -44,7 +43,11 @@
                             {
                                 <tr ng-repeat="order in orders">
                                     <td>{{order.Applicant.FirstName}} {{order.Applicant.LastName}}</td>
-                                    <td>{{order.CarPart.Name}} ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})</td>
+                                    <td>
+                                        {{order.CarPart.Name}}
+                                        <span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span>
+                                        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+                                    </td>
                                     <td>
                                         <label ng-if="order.DrawingRejected && !order.IsApproved" class="badge badge-inverse-danger">Rejected</label>
                                         <label ng-if="!order.AssignedTo" class="badge badge-inverse-primary">Pending</label>
@@ -81,7 +84,11 @@
                             else
                             {
                                 <tr ng-repeat="order in orders">
-                                    <td>{{order.CarPart.Name}} ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})</td>
+                                    <td>
+                                        {{order.CarPart.Name}}
+                                        <span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span>
+                                        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+                                    </td>
                                     <td>
                                         <label ng-if="order.DrawingRejected && !order.IsApproved" class="badge badge-inverse-danger">Rejected</label>
                                         <label ng-if="!order.AssignedTo" class="badge badge-inverse-primary">Pending</label>
@@ -119,7 +126,7 @@
         </div>
     </div>
 </div>
-<div id="currUserId" style="display:none">@User.Identity.GetUserId()</div>
+
 
 
 @section Scripts {

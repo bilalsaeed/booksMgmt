@@ -1,5 +1,10 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Assigning drawing order of <u>{{order.CarPart.Name}}</u></h3>
+    <h3 class="modal-title">
+        Assigning drawing order of
+        <u>{{order.CarPart.Name}}</u>
+        <u><span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span></u>
+        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+    </h3>
 
 </div>
 <div class="modal-body">
@@ -7,7 +12,7 @@
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
                 <label class="form-label">Assign to user:</label>
-                <select class="form-control custom-select" required ng-options="item.Id as item.FullName for item in users"
+                <select class="form-control custom-select border" required ng-options="item.Id as item.FullName for item in users"
                         ng-model="assignedto">
                 </select>
             </div>

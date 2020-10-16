@@ -266,6 +266,7 @@ myApp.controller('SubmitOrderCtrl',
                 showProgressDetails: true,
                 note: 'Images only, 10 files, up to 1 MB',
                 height: 450,
+                hideUploadButton: true,
                 metaFields: [
                     { id: 'name', name: 'Name', placeholder: 'file name' },
                     { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }

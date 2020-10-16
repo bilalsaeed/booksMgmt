@@ -70,14 +70,15 @@ namespace booksmanagement.Controllers.api
 
         // PUT: api/Books/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutBook(int id, Book book)
+        [HttpPost]
+        public async Task<IHttpActionResult> PutBook(Book book)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != book.Id)
+            if (book.Id == 0)
             {
                 return BadRequest();
             }
@@ -90,7 +91,7 @@ namespace booksmanagement.Controllers.api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(id))
+                if (!BookExists(book.Id))
                 {
                     return NotFound();
                 }

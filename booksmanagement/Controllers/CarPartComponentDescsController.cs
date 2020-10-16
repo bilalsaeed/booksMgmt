@@ -8,9 +8,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using booksmanagement.Models;
+using booksmanagement.Helpers;
 
 namespace booksmanagement.Controllers
 {
+    [Authorize(Roles = RoleName.Admin)]
     public class CarPartComponentDescsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

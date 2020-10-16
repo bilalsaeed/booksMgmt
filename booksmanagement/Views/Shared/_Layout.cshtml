@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -42,7 +43,17 @@
     <link rel="stylesheet" type="text/css" href="~/Scripts/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
     <link href="https://transloadit.edgly.net/releases/uppy/v1.21.2/uppy.min.css" rel="stylesheet">
     <link href="~/Scripts/vendor/angular-bootstrap-lightbox/angular-bootstrap-lightbox.css" rel="stylesheet" />
+    <style>
+        .lightbox-image-container > img {
+            max-width: 100% !important;
+            max-height: 600px !important;
+            height: auto !important;
+        }
 
+        .modal-dialog {
+            min-width: 50% !important;
+        }
+    </style>
 </head>
 <body themebg-pattern="theme1">
     <div class="loader-bg">
@@ -71,6 +82,7 @@
 
     @if (Request.IsAuthenticated)
     {
+        <div id="currUserId" style="display:none">@User.Identity.GetUserId()</div>
         <a id="rootPath" href="~/" style="display:none"></a> @*to get root path*@
         <div id="pcoded"
              class="pcoded iscollapsed"
@@ -151,7 +163,7 @@
     <script src="https://transloadit.edgly.net/releases/uppy/v1.21.2/uppy.min.js"></script>
 
 
-<script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
     @* Angularjs Datatables *@
     <script src="~/Scripts/plugins/angularjs-datatables-master/dist/angular-datatables.min.js"></script>
     <script src="~/Scripts/vendor/angular-bootstrap-lightbox/angular-bootstrap-lightbox.js"></script>
