@@ -1,83 +1,111 @@
 ﻿@model booksmanagement.Models.Book
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Book detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Book</h4>
+    <h3>
+        @Model.Car.CarBrand.Name @Model.Car.Name @((Model.CarPart != null || Model.CarPartComponent != null || Model.CarPartComponentDesc != null) ?"(":"")@(Model.CarPart?.Name) @(Model.CarPartComponent?.Name) @(Model.CarPartComponentDesc?.Name)@((Model.CarPart != null || Model.CarPartComponent != null || Model.CarPartComponentDesc != null) ?")":"")
+    </h3>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Car.Name)
-        </dt>
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                Car Name
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Car.Name)
-        </dd>
+            <dd>
+                @Model.Car.CarBrand.Name @Model.Car.Name
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.Keywords)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Keywords)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.BookLocation)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.BookLocation)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.BookNumber)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Keywords)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.BookNumber)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeId)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Keywords)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.TypeId)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TypeId)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypeId)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-    </dl>
 </div>
+<hr />
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class="btn btn-primary shadow-sm"}) |
     @Html.ActionLink("Back to List", "Index")
 </p>

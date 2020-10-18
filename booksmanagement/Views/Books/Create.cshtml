@@ -83,6 +83,24 @@
     </div>
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
+            <label class="control-label col-md-6">Book Location</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.BookLocation">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Book number</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.BookNumber">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
             <label class="control-label col-md-6">Book type</label>
             <div class="col-md-12">
                 <select class="form-control custom-select" ng-options="item.Id as item.Name for item in bookTypes"

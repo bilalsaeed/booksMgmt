@@ -6,132 +6,150 @@
 }
 
 
-    <div class="row" ng-controller="BookEditCtrl">
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Title</label>
-                <div class="col-md-12">
-                    <input class="form-control text-box single-line" type="text"
-                           ng-model="form.Title">
-                </div>
+<div class="row" ng-controller="BookEditCtrl">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Title</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.Title">
             </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Description</label>
-                <div class="col-md-12">
-                    <input class="form-control text-box single-line" type="text"
-                           ng-model="form.Description">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Keywords</label>
-                <div class="col-md-12">
-                    <input class="form-control text-box single-line" type="text"
-                           ng-model="form.Keywords">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Car name</label>
-                <div class="col-md-12">
-                    <select class="form-control custom-select" ng-disabled="form.CarPartComponentDescId || form.CarPartComponentId || form.CarPartId"
-                            ng-options="item.Id as item.Name for item in cars"
-                            ng-model="form.CarId">
-                        <option></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Car part</label>
-                <div class="col-md-12">
-                    <select class="form-control custom-select" ng-change="partSelected()" ng-disabled="form.CarPartComponentDescId || form.CarPartComponentId"
-                            ng-options="item.Id as item.Name for item in carParts | filter: { CarId: !!form.CarId?form.CarId: undefined }"
-                            ng-model="form.CarPartId">
-                        <option></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Car part component</label>
-                <div class="col-md-12">
-                    <select class="form-control custom-select" ng-change="componentSelected()" ng-disabled="form.CarPartComponentDescId"
-                            ng-options="item.Id as item.Name for item in carPartComponents | filter: { CarPartId: !!form.CarPartId?form.CarPartId: undefined }"
-                            ng-model="form.CarPartComponentId">
-                        <option></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Component Description</label>
-                <div class="col-md-12">
-                    <select class="form-control custom-select" ng-change="componentDescSelected()"
-                            ng-options="item.Id as item.Name for item in carPartComponentDescs | filter: { CarPartComponentId: !!form.CarPartComponentId?form.CarPartComponentId: undefined}"
-                            ng-model="form.CarPartComponentDescId">
-                        <option></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Book type</label>
-                <div class="col-md-12">
-                    <select class="form-control custom-select" ng-options="item.Id as item.Name for item in bookTypes"
-                            ng-model="form.TypeId">
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" ng-if="form.TypeId == 2">
-            <div class="form-group">
-                <label class="control-label col-md-6">Quantity</label>
-                <div class="col-md-12">
-                    <input class="form-control text-box single-line" type="text"
-                           ng-model="form.Quantity">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" ng-if="form.TypeId == 1">
-            <div class="form-group">
-                <label class="control-label col-md-6">Download Link</label>
-                <div class="col-md-12">
-                    <input class="form-control text-box single-line" type="text"
-                           ng-model="form.DownloadLink">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label class="control-label col-md-6">Book is active</label>
-                <div class="col-md-12">
-                    <div class="checkbox">
-                        <input class="check-box" type="checkbox"
-                               ng-model="form.IsActive">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-12">
-                    <input type="button" value="Save" class="btn btn-primary shadow-sm" ng-click="save()" />
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12">
-            @Html.ActionLink("Back to List", "Index")
         </div>
     </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Description</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.Description">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Keywords</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.Keywords">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Car name</label>
+            <div class="col-md-12">
+                <select class="form-control custom-select" ng-disabled="form.CarPartComponentDescId || form.CarPartComponentId || form.CarPartId"
+                        ng-options="item.Id as item.Name for item in cars"
+                        ng-model="form.CarId">
+                    <option></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Car part</label>
+            <div class="col-md-12">
+                <select class="form-control custom-select" ng-change="partSelected()" ng-disabled="form.CarPartComponentDescId || form.CarPartComponentId"
+                        ng-options="item.Id as item.Name for item in carParts | filter: { CarId: !!form.CarId?form.CarId: undefined }"
+                        ng-model="form.CarPartId">
+                    <option></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Car part component</label>
+            <div class="col-md-12">
+                <select class="form-control custom-select" ng-change="componentSelected()" ng-disabled="form.CarPartComponentDescId"
+                        ng-options="item.Id as item.Name for item in carPartComponents | filter: { CarPartId: !!form.CarPartId?form.CarPartId: undefined }"
+                        ng-model="form.CarPartComponentId">
+                    <option></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Component Description</label>
+            <div class="col-md-12">
+                <select class="form-control custom-select" ng-change="componentDescSelected()"
+                        ng-options="item.Id as item.Name for item in carPartComponentDescs | filter: { CarPartComponentId: !!form.CarPartComponentId?form.CarPartComponentId: undefined}"
+                        ng-model="form.CarPartComponentDescId">
+                    <option></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Book Location</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.BookLocation">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Book number</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.BookNumber">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Book type</label>
+            <div class="col-md-12">
+                <select class="form-control custom-select" ng-options="item.Id as item.Name for item in bookTypes"
+                        ng-model="form.TypeId">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6" ng-if="form.TypeId == 2">
+        <div class="form-group">
+            <label class="control-label col-md-6">Quantity</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.Quantity">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6" ng-if="form.TypeId == 1">
+        <div class="form-group">
+            <label class="control-label col-md-6">Download Link</label>
+            <div class="col-md-12">
+                <input class="form-control text-box single-line" type="text"
+                       ng-model="form.DownloadLink">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-6">Book is active</label>
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <input class="check-box" type="checkbox"
+                           ng-model="form.IsActive">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-12">
+                <input type="button" value="Save" class="btn btn-primary shadow-sm" ng-click="save()" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
 
 @section Scripts {
 

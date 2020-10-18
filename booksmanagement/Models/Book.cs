@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr.Runtime;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,6 +30,9 @@ namespace booksmanagement.Models
         public int? CarPartComponentId { get; set; }
         public CarPartComponentDesc CarPartComponentDesc { get; set; }
         public int? CarPartComponentDescId { get; set; }
+
+        public string BookLocation { get; set; }
+        public string BookNumber { get; set; }
 
         [Required]
         [Display(Name = "Book type")]

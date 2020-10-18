@@ -44,12 +44,17 @@
                                 <tr ng-repeat="request in allRequests">
                                     <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
                                     <td>
+                                        <a href="~/Books/Details/{{request.Book.Id}}" target="_blank" title="View book details">
+                                            <i class="fa fa-eye text-c-green"></i>
+                                        </a>
+                                        &nbsp;
                                         {{request.Book.Title}}
                                         ({{request.Book.Car.Name}}
                                         {{request.Book.CarPart.Name}}
                                         <span ng-if="request.Book.CarPartComponent">>{{request.Book.CarPartComponent.Name}}</span>
                                         <span ng-if="request.Book.CarPartComponentDesc">>{{request.Book.CarPartComponentDesc.Name}}</span>
                                         )
+
                                     </td>
                                     <td>
                                         <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>

@@ -462,6 +462,10 @@
     <Compile Include="Migrations\202010141324251_drawingfilesmodel.Designer.cs">
       <DependentUpon>202010141324251_drawingfilesmodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010180217209_BookLocationAndBookNumAdded.cs" />
+    <Compile Include="Migrations\202010180217209_BookLocationAndBookNumAdded.Designer.cs">
+      <DependentUpon>202010180217209_BookLocationAndBookNumAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -2613,6 +2617,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010141324251_drawingfilesmodel.resx">
       <DependentUpon>202010141324251_drawingfilesmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010180217209_BookLocationAndBookNumAdded.resx">
+      <DependentUpon>202010180217209_BookLocationAndBookNumAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

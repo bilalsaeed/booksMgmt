@@ -35,7 +35,14 @@ namespace booksmanagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = await db.Books.FindAsync(id);
+            Book book = await db.Books
+                .Include(b => b.Car)
+                .Include(b => b.Car.CarBrand)
+                .Include(b => b.CarPart)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.CarPartComponentDesc)
+                .Where(b => b.Id == id)
+                .FirstOrDefaultAsync();
             if (book == null)
             {
                 return HttpNotFound();
@@ -65,7 +72,7 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Keywords,DownloadLink,CarId,CarPartId,CarPartComponentId,CarPartComponentDescId,TypeId,Quantity,IsActive,CreatedDate")] Book book)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Keywords,DownloadLink,CarId,CarPartId,CarPartComponentId,CarPartComponentDescId,BookLocation,BookNumber,TypeId,Quantity,IsActive,CreatedDate")] Book book)
         {
             if (ModelState.IsValid)
             {
