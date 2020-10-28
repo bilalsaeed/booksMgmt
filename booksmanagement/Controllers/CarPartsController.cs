@@ -20,7 +20,7 @@ namespace booksmanagement.Controllers
         // GET: CarParts
         public async Task<ActionResult> Index()
         {
-            var carParts = db.CarParts.Include(c => c.Car);
+            var carParts = db.CarParts.Include(c => c.Car).Include(c => c.CarPartType);
             return View(await carParts.ToListAsync());
         }
 
@@ -43,6 +43,7 @@ namespace booksmanagement.Controllers
         public ActionResult Create()
         {
             ViewBag.CarId = new SelectList(db.Cars, "Id", "Name");
+            ViewBag.CarPartTypeId = new SelectList(db.CarPartTypes, "Id", "Name");
             return View();
         }
 
@@ -61,6 +62,7 @@ namespace booksmanagement.Controllers
             }
 
             ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", carPart.CarId);
+            ViewBag.CarPartTypeId = new SelectList(db.CarPartTypes, "Id", "Name", carPart.CarPartTypeId);
             return View(carPart);
         }
 
@@ -77,6 +79,7 @@ namespace booksmanagement.Controllers
                 return HttpNotFound();
             }
             ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", carPart.CarId);
+            ViewBag.CarPartTypeId = new SelectList(db.CarPartTypes, "Id", "Name", carPart.CarPartTypeId);
             return View(carPart);
         }
 
@@ -94,6 +97,7 @@ namespace booksmanagement.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CarId = new SelectList(db.Cars, "Id", "Name", carPart.CarId);
+            ViewBag.CarPartTypeId = new SelectList(db.CarPartTypes, "Id", "Name", carPart.CarPartTypeId);
             return View(carPart);
         }
 

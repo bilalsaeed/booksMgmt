@@ -11,8 +11,10 @@ using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using booksmanagement.Dtos;
+using booksmanagement.Helpers;
 using booksmanagement.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace booksmanagement.Controllers.api
 {
@@ -44,9 +46,12 @@ namespace booksmanagement.Controllers.api
                 .Where(b => b.TypeId == 2 && b.IsActive);
         }
 
-        public IQueryable<AppUserDto> GetAllUsers()
+        public IQueryable<AppUserDto> GetAllDrawerUsers()
         {
-            return db.Users.Where(u => u.IsActive).Select(u => new AppUserDto()
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var drawerRole = roleManager.FindByName(RoleName.Drawer);
+
+            return db.Users.Where(u => u.IsActive && u.Roles.Any(s => s.RoleId == drawerRole.Id)).Select(u => new AppUserDto()
             {
                 Id = u.Id,
                 FirstName = u.FirstName,

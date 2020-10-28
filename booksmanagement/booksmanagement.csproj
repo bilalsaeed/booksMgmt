@@ -466,6 +466,26 @@
     <Compile Include="Migrations\202010180217209_BookLocationAndBookNumAdded.Designer.cs">
       <DependentUpon>202010180217209_BookLocationAndBookNumAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010281418386_UserRolesUpdate.cs" />
+    <Compile Include="Migrations\202010281418386_UserRolesUpdate.Designer.cs">
+      <DependentUpon>202010281418386_UserRolesUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010281456517_CarPartTypesAdded.cs" />
+    <Compile Include="Migrations\202010281456517_CarPartTypesAdded.Designer.cs">
+      <DependentUpon>202010281456517_CarPartTypesAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010281457100_CarPartTypeDataSeed.cs" />
+    <Compile Include="Migrations\202010281457100_CarPartTypeDataSeed.Designer.cs">
+      <DependentUpon>202010281457100_CarPartTypeDataSeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010281505231_DbChanges.cs" />
+    <Compile Include="Migrations\202010281505231_DbChanges.Designer.cs">
+      <DependentUpon>202010281505231_DbChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010281508026_DatSeed.cs" />
+    <Compile Include="Migrations\202010281508026_DatSeed.Designer.cs">
+      <DependentUpon>202010281508026_DatSeed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -475,6 +495,7 @@
     <Compile Include="Models\CarPart.cs" />
     <Compile Include="Models\CarPartComponent.cs" />
     <Compile Include="Models\CarPartComponentDesc.cs" />
+    <Compile Include="Models\CarPartType.cs" />
     <Compile Include="Models\DrawingFiles.cs" />
     <Compile Include="Models\DrawingOrder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -2224,6 +2245,8 @@
     <Content Include="Scripts\js\ng-templates\view-bookrequest-template.html" />
     <Content Include="Scripts\js\ng-templates\view-drawingorder-template.html" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\plugins\angular-tree-view\css\style.css" />
+    <Content Include="Scripts\plugins\angular-tree-view\js\treeView.js" />
     <Content Include="Scripts\plugins\angularjs-datatables-master\dist\angular-datatables.js" />
     <Content Include="Scripts\plugins\angularjs-datatables-master\dist\angular-datatables.min.js" />
     <Content Include="Scripts\plugins\angularjs-datatables-master\dist\css\angular-datatables.css" />
@@ -2539,6 +2562,7 @@
     <Content Include="Views\CarPartComponentDescs\Details.cshtml" />
     <Content Include="Views\CarPartComponentDescs\Edit.cshtml" />
     <Content Include="Views\CarPartComponentDescs\Index.cshtml" />
+    <Content Include="Views\Account\SelfRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\tusfiles\" />
@@ -2620,6 +2644,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010180217209_BookLocationAndBookNumAdded.resx">
       <DependentUpon>202010180217209_BookLocationAndBookNumAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010281418386_UserRolesUpdate.resx">
+      <DependentUpon>202010281418386_UserRolesUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010281456517_CarPartTypesAdded.resx">
+      <DependentUpon>202010281456517_CarPartTypesAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010281457100_CarPartTypeDataSeed.resx">
+      <DependentUpon>202010281457100_CarPartTypeDataSeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010281505231_DbChanges.resx">
+      <DependentUpon>202010281505231_DbChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010281508026_DatSeed.resx">
+      <DependentUpon>202010281508026_DatSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

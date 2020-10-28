@@ -4,7 +4,8 @@
     'ngSanitize',
     'toaster',
     'cp.ngConfirm',
-    'bootstrapLightbox'
+    'bootstrapLightbox',
+    'AxelSoft'
 ]);
 
 var root = $('#rootPath').attr('href');

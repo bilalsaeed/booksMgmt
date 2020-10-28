@@ -12,6 +12,8 @@ namespace booksmanagement.Models
         public string Name { get; set; }
         public Car Car { get; set; }
         public int CarId { get; set; }
+        public CarPartType CarPartType { get; set; }
+        public int CarPartTypeId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

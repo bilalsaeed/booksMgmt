@@ -169,15 +169,15 @@ myApp.controller('ViewOrderCtrl', function ($scope, $uibModalInstance, toaster, 
 myApp.controller('AssignOrderCtrl', function ($scope, $uibModalInstance, $http, toaster, $ngConfirm, order) {
     $scope.order = order;
 
-    $scope.getAllUsers = function () {
-        $http.get(root + 'api/Books/GetAllUsers').then(function success(response) {
+    $scope.getAllDrawerUsers = function () {
+        $http.get(root + 'api/Books/GetAllDrawerUsers').then(function success(response) {
             $scope.users = response.data;
             console.log('orders:', $scope.users);
 
         }, function error() { });
     }
 
-    $scope.getAllUsers();
+    $scope.getAllDrawerUsers();
 
     //Other logical functions here
 
