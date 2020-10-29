@@ -30,15 +30,118 @@ namespace booksmanagement.Controllers.api
         [System.Web.Http.HttpGet]
         public async Task<IHttpActionResult> GetCarTree()
         {
-            
-            CarTreeDto carTree = new CarTreeDto() { 
-                CarBrands = db.CarBrands.ToList(),
-                Cars = db.Cars.ToList(),
-                CarParts = db.CarParts.ToList(),
-                CarPartComponents = db.CarPartComponents.ToList()
+            CarTreeDto carTree = new CarTreeDto()
+            {
+                CarBrands = db.CarBrands.Select(b => new CarBrandDto()
+                {
+                    Id = b.Id,
+                    Name = b.Name,
+                    collapsed = true,
+                    childerns = db.Cars.Where(c => c.CarBrandId == b.Id).Select(c => new CarDto
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Class = c.Class,
+                        collapsed = true,
+                        childerns = db.CarParts.Where(ct => ct.CarId == c.Id).Select(ct => new CarPartTypeDto
+                        {
+                            Id = ct.Id,
+                            Name = ct.CarPartType.Name,
+                            collapsed = true,
+                            childerns = db.CarParts.Where(cp => cp.CarPartTypeId == ct.CarPartTypeId && cp.CarId == c.Id).Select(cp => new CarPartDto
+                            {
+                                Id = cp.Id,
+                                Name = cp.Name,
+                                CarPartTypeId = cp.CarPartTypeId,
+                                CarPartType = cp.CarPartType,
+                                collapsed = true,
+                                carPart = true,
+                                childerns = db.CarPartComponents.Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
+                                {
+                                    Id = comp.Id,
+                                    Name = comp.Name,
+                                    CarPartId = comp.CarPartId,
+                                    carPartComp = true
+                                }).ToList()
+                            }).ToList()
+                        }).ToList()
+                    }).ToList()
+                }).ToList()
             };
 
-            
+            //CarTreeDto carTree = new CarTreeDto() { 
+            //    CarBrands = new CarBrandDto() { },
+
+            //};
+
+            //Cars = db.Cars.ToList(),
+            //    CarParts = db.CarParts.Include(p => p.CarPartType).ToList(),
+            //    CarPartComponents = db.CarPartComponents.ToList()
+
+
+
+            return Ok(carTree);
+        }
+
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> GetCarBookTree()
+        {
+            CarTreeBookDto carTree = new CarTreeBookDto()
+            {
+                CarBrands = db.CarBrands.Select(b => new CarBrandBookDto()
+                {
+                    Id = b.Id,
+                    Name = b.Name,
+                    collapsed = true,
+                    childerns = db.Cars.Where(c => c.CarBrandId == b.Id).Select(c => new CarBookDto
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Class = c.Class,
+                        collapsed = true,
+                        car = true,
+                        bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == null).Count() != 0,
+                        softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == null).Count() != 0,
+                        bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null).Select(bk => bk.Id).FirstOrDefault(),
+                        childerns = db.CarParts.Where(cp => cp.CarId == c.Id).Select(cp => new CarPartDto
+                        {
+                            Id = cp.Id,
+                            Name = cp.Name,
+                            CarPartTypeId = cp.CarPartTypeId,
+                            CarPartType = cp.CarPartType,
+                            collapsed = true,
+                            carPart = true,
+                            CarId = cp.CarId,
+                            bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Count() != 0,
+                            softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Count() != 0,
+                            bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Select(bk => bk.Id).FirstOrDefault(),
+                            childerns = db.CarPartComponents.Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
+                            {
+                                Id = comp.Id,
+                                Name = comp.Name,
+                                CarPartId = comp.CarPartId,
+                                carPartComp = true,
+                                collapsed = true,
+                                bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Count() != 0,
+                                softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Count() != 0,
+                                bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Select(bk => bk.Id).FirstOrDefault(),
+                                childerns = db.CarPartComponentDescs.Where(cmpDe => cmpDe.CarPartComponentId == comp.Id).Select(cmpDe => new CarPartComponentDescDto
+                                {
+                                    Id = cmpDe.Id,
+                                    Name = cmpDe.Name,
+                                    CarPartComponentId = cmpDe.CarPartComponentId,
+                                    carPartCompDesc = true,
+                                    bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Count() != 0,
+                                    softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Count() != 0,
+                                    bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Select(bk => bk.Id).FirstOrDefault()
+                                }).ToList()
+                            }).ToList()
+                        }).ToList()
+                    }).ToList()
+                }).ToList()
+            };
+
+
             return Ok(carTree);
         }
 

@@ -13,6 +13,71 @@
     $scope.getHardBooks = function () {
         $http.get(root + 'api/Books/GetHardBooks').then(function success(response) {
             $scope.hardBooks = response.data;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('bookId')) {
+                if (urlParams.get('soft')) {
+
+                }
+                else {
+                    var selectedBook;
+                    var keepGoing = true;
+                    angular.forEach($scope.hardBooks, function (item, key) {
+                        if (keepGoing) {
+                            //console.log('desc:' + item.CarPartComponentDescId, 'param:' + urlParams.get('desc'));
+                            if (item.Id == urlParams.get('bookId')) {
+                                selectedBook = item;
+                                keepGoing = false;
+                            }
+                        }
+                    });
+
+                    $scope.openBorrowRequestModal(selectedBook);
+                }
+            }
+            //else if (urlParams.get('comp')) {
+            //    var selectedBook;
+            //    var keepGoing = true;
+            //    angular.forEach($scope.hardBooks, function (item, key) {
+            //        if (keepGoing) {
+            //            if (item.CarPartComponentId == urlParams.get('comp') && !item.CarPartComponentDescId) {
+            //                selectedBook = item;
+            //                keepGoing = false;
+            //            }
+            //        }
+            //    });
+
+            //    $scope.openBorrowRequestModal(selectedBook);
+            //}
+            //else if (urlParams.get('part')) {
+            //    var selectedBook;
+            //    var keepGoing = true;
+            //    angular.forEach($scope.hardBooks, function (item, key) {
+            //        if (keepGoing) {
+            //            if (item.CarPartId == urlParams.get('part') && !item.CarPartComponentId) {
+            //                selectedBook = item;
+            //                keepGoing = false;
+            //            }
+            //        }
+            //    });
+
+            //    $scope.openBorrowRequestModal(selectedBook);
+            //}
+            //else if (urlParams.get('car')) {
+            //    var selectedBook;
+            //    var keepGoing = true;
+            //    angular.forEach($scope.hardBooks, function (item, key) {
+            //        if (keepGoing) {
+            //            if (item.CarId == urlParams.get('car') && !item.CarPartId) {
+            //                selectedBook = item;
+            //                keepGoing = false;
+            //            }
+            //        }
+            //    });
+
+            //    $scope.openBorrowRequestModal(selectedBook);
+            //}
+
             console.log('hard:',$scope.hardBooks);
         }, function error() { });
     }

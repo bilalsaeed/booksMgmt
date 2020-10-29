@@ -543,6 +543,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\assets\css\component.css" />
     <Content Include="Scripts\assets\css\font-awesome-n.min.css" />
+    <Content Include="Scripts\assets\css\myStyles.css" />
     <Content Include="Scripts\assets\css\pages.css" />
     <Content Include="Scripts\assets\css\pcoded-horizontal.min.html" />
     <Content Include="Scripts\assets\css\style.css" />
@@ -2245,7 +2246,15 @@
     <Content Include="Scripts\js\ng-templates\view-bookrequest-template.html" />
     <Content Include="Scripts\js\ng-templates\view-drawingorder-template.html" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\plugins\angular-tree-view\angular.treeview.css" />
+    <Content Include="Scripts\plugins\angular-tree-view\angular.treeview.js" />
     <Content Include="Scripts\plugins\angular-tree-view\css\style.css" />
+    <Content Include="Scripts\plugins\angular-tree-view\img\file.png" />
+    <Content Include="Scripts\plugins\angular-tree-view\img\folder-closed.png" />
+    <Content Include="Scripts\plugins\angular-tree-view\img\folder.png" />
+    <Content Include="Scripts\plugins\angular-tree-view\img\jsfiddle01.png" />
+    <Content Include="Scripts\plugins\angular-tree-view\img\jsfiddle02.png" />
+    <Content Include="Scripts\plugins\angular-tree-view\img\preview.png" />
     <Content Include="Scripts\plugins\angular-tree-view\js\treeView.js" />
     <Content Include="Scripts\plugins\angularjs-datatables-master\dist\angular-datatables.js" />
     <Content Include="Scripts\plugins\angularjs-datatables-master\dist\angular-datatables.min.js" />

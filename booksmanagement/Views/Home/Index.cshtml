@@ -14,22 +14,33 @@
 
             </div>
             <div class="card-block">
-                <div tree-view="structure" tree-view-options="options"></div>
-                <div class="row m-3">
-                    <div class="col-sm-12" ng-repeat="carBrand in carTree.CarBrands">
-                        <p class="m-0 text-secondary"><u>{{carBrand.Name}}</u></p>
-                        <div ng-repeat="car in carTree.Cars | filter:{CarBrandId:carBrand.Id}">
-                            <p style="padding-left:20px" class="m-0 text-secondary">{{car.Name}}</p>
-                            <div ng-repeat="carPart in carTree.CarParts | filter:{CarId:car.Id}">
-                                <a href="~/DrawingOrders/New?part={{carPart.Id}}" style="padding-left:40px">{{carPart.Name}}</a>
-                                <div ng-repeat="carPartComp in carTree.CarPartComponents | filter:{CarPartId:carPart.Id}">
-                                    <a href="~/DrawingOrders/New?part={{carPart.Id}}&comp={{carPartComp.Id}}" style="padding-left:60px">{{carPartComp.Name}}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div data-angular-treeview="false"
+                     data-tree-id="myCarTree"
+                     data-tree-model="carTree.CarBrands"
+                     data-node-id="Id"
+                     data-node-label="Name"
+                     data-node-template="template"
+                     data-node-children="childerns">
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-sm-12 col-md-6" ng-if="carBookTree" style="font-size:12px">
+        <div class="card table-card">
+            <div class="card-header">
+                <h5>Borrow a book</h5>
+
+            </div>
+            <div class="card-block">
+                <div data-angular-treeview="false"
+                     data-tree-id="myCarTree1"
+                     data-tree-model="carBookTree.CarBrands"
+                     data-node-id="Id"
+                     data-node-label="Name"
+                     data-node-template="template_book"
+                     data-node-children="childerns">
+                </div>
             </div>
         </div>
     </div>

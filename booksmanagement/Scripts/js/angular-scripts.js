@@ -5,7 +5,7 @@
     'toaster',
     'cp.ngConfirm',
     'bootstrapLightbox',
-    'AxelSoft'
+    'angularTreeview'
 ]);
 
 var root = $('#rootPath').attr('href');

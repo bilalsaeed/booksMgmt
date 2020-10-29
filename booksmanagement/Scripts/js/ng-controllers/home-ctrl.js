@@ -1,30 +1,21 @@
-﻿myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaster, $ngConfirm) {
+﻿
+myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaster, $ngConfirm) {
 
     $scope.currUser = $('#currUserId').html();
 
-    $scope.structure = {
-        folders: [
-            {
-                name: 'Folder 1', files: [{ name: 'File 1.jpg' }, { name: 'File 2.png' }], folders: [
-                    { name: 'Subfolder 1', files: [{ name: 'Subfile 1' }] },
-                    { name: 'Subfolder 2' },
-                    { name: 'Subfolder 3' }
-                ]
-            },
-            { name: 'Folder 2' }
-        ]
-    };
-
-    $scope.options = {
-        onNodeSelect: function (node, breadcrums) {
-            console.log(node);
-        }
-    };
-
+   
     $scope.getCarTree = function () {
         $http.get(root + 'api/DrawingOrders/GetCarTree').then(function success(response) {
             $scope.carTree = response.data;
+            $scope.carTreeBook = angular.copy($scope.carTree);
             console.log('tree:', $scope.carTree);
+        }, function error() { });
+    }
+
+    $scope.getCarBookTree = function () {
+        $http.get(root + 'api/DrawingOrders/GetCarBookTree').then(function success(response) {
+            $scope.carBookTree = response.data;
+            console.log('book tree:', $scope.carBookTree);
         }, function error() { });
     }
 
@@ -123,11 +114,19 @@
     }
 
 
-    $scope.getCarTree();
+    $scope.getCarTree(); 
+    $scope.getCarBookTree();
     $scope.getPendingRequests();
     $scope.getGrantedRequests();
     $scope.getPendingDrawingOrders();
 
+    
+    $scope.$watch('myCarTree.currentNode', function (newObj, oldObj) {
+        if ($scope.abc && angular.isObject($scope.myCarTree.currentNode)) {
+            console.log('Node Selected!!');
+            console.log($scope.myCarTree.currentNode);
+        }
+    }, false);
 
     //Other logical functions
     $scope.openViewRequestModal = function (request) {
