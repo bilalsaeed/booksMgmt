@@ -12,6 +12,7 @@ using tusdotnet.Models;
 using tusdotnet.Models.Configuration;
 using tusdotnet.Stores;
 using PathString = Microsoft.Owin.PathString;
+using System.Web.Hosting;
 
 namespace booksmanagement
 {
@@ -52,7 +53,7 @@ namespace booksmanagement
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
             app.UseTus(httpContext => new DefaultTusConfiguration
             {
-                Store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString()+"/tusfiles"),
+                Store = new TusDiskStore(HostingEnvironment.ApplicationPhysicalPath + "/tusfiles"),
                 // On what url should we listen for uploads?
                 UrlPath = "/booksmanagement/tus",
                 Events = new Events

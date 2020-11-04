@@ -44,6 +44,7 @@ namespace booksmanagement.Models
         public DbSet<DrawingOrder> DrawingOrders { get; set; }
 
         public DbSet<DrawingFiles> DrawingFiles { get; set; }
+        public DbSet<BookMediaFiles> BookMediaFiles { get; set; }
         public DbSet<CarPartType> CarPartTypes { get; set; }
 
         public static ApplicationDbContext Create()

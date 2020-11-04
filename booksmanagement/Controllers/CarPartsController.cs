@@ -52,7 +52,7 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,CarId,CreatedAt")] CarPart carPart)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,CarId,CarPartTypeId,CreatedAt")] CarPart carPart)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarId,CreatedAt")] CarPart carPart)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarId,CarPartTypeId,CreatedAt")] CarPart carPart)
         {
             if (ModelState.IsValid)
             {

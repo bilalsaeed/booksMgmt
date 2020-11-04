@@ -2,6 +2,68 @@
 
     $scope.form = {};
 
+    var uppy = Uppy.Core({
+        debug:
+            true,
+        autoProceed:
+            false,
+        restrictions:
+        {
+            maxNumberOfFiles:
+                1,
+            allowedFileTypes:
+                ['.pdf', '.docx', '.doc']
+        }
+    });
+
+    var uppy_soft = Uppy.Core({
+        debug:
+            true,
+        autoProceed:
+            false,
+        restrictions:
+        {
+            maxNumberOfFiles:
+                1,
+            allowedFileTypes:
+                ['.pdf', '.docx', '.doc']
+        }
+    });
+
+    uppy.use(Uppy.Dashboard, {
+        inline: true,
+        target: '#uppyUploader_partcode',
+        replaceTargetContent: true,
+        showProgressDetails: true,
+        note: '1 document only',
+        height: 150,
+        width: 300,
+        hideUploadButton: true,
+        locale: {
+            strings: { dropPaste: 'Upload part code paper, %{browse}' },
+        },
+        browserBackButtonClose: true,
+        proudlyDisplayPoweredByUppy: false
+    });
+    uppy.use(Uppy.Tus, { endpoint: root + '/tus' });
+
+    uppy_soft.use(Uppy.Dashboard, {
+        inline: true,
+        target: '#uppyUploader_softcopy',
+        replaceTargetContent: true,
+        showProgressDetails: true,
+        note: '1 document only',
+        height: 150,
+        width: 300,
+        hideUploadButton: true,
+        locale: {
+            strings: { dropPaste: 'Upload book soft copy, %{browse}' },
+        },
+        browserBackButtonClose: true,
+        proudlyDisplayPoweredByUppy: false
+    });
+    uppy_soft.use(Uppy.Tus, { endpoint: root + '/tus' });
+
     $scope.getCars = function () {
         $http.get(root + 'api/Cars/GetCars').then(function success(response) {
             $scope.cars = response.data;
@@ -95,7 +157,63 @@
         //console.log($scope.form);
         $http.post(root + 'api/Books/PutBook', $scope.form).then(function success(response) {
             if (response.status == 204) {
-                window.location.href = root + 'Books';
+                var link = window.location.href.split('/');
+                var bookId = Number(link[link.length - 1])
+                uppy.upload().then((result) => {
+                    $scope.Files = [];
+                    var files = Array.from(result.successful);
+                    files.forEach((file) => {
+                        var resp = file.response.uploadURL;
+                        var id = resp.substring(resp.lastIndexOf("/") + 1, resp.length);
+                        var fileObj = {};
+                        fileObj.FileId = id;
+                        fileObj.Name = file.name;
+                        fileObj.Type = 'P';
+                        fileObj.Size = file.size;
+                        fileObj.ContentType = file.type;
+                        fileObj.BookId = bookId;
+                        $scope.Files.push(fileObj);
+                    });
+
+                    if ($scope.Files.length > 0) {
+                        $http.post(root + 'api/Books/PostBookMediaFiles', $scope.Files).then(function success(res) {
+                            console.log(res);
+                            if (res.status == 200) {
+                                uppy_soft.upload().then((result) => {
+                                    $scope.Files = [];
+                                    var files = Array.from(result.successful);
+                                    files.forEach((file1) => {
+                                        var r = file1.response.uploadURL;
+                                        var id1 = r.substring(r.lastIndexOf("/") + 1, r.length);
+                                        var fileObj1 = {};
+                                        fileObj1.FileId = id1;
+                                        fileObj1.Name = file1.name;
+                                        fileObj1.Type = 'S';
+                                        fileObj1.Size = file1.size;
+                                        fileObj1.ContentType = file1.type;
+                                        fileObj1.BookId = bookId;
+                                        $scope.Files.push(fileObj1);
+                                    });
+
+                                    if ($scope.Files.length > 0) {
+                                        $http.post(root + 'api/Books/PostBookMediaFiles', $scope.Files).then(function success(res) {
+                                            console.log(res);
+                                            if (res.status == 200) {
+                                                window.location.href = root + 'Books';
+                                            }
+                                        }, function error() { });
+                                    }
+                                    else {
+                                        window.location.href = root + 'Books';
+                                    }
+                                });
+                            }
+                        }, function error() { });
+                    }
+                    else {
+                        window.location.href = root + 'Books';
+                    }
+                });
             }
 
         }, function error() { });

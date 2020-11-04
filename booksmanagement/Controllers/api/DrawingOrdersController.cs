@@ -43,12 +43,12 @@ namespace booksmanagement.Controllers.api
                         Name = c.Name,
                         Class = c.Class,
                         collapsed = true,
-                        childerns = db.CarParts.Where(ct => ct.CarId == c.Id).Select(ct => new CarPartTypeDto
+                        childerns = db.CarPartTypes.Where(ct => db.CarParts.Select(x => x.CarPartTypeId).ToList().Contains(ct.Id)).Select(ct => new CarPartTypeDto
                         {
                             Id = ct.Id,
-                            Name = ct.CarPartType.Name,
+                            Name = ct.Name,
                             collapsed = true,
-                            childerns = db.CarParts.Where(cp => cp.CarPartTypeId == ct.CarPartTypeId && cp.CarId == c.Id).Select(cp => new CarPartDto
+                            childerns = db.CarParts.Where(cp => cp.CarPartTypeId == ct.Id && cp.CarId == c.Id).Select(cp => new CarPartDto
                             {
                                 Id = cp.Id,
                                 Name = cp.Name,

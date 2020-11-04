@@ -486,10 +486,15 @@
     <Compile Include="Migrations\202010281508026_DatSeed.Designer.cs">
       <DependentUpon>202010281508026_DatSeed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011041450224_BookMediaFilesAdded.cs" />
+    <Compile Include="Migrations\202011041450224_BookMediaFilesAdded.Designer.cs">
+      <DependentUpon>202011041450224_BookMediaFilesAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookBorrowOrder.cs" />
+    <Compile Include="Models\BookMediaFiles.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarBrand.cs" />
     <Compile Include="Models\CarPart.cs" />
@@ -2575,6 +2580,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\tusfiles\" />
+    <Folder Include="tusfiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -2668,6 +2674,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010281508026_DatSeed.resx">
       <DependentUpon>202010281508026_DatSeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011041450224_BookMediaFilesAdded.resx">
+      <DependentUpon>202011041450224_BookMediaFilesAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
