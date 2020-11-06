@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImageProcessor, Version=2.9.1.225, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageProcessor.2.9.1\lib\net452\ImageProcessor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.1.1.1\lib\net451\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
     </Reference>
@@ -203,6 +206,9 @@
       <HintPath>..\packages\System.Text.RegularExpressions.4.3.0\lib\net463\System.Text.RegularExpressions.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -370,6 +376,9 @@
     </Compile>
     <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Helpers\RoleName.cs" />
+    <Compile Include="HttpHandlers\FileRequestHandler.ashx.cs">
+      <DependentUpon>FileRequestHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202010031415495_firstnLastNamefieldsadded.cs" />
     <Compile Include="Migrations\202010031415495_firstnLastNamefieldsadded.Designer.cs">
       <DependentUpon>202010031415495_firstnLastNamefieldsadded.cs</DependentUpon>
@@ -489,6 +498,22 @@
     <Compile Include="Migrations\202011041450224_BookMediaFilesAdded.cs" />
     <Compile Include="Migrations\202011041450224_BookMediaFilesAdded.Designer.cs">
       <DependentUpon>202011041450224_BookMediaFilesAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061556434_BookMediaFileChanged.cs" />
+    <Compile Include="Migrations\202011061556434_BookMediaFileChanged.Designer.cs">
+      <DependentUpon>202011061556434_BookMediaFileChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061633167_UniqueConstrantInBookModel.cs" />
+    <Compile Include="Migrations\202011061633167_UniqueConstrantInBookModel.Designer.cs">
+      <DependentUpon>202011061633167_UniqueConstrantInBookModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061635294_UniqueConstrantInBookModel_Updated.cs" />
+    <Compile Include="Migrations\202011061635294_UniqueConstrantInBookModel_Updated.Designer.cs">
+      <DependentUpon>202011061635294_UniqueConstrantInBookModel_Updated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011061735364_DrawingFileModelChanged.cs" />
+    <Compile Include="Migrations\202011061735364_DrawingFileModelChanged.Designer.cs">
+      <DependentUpon>202011061735364_DrawingFileModelChanged.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1404,6 +1429,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="HttpHandlers\FileRequestHandler.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\extra-pages\404\1\css\bootstrap.min.css" />
@@ -2677,6 +2703,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011041450224_BookMediaFilesAdded.resx">
       <DependentUpon>202011041450224_BookMediaFilesAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061556434_BookMediaFileChanged.resx">
+      <DependentUpon>202011061556434_BookMediaFileChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061633167_UniqueConstrantInBookModel.resx">
+      <DependentUpon>202011061633167_UniqueConstrantInBookModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061635294_UniqueConstrantInBookModel_Updated.resx">
+      <DependentUpon>202011061635294_UniqueConstrantInBookModel_Updated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061735364_DrawingFileModelChanged.resx">
+      <DependentUpon>202011061735364_DrawingFileModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

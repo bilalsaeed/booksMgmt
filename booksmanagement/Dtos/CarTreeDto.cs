@@ -57,6 +57,7 @@ namespace booksmanagement.Dtos
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
         public int bookId { get; set; }
+        public int softBookId { get; set; }
         public bool car { get; set; }
         public List<CarPartDto> childerns { get; set; }
     }
@@ -79,6 +80,7 @@ namespace booksmanagement.Dtos
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
         public int bookId { get; set; }
+        public int softBookId { get; set; }
         public List<CarPartComponentDto> childerns { get; set; }
     }
     public class CarPartComponentDto
@@ -91,6 +93,7 @@ namespace booksmanagement.Dtos
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
         public int bookId { get; set; }
+        public int softBookId { get; set; }
         public List<CarPartComponentDescDto> childerns { get; set; }
     }
 
@@ -103,5 +106,6 @@ namespace booksmanagement.Dtos
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
         public int bookId { get; set; }
+        public int softBookId { get; set; }
     }
 }

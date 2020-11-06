@@ -99,16 +99,17 @@ namespace booksmanagement.Controllers.api
             {
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
                 if (!BookExists(book.Id))
                 {
                     return NotFound();
                 }
+                
+                if (ex.InnerException.InnerException.Message.ToLower().Contains("cannot insert duplicate key row in object"))
+                    return BadRequest("Book already exists for this");
                 else
-                {
-                    throw;
-                }
+                    return BadRequest(ex.Message);
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -123,10 +124,20 @@ namespace booksmanagement.Controllers.api
                 return BadRequest(ModelState);
             }
 
-            db.Books.Add(book);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.Books.Add(book);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
+                return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
+            }
+            catch(Exception ex)
+            {
+                if(ex.InnerException.InnerException.Message.ToLower().Contains("cannot insert duplicate key row in object"))
+                    return BadRequest("Book already exists for this");
+                else
+                    return BadRequest(ex.Message);
+            }
         }
 
         // DELETE: api/Books/5
@@ -159,119 +170,119 @@ namespace booksmanagement.Controllers.api
             return db.Books.Count(e => e.Id == id) > 0;
         }
 
-        [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> PostBookMediaFiles([FromBody] BookMediaFiles[] mediaFiles)
-        {
-            try
-            {
-                if (mediaFiles != null && mediaFiles.Length > 0)
-                {
-                    foreach (BookMediaFiles drawing in mediaFiles)
-                    {
-                        var existing = await db.BookMediaFiles.Where(d => d.BookId == drawing.BookId && d.Type == drawing.Type).ToListAsync();
-                        db.BookMediaFiles.RemoveRange(existing);
-                    }
+        //[System.Web.Http.HttpPost]
+        //public async Task<IHttpActionResult> PostBookMediaFiles([FromBody] BookMediaFiles[] mediaFiles)
+        //{
+        //    try
+        //    {
+        //        if (mediaFiles != null && mediaFiles.Length > 0)
+        //        {
+        //            foreach (BookMediaFiles drawing in mediaFiles)
+        //            {
+        //                var existing = await db.BookMediaFiles.Where(d => d.BookId == drawing.BookId && d.Type == drawing.Type).ToListAsync();
+        //                db.BookMediaFiles.RemoveRange(existing);
+        //            }
 
-                    db.BookMediaFiles.AddRange(mediaFiles);
-                    await db.SaveChangesAsync();
-                    return Ok(new { success = true });
-                }
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                return Ok(ex.Message);
-            }
-        }
+        //            db.BookMediaFiles.AddRange(mediaFiles);
+        //            await db.SaveChangesAsync();
+        //            return Ok(new { success = true });
+        //        }
+        //        return NotFound();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok(ex.Message);
+        //    }
+        //}
 
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/Books/GetSoftFile/{id}")]
-        public async Task<HttpResponseMessage> GetSoftFile(int id)
-        {
-            try
-            {
-                var fileObj = await db.BookMediaFiles.Where(a => a.BookId == id && a.Type == "S").FirstOrDefaultAsync();
-                var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
-                var file = await store.GetFileAsync(fileObj.FileId, CancellationToken.None);
+        //[System.Web.Http.HttpGet]
+        //[System.Web.Http.Route("api/Books/GetSoftFile/{id}")]
+        //public async Task<HttpResponseMessage> GetSoftFile(int id)
+        //{
+        //    try
+        //    {
+        //        var fileObj = await db.BookMediaFiles.Where(a => a.BookId == id && a.Type == "S").FirstOrDefaultAsync();
+        //        var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
+        //        var file = await store.GetFileAsync(fileObj.FileId, CancellationToken.None);
 
-                if (file == null)
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
-                var fileStream = await file.GetContentAsync(CancellationToken.None);
-                var metadata = await file.GetMetadataAsync(CancellationToken.None);
+        //        if (file == null)
+        //        {
+        //            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //        }
+        //        var fileStream = await file.GetContentAsync(CancellationToken.None);
+        //        var metadata = await file.GetMetadataAsync(CancellationToken.None);
 
-                // The tus protocol does not specify any required metadata.
-                // "filetype" is metadata that is specific to this domain and is not required.
-                var type = metadata.ContainsKey("filetype")
-                          ? metadata["filetype"].GetString(Encoding.UTF8)
-                          : "application/octet-stream";
+        //        // The tus protocol does not specify any required metadata.
+        //        // "filetype" is metadata that is specific to this domain and is not required.
+        //        var type = metadata.ContainsKey("filetype")
+        //                  ? metadata["filetype"].GetString(Encoding.UTF8)
+        //                  : "application/octet-stream";
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    await fileStream.CopyToAsync(memoryStream);
-                    fileStream.Close();
-                    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new ByteArrayContent(memoryStream.ToArray())
-                    };
-                    response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
+        //        using (var memoryStream = new MemoryStream())
+        //        {
+        //            await fileStream.CopyToAsync(memoryStream);
+        //            fileStream.Close();
+        //            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+        //            {
+        //                Content = new ByteArrayContent(memoryStream.ToArray())
+        //            };
+        //            response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
 
-                    return response;
-                }
+        //            return response;
+        //        }
 
 
-            }
-            catch (Exception ex)
-            {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //    }
             
-        }
+        //}
 
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/Books/GetPartCodeFile/{id}")]
-        public async Task<HttpResponseMessage> GetPartCodeFile(int id)
-        {
-            try
-            {
-                var fileObj = await db.BookMediaFiles.Where(a => a.BookId == id && a.Type == "P").FirstOrDefaultAsync();
-                var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
-                var file = await store.GetFileAsync(fileObj.FileId, CancellationToken.None);
+        //[System.Web.Http.HttpGet]
+        //[System.Web.Http.Route("api/Books/GetPartCodeFile/{id}")]
+        //public async Task<HttpResponseMessage> GetPartCodeFile(int id)
+        //{
+        //    try
+        //    {
+        //        var fileObj = await db.BookMediaFiles.Where(a => a.BookId == id && a.Type == "P").FirstOrDefaultAsync();
+        //        var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
+        //        var file = await store.GetFileAsync(fileObj.FileId, CancellationToken.None);
 
-                if (file == null)
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
-                var fileStream = await file.GetContentAsync(CancellationToken.None);
-                var metadata = await file.GetMetadataAsync(CancellationToken.None);
+        //        if (file == null)
+        //        {
+        //            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //        }
+        //        var fileStream = await file.GetContentAsync(CancellationToken.None);
+        //        var metadata = await file.GetMetadataAsync(CancellationToken.None);
 
-                // The tus protocol does not specify any required metadata.
-                // "filetype" is metadata that is specific to this domain and is not required.
-                var type = metadata.ContainsKey("filetype")
-                          ? metadata["filetype"].GetString(Encoding.UTF8)
-                          : "application/octet-stream";
+        //        // The tus protocol does not specify any required metadata.
+        //        // "filetype" is metadata that is specific to this domain and is not required.
+        //        var type = metadata.ContainsKey("filetype")
+        //                  ? metadata["filetype"].GetString(Encoding.UTF8)
+        //                  : "application/octet-stream";
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    await fileStream.CopyToAsync(memoryStream);
-                    fileStream.Close();
-                    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new ByteArrayContent(memoryStream.ToArray())
-                    };
-                    response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
+        //        using (var memoryStream = new MemoryStream())
+        //        {
+        //            await fileStream.CopyToAsync(memoryStream);
+        //            fileStream.Close();
+        //            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+        //            {
+        //                Content = new ByteArrayContent(memoryStream.ToArray())
+        //            };
+        //            response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
 
-                    return response;
-                }
+        //            return response;
+        //        }
 
 
-            }
-            catch (Exception ex)
-            {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //    }
 
-        }
+        //}
     }
 }

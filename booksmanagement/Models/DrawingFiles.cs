@@ -8,14 +8,13 @@ namespace booksmanagement.Models
     public class DrawingFiles
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string FileId { get; set; }
-        public string Type { get; set; } //P-> Photos, V-> Videos, A -> Audios
-        public string ContentType { get; set; }
-        public int Size { get; set; }
-        public virtual DrawingOrder DrawingOrder { get; set; }
+        public byte[] File { get; set; }
+        public string FileName { get; set; }
+        public DrawingOrder DrawingOrder { get; set; }
         public int DrawingOrderId { get; set; }
-        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
-        public long CreatedAtTicks { get; set; } = DateTime.UtcNow.Ticks;
+        public string Type { get; set; } //P-> Part code, S-> soft copy
+        public string SessionId { get; set; }
+        public string FileType { get; set; }
+        public long FileSize { get; set; }
     }
 }

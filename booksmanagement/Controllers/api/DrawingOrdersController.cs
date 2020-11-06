@@ -102,7 +102,8 @@ namespace booksmanagement.Controllers.api
                         car = true,
                         bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == null).Count() != 0,
                         softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == null).Count() != 0,
-                        bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null).Select(bk => bk.Id).FirstOrDefault(),
+                        bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
+                        softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
                         childerns = db.CarParts.Where(cp => cp.CarId == c.Id).Select(cp => new CarPartDto
                         {
                             Id = cp.Id,
@@ -114,7 +115,8 @@ namespace booksmanagement.Controllers.api
                             CarId = cp.CarId,
                             bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Count() != 0,
                             softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Count() != 0,
-                            bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Select(bk => bk.Id).FirstOrDefault(),
+                            bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
+                            softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
                             childerns = db.CarPartComponents.Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
                             {
                                 Id = comp.Id,
@@ -124,7 +126,8 @@ namespace booksmanagement.Controllers.api
                                 collapsed = true,
                                 bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Count() != 0,
                                 softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Count() != 0,
-                                bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Select(bk => bk.Id).FirstOrDefault(),
+                                bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
+                                softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
                                 childerns = db.CarPartComponentDescs.Where(cmpDe => cmpDe.CarPartComponentId == comp.Id).Select(cmpDe => new CarPartComponentDescDto
                                 {
                                     Id = cmpDe.Id,
@@ -133,7 +136,8 @@ namespace booksmanagement.Controllers.api
                                     carPartCompDesc = true,
                                     bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Count() != 0,
                                     softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Count() != 0,
-                                    bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Select(bk => bk.Id).FirstOrDefault()
+                                    bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
+                                    softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault()
                                 }).ToList()
                             }).ToList()
                         }).ToList()
@@ -292,6 +296,9 @@ namespace booksmanagement.Controllers.api
             drawingOrder.DrawingSubmitted = true;
             drawingOrder.DrawingSubmittedDate = DateTime.UtcNow;
 
+            var oldFiles = db.DrawingFiles.Where(m => m.DrawingOrderId == drawingOrder.Id && m.Type == "P").ToList();
+            db.DrawingFiles.RemoveRange(oldFiles);
+
 
             await db.SaveChangesAsync();
 
@@ -338,142 +345,140 @@ namespace booksmanagement.Controllers.api
                        select new
                        {
                            k.Id,
-                           k.ContentType,
-                           k.CreateAt,
+                           k.FileType,
                            k.DrawingOrderId,
-                           k.FileId,
-                           k.Name,
-                           k.Size,
+                           k.FileName,
+                           k.FileSize,
                            k.Type,
-                           thumbUrl = $"{address}/api/DrawingOrders/GetFileThumbnail/{k.FileId}/100/100",
-                           url = $"{address}/api/DrawingOrders/GetFile/{k.FileId}"
+                           thumbUrl = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFileThumbnail&&FileId={k.Id}&&width=100&&height=100",
+                           url = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={k.Id}"
 
                        };
 
             return Ok(list);
         }
 
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/DrawingOrders/GetFileThumbnail/{id}/{width}/{height}")]
-        public async Task<HttpResponseMessage> GetFileThumbnail(string id, int width = 348, int height = 218)
-        {
-            if (!string.IsNullOrEmpty(id))
-            {
-                try
-                {
-                    var fileObj = await db.DrawingFiles.Where(a => a.FileId == id).FirstOrDefaultAsync();
-                    var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
-                    var file = await store.GetFileAsync(id, CancellationToken.None);
+        //[System.Web.Http.HttpGet]
+        //[System.Web.Http.Route("api/DrawingOrders/GetFileThumbnail/{id}/{width}/{height}")]
+        //public async Task<HttpResponseMessage> GetFileThumbnail(string id, int width = 348, int height = 218)
+        //{
+        //    if (!string.IsNullOrEmpty(id))
+        //    {
+        //        try
+        //        {
+        //            var fileObj = await db.DrawingFiles.Where(a => a.FileId == id).FirstOrDefaultAsync();
+        //            var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
+        //            var file = await store.GetFileAsync(id, CancellationToken.None);
 
-                    if (file == null)
-                    {
-                        return new HttpResponseMessage(HttpStatusCode.NotFound);
-                    }
-                    var fileStream = await file.GetContentAsync(CancellationToken.None);
-                    var metadata = await file.GetMetadataAsync(CancellationToken.None);
+        //            if (file == null)
+        //            {
+        //                return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //            }
+        //            var fileStream = await file.GetContentAsync(CancellationToken.None);
+        //            var metadata = await file.GetMetadataAsync(CancellationToken.None);
 
-                    // The tus protocol does not specify any required metadata.
-                    // "filetype" is metadata that is specific to this domain and is not required.
-                    var type = metadata.ContainsKey("filetype")
-                              ? metadata["filetype"].GetString(Encoding.UTF8)
-                              : "application/octet-stream";
-                    using (Image imgPhoto = Image.Load(fileStream))
-                    {
+        //            // The tus protocol does not specify any required metadata.
+        //            // "filetype" is metadata that is specific to this domain and is not required.
+        //            var type = metadata.ContainsKey("filetype")
+        //                      ? metadata["filetype"].GetString(Encoding.UTF8)
+        //                      : "application/octet-stream";
+        //            using (Image imgPhoto = Image.Load(fileStream))
+        //            {
 
-                        ResizeOptions resizeOpt = new ResizeOptions()
-                        {
-                            // Mode = ResizeMode.Min,
-                            Size = new Size() { Height = height, Width = width }
-                        };
-                        imgPhoto.Mutate(x => x
-                             .Resize(resizeOpt)
-                         );
-                        MemoryStream ms = new MemoryStream();
-                        await imgPhoto.SaveAsPngAsync(ms); // Automatic encoder selected based on extension.
-                        fileStream.Close();
-                        HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
-                        {
-                            Content = new ByteArrayContent(ms.ToArray())
-                        };
-                        //response.Content.Headers.ContentDisposition =
-                        //    new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = fileObj?.Name };
-                        response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
+        //                ResizeOptions resizeOpt = new ResizeOptions()
+        //                {
+        //                    // Mode = ResizeMode.Min,
+        //                    Size = new Size() { Height = height, Width = width }
+        //                };
+        //                imgPhoto.Mutate(x => x
+        //                     .Resize(resizeOpt)
+        //                 );
+        //                MemoryStream ms = new MemoryStream();
+        //                await imgPhoto.SaveAsPngAsync(ms); // Automatic encoder selected based on extension.
+        //                fileStream.Close();
+        //                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+        //                {
+        //                    Content = new ByteArrayContent(ms.ToArray())
+        //                };
+        //                //response.Content.Headers.ContentDisposition =
+        //                //    new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = fileObj?.Name };
+        //                response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
 
-                        return response;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
-                // }
-            }
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
-        }
-        [System.Web.Http.HttpGet]
-        public async Task<HttpResponseMessage> GetFile(string id)
-        {
-            if (!string.IsNullOrEmpty(id))
-            {
-                try
-                {
-                    var fileObj = await db.DrawingFiles.Where(a => a.FileId == id).FirstOrDefaultAsync();
-                    var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
-                    var file = await store.GetFileAsync(id, CancellationToken.None);
+        //                return response;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //        }
+        //        // }
+        //    }
+        //    return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //}
+        //[System.Web.Http.HttpGet]
+        //public async Task<HttpResponseMessage> GetFile(string id)
+        //{
+        //    if (!string.IsNullOrEmpty(id))
+        //    {
+        //        try
+        //        {
+        //            var fileObj = await db.DrawingFiles.Where(a => a.FileId == id).FirstOrDefaultAsync();
+        //            var store = new TusDiskStore(AppDomain.CurrentDomain.GetData("DataDirectory").ToString() + "/tusfiles");
+        //            var file = await store.GetFileAsync(id, CancellationToken.None);
 
-                    if (file == null)
-                    {
-                        return new HttpResponseMessage(HttpStatusCode.NotFound);
-                    }
-                    var fileStream = await file.GetContentAsync(CancellationToken.None);
-                    var metadata = await file.GetMetadataAsync(CancellationToken.None);
+        //            if (file == null)
+        //            {
+        //                return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //            }
+        //            var fileStream = await file.GetContentAsync(CancellationToken.None);
+        //            var metadata = await file.GetMetadataAsync(CancellationToken.None);
 
-                    // The tus protocol does not specify any required metadata.
-                    // "filetype" is metadata that is specific to this domain and is not required.
-                    var type = metadata.ContainsKey("filetype")
-                              ? metadata["filetype"].GetString(Encoding.UTF8)
-                              : "application/octet-stream";
-                    //using (Image imgPhoto = Image.Load(fileStream))
-                    //{
+        //            // The tus protocol does not specify any required metadata.
+        //            // "filetype" is metadata that is specific to this domain and is not required.
+        //            var type = metadata.ContainsKey("filetype")
+        //                      ? metadata["filetype"].GetString(Encoding.UTF8)
+        //                      : "application/octet-stream";
+        //            //using (Image imgPhoto = Image.Load(fileStream))
+        //            //{
 
-                    //    ResizeOptions resizeOpt = new ResizeOptions()
-                    //    {
-                    //        // Mode = ResizeMode.Min,
-                    //        Size = new Size() { Height = height, Width = width }
-                    //    };
-                    //    imgPhoto.Mutate(x => x
-                    //         .Resize(resizeOpt)
-                    //     );
-                    //    MemoryStream ms = new MemoryStream();
-                    //    await imgPhoto.SaveAsPngAsync(ms); // Automatic encoder selected based on extension.
-                    //    fileStream.Close();
+        //            //    ResizeOptions resizeOpt = new ResizeOptions()
+        //            //    {
+        //            //        // Mode = ResizeMode.Min,
+        //            //        Size = new Size() { Height = height, Width = width }
+        //            //    };
+        //            //    imgPhoto.Mutate(x => x
+        //            //         .Resize(resizeOpt)
+        //            //     );
+        //            //    MemoryStream ms = new MemoryStream();
+        //            //    await imgPhoto.SaveAsPngAsync(ms); // Automatic encoder selected based on extension.
+        //            //    fileStream.Close();
 
-                    //}
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await fileStream.CopyToAsync(memoryStream);
-                        fileStream.Close();
-                        HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
-                        {
-                            Content = new ByteArrayContent(memoryStream.ToArray())
-                        };
-                        //response.Content.Headers.ContentDisposition =
-                        //    new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = fileObj?.Name };
-                        response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
+        //            //}
+        //            using (var memoryStream = new MemoryStream())
+        //            {
+        //                await fileStream.CopyToAsync(memoryStream);
+        //                fileStream.Close();
+        //                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+        //                {
+        //                    Content = new ByteArrayContent(memoryStream.ToArray())
+        //                };
+        //                //response.Content.Headers.ContentDisposition =
+        //                //    new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = fileObj?.Name };
+        //                response.Content.Headers.ContentType = new MediaTypeHeaderValue(type);
 
-                        return response;
-                    }
+        //                return response;
+        //            }
 
 
-                }
-                catch (Exception ex)
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
-                // }
-            }
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
-        }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //        }
+        //        // }
+        //    }
+        //    return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //}
 
 
 

@@ -274,47 +274,29 @@ myApp.controller('SubmitOrderCtrl',
                 browserBackButtonClose: true,
                 proudlyDisplayPoweredByUppy: false
             });
-            uppy.use(Uppy.Tus, { endpoint: root + '/tus' });
+            //uppy.use(Uppy.Tus, { endpoint: root + '/tus' });
         });
 
         $scope.submitDrawingOrder = function (orderData) {
+
+            if (uppy.getFiles().length <= 0) {
+                toaster.pop({
+                    type: 'error',
+                    title: '',
+                    body: "Please upload files.",
+                });
+                return false;
+            }
+
             $http.post(root + 'api/DrawingOrders/SubmitDrawingOrder', orderData).then(function success(response) {
                 if (response.status == 200) {
+                    uppy.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadDrawingImage&&DrawingOrderId=' + orderData.Id })
                     uppy.upload().then((result) => {
-                        $scope.Files = [];
-                        var files = Array.from(result.successful);
-                        files.forEach((file) => {
-                            var resp = file.response.uploadURL;
-                            var id = resp.substring(resp.lastIndexOf("/") + 1, resp.length);
-                            var fileObj = {};
-                            fileObj.FileId = id;
-                            fileObj.Name = file.name;
-                            fileObj.Type = 'P';
-                            fileObj.Size = file.size;
-                            fileObj.ContentType = file.type;
-                            fileObj.DrawingOrderId = orderData.Id;
-                            $scope.Files.push(fileObj);
+                        toaster.pop({
+                            type: 'success',
+                            title: '',
+                            body: "Drawing is Submitted."
                         });
-
-                        if ($scope.Files.length > 0) {
-                            $http.post(root + 'api/DrawingOrders/PostDrawingMediaFiles', $scope.Files).then(function success(response) {
-                                console.log(response);
-                                if (response.status == 200) {
-                                    toaster.pop({
-                                        type: 'success',
-                                        title: '',
-                                        body: "Drawing is Submitted."
-                                    });
-                                }
-                            }, function error() { });
-                        }
-                        else {
-                            toaster.pop({
-                                type: 'success',
-                                title: '',
-                                body: "Drawing is Submitted."
-                            });
-                        }
                     });
 
                     $uibModalInstance.dismiss();

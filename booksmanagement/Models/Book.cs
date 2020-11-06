@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -22,13 +23,20 @@ namespace booksmanagement.Models
         public Car Car { get; set; }
 
         [Required]
+        [Index("IX_Car_CarPart_CarPartComp_CarPartCompDesc", 1, IsUnique = true)]
         public int CarId { get; set; }
 
         public CarPart CarPart { get; set; }
+
+        [Index("IX_Car_CarPart_CarPartComp_CarPartCompDesc", 2, IsUnique = true)]
         public int? CarPartId { get; set; }
         public CarPartComponent CarPartComponent { get; set; }
+
+        [Index("IX_Car_CarPart_CarPartComp_CarPartCompDesc", 3, IsUnique = true)]
         public int? CarPartComponentId { get; set; }
         public CarPartComponentDesc CarPartComponentDesc { get; set; }
+
+        [Index("IX_Car_CarPart_CarPartComp_CarPartCompDesc", 4, IsUnique = true)]
         public int? CarPartComponentDescId { get; set; }
 
         public string BookLocation { get; set; }
@@ -36,6 +44,7 @@ namespace booksmanagement.Models
 
         [Required]
         [Display(Name = "Book type")]
+        [Index("IX_Car_CarPart_CarPartComp_CarPartCompDesc", 5, IsUnique = true)]
         public int TypeId { get; set; } //1 => Softcopy, 2 => Hardcopy
         public int? Quantity { get; set; }
 
