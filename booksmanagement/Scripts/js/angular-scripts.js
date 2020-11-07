@@ -1,5 +1,6 @@
 ﻿var myApp = angular.module('myApp', [
     'datatables',
+    'datatables.buttons',
     'ui.bootstrap',
     'ngSanitize',
     'toaster',

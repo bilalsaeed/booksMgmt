@@ -113,12 +113,19 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
         });
     }
 
+    $scope.getBooks = function () {
+        $http.get(root + 'api/Books/GetBooks').then(function success(response) {
+            $scope.allBooks = response.data;
+            console.log('allBooks:', $scope.allBooks);
+        }, function error() { });
+    }
 
     $scope.getCarTree(); 
     $scope.getCarBookTree();
     $scope.getPendingRequests();
     $scope.getGrantedRequests();
     $scope.getPendingDrawingOrders();
+    $scope.getBooks();
 
     
     $scope.$watch('myCarTree.currentNode', function (newObj, oldObj) {
@@ -127,6 +134,7 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
             console.log($scope.myCarTree.currentNode);
         }
     }, false);
+
 
     //Other logical functions
     $scope.openViewRequestModal = function (request) {

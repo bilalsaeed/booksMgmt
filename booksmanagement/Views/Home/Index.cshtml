@@ -45,6 +45,67 @@
         </div>
     </div>
 
+    <div class="col-sm-12 col-md-6" ng-if="allBooks">
+        <div class="card table-card">
+            <div class="card-header">
+                <h5>All books</h5>
+                <input type="text" class="pull-right" ng-model="bookQuery" placeholder="Search book..." />
+            </div>
+            <div class="card-block" style="max-height:300px; overflow-y:scroll">
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0 without-header">
+                        <tbody>
+                            <tr ng-repeat="book in allBooks | filter: bookQuery">
+                                <td>
+                                    <div class="d-inline-block align-middle">
+                                        <div class="d-inline-block">
+                                            <h6>{{book.Title}}</h6>
+                                            <p class="text-muted m-b-0">
+                                                {{book.Car.Name}}
+                                                {{book.CarPart.Name}}
+                                                <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
+                                                <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <label ng-if="book.TypeId == 1" class="badge badge-inverse-success">Soft Copy</label>
+                                    <label ng-if="book.TypeId == 2" class="badge badge-inverse-primary">Hard Copy</label>
+                                </td>
+                                <td class="text-right">
+                                    <a href="~/BookBorrow?bookId={{book.Id}}" target="_blank"
+                                       ng-if="book.TypeId == 2 && book.Quantity>0 && book.IsActive"
+                                       title="Borrow book" class="text-primary">
+                                        <i class="fa fa-external-link-square"></i>
+                                    </a>
+                                    <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{book.Id}}"
+                                       ng-if="book.TypeId == 1"
+                                       title="Download book" class="text-success">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{book.Id}}&&SoftBookId={{book.Id}}"
+                                       title="Part code paper" class="text-info">
+                                        <i class="fa fa-file-text-o"></i>
+                                    </a>
+                                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                                    {
+                                        <a href="~/Books/Edit/{{book.Id}}" target="_blank"
+                                           title="Edit book" class="text-info">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="col-sm-12 col-md-6" ng-if="pendingRequests.length>0" style="font-size:12px">
         <div class="card table-card">
             <div class="card-header">
@@ -291,6 +352,7 @@
             </div>
         </div>
     </div>
+
 
 </div>
 

@@ -89,6 +89,37 @@ namespace booksmanagement.Controllers.api
             return Ok(requests);
         }
 
+        [HttpPost]
+        public async Task<IHttpActionResult> SearchAllRequests([FromBody] BookRequestSearchDto searchDto)
+        {
+            var appUser = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            List<BookBorrowOrder> requests = null;
+
+            if (User.IsInRole(RoleName.Admin))
+            {
+                requests = await db.BookBorrowOrders
+                    .Where(b =>
+                        (searchDto.FromDate == null || b.CreatedDate >= searchDto.FromDate) &&
+                        (searchDto.ToDate == null || b.CreatedDate <= searchDto.ToDate) &&
+                        (!searchDto.ExceedDueDate || (b.ToDate > DateTime.Now && b.Status == 3))
+                    )
+                    .Include(b => b.Book)
+                    .Include(b => b.Book.CarPartComponentDesc)
+                    .Include(b => b.Book.CarPartComponent)
+                    .Include(b => b.Book.CarPart)
+                    .Include(b => b.Book.Car)
+                    .Include(b => b.Applicant)
+                    .OrderBy(b => b.Status)
+                    .ToListAsync();
+            }
+            else
+            {
+                requests = null;
+            }
+
+            return Ok(requests);
+        }
+
 
         [HttpGet]
         public async Task<IHttpActionResult> GetAllRequests()
@@ -131,7 +162,7 @@ namespace booksmanagement.Controllers.api
             if (request == null)
                 return BadRequest("Request not found.");
 
-            if(request.Status == 1)
+            if (request.Status == 1)
             {
                 request.Status = 2;
                 await db.SaveChangesAsync();

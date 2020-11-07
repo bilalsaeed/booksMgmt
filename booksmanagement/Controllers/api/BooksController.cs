@@ -30,7 +30,11 @@ namespace booksmanagement.Controllers.api
         // GET: api/Books
         public IQueryable<Book> GetBooks()
         {
-            return db.Books;
+            return db.Books
+                .Include(b => b.Car)
+                .Include(b => b.CarPart)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.CarPartComponentDesc);
         }
         public IQueryable<Book> GetSoftBooks()
         {

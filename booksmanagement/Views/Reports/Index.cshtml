@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="pcoded-inner-content" ng-controller="ReportsCtrl">
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="card">
+            <!-- Email-card start -->
+            <div class="card-block email-card">
+                <div class="row">
+                    <!-- Left-side section start -->
+                    <div class="col-lg-12 col-xl-3">
+                        <div class="user-body">
+                            <ul class="page-list nav nav-tabs flex-column" id="pills-tab" role="tablist">
+                                <li class="nav-item mail-section">
+                                    <a class="nav-link waves-effect d-block active" data-toggle="pill"
+                                       href="#books-borrowed" role="tab" aria-selected="true">
+                                        <i class="icofont icofont-inbox"></i> Books borrowed
+                                    </a>
+                                </li>
+                                @*<li class="nav-item mail-section">
+                                    <a class="nav-link waves-effect d-block" data-toggle="pill"
+                                       href="#books-statistics" role="tab" aria-selected="false">
+                                        <i class="icofont icofont-star"></i> Books statistics
+                                    </a>
+                                </li>*@
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Left-side section end -->
+                    <!-- Right-side section start -->
+                    <div class="col-lg-12 col-xl-9">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade active show" id="books-borrowed" role="tabpanel">
+                                <div class="mail-body">
+                                    <div class="mail-body-header">
+                                        <div class="row mt-1">
+                                            <div class="col-sm-12 col-md-3">
+                                                <label>From date</label>
+                                                <input type="date" class="form-control" ng-model="searchQuery.FromDate" />
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label>To date</label>
+                                                <input type="date" class="form-control" ng-model="searchQuery.ToDate" />
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 mt-auto">
+                                                <input type="checkbox" ng-model="searchQuery.ExceedDueDate" /> Exceed due date?
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1 text-right">
+                                            <div class="col-sm-12 pull-right">
+                                                <button type="button" ng-click="clearFilters()"
+                                                        ng-if="searchQuery.FromDate || searchQuery.ToDate || searchQuery.ExceedDueDate"
+                                                        class="btn btn-warning btn-xs waves-effect waves-light">
+                                                    <i class="fa fa-times"></i> Clear filters
+                                                </button>
+                                                <button type="button" ng-click="getAllRequests()"
+                                                        class="btn btn-primary btn-xs waves-effect waves-light">
+                                                    <i class="fa fa-search"></i> Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mail-body-content">
+                                        <div class="table-responsive">
+                                            <table datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance" 
+                                                   width="100%" dt-column-defs="vm.dtColumnDefs"
+                                                   id="requests-table" class="table table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Applicant</th>
+                                                        <th>Book</th>
+                                                        <th>Status</th>
+                                                        <th>Date</th>
+                                                        <th>Purpose</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="request in allRequests">
+                                                        <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
+                                                        <td>
+                                                            <a href="~/Books/Details/{{request.Book.Id}}" target="_blank" title="View book details">
+                                                                <i class="fa fa-eye text-c-green"></i>
+                                                            </a>
+                                                            &nbsp;
+                                                            {{request.Book.Title}}
+                                                            ({{request.Book.Car.Name}}
+                                                            {{request.Book.CarPart.Name}}
+                                                            <span ng-if="request.Book.CarPartComponent">>{{request.Book.CarPartComponent.Name}}</span>
+                                                            <span ng-if="request.Book.CarPartComponentDesc">>{{request.Book.CarPartComponentDesc.Name}}</span>
+                                                            )
+
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
+                                                            <label ng-if="request.Status == 2" class="badge badge-inverse-success">Approved</label>
+                                                            <label ng-if="request.Status == 3" class="badge badge-inverse-warning">Granted</label>
+                                                            <label ng-if="request.Status == 4" class="badge badge-inverse-info">Returned</label>
+                                                        </td>
+                                                        <td>
+                                                            {{request.CreatedDate | date : 'dd-MMM-yyyy'}}
+                                                        </td>
+                                                        <td>
+                                                            {{request.Purpose}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="books-statistics" role="tabpanel">
+                                <div class="mail-body">
+                                    <div class="mail-body-content">
+                                        Books Statistics
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right-side section end -->
+                </div>
+            </div>
+            <!-- Email-card end -->
+        </div>
+    </div>
+    <!-- Page-body start -->
+</div>
+
+
+@section Scripts {
+    <script src="~/Scripts/js/ng-controllers/reports-ctrl.js"></script>
+}
+

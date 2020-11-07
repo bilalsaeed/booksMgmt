@@ -367,8 +367,10 @@
     <Compile Include="Controllers\DrawingOrdersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Dtos\AppUserDto.cs" />
     <Compile Include="Dtos\BookRequestDto.cs" />
+    <Compile Include="Dtos\BookRequestSearchDto.cs" />
     <Compile Include="Dtos\CarTreeDto.cs" />
     <Compile Include="Dtos\DrawingOrderDto.cs" />
     <Compile Include="Global.asax.cs">
@@ -2266,6 +2268,7 @@
     <Content Include="Scripts\js\ng-controllers\drawingorder-list-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-new-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\home-ctrl.js" />
+    <Content Include="Scripts\js\ng-controllers\reports-ctrl.js" />
     <Content Include="Scripts\js\ng-modules\angular-animate.min.js" />
     <Content Include="Scripts\js\ng-modules\angular-confirm.min.js" />
     <Content Include="Scripts\js\ng-modules\toaster.min.js" />
@@ -2603,6 +2606,7 @@
     <Content Include="Views\CarPartComponentDescs\Edit.cshtml" />
     <Content Include="Views\CarPartComponentDescs\Index.cshtml" />
     <Content Include="Views\Account\SelfRegister.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\tusfiles\" />
