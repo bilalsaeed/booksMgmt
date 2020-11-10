@@ -11,7 +11,7 @@ namespace booksmanagement.Models
         public byte[] File { get; set; }
         public string FileName { get; set; }
         public DrawingOrder DrawingOrder { get; set; }
-        public int DrawingOrderId { get; set; }
+        public int? DrawingOrderId { get; set; }
         public string Type { get; set; } //P-> Part code, S-> soft copy
         public string SessionId { get; set; }
         public string FileType { get; set; }

@@ -531,7 +531,7 @@ namespace booksmanagement.Controllers.api
             }
 
 
-
+            drawingOrder.RejectionComments = orderRequest.RejectionComments;
             drawingOrder.DrawingRejected = true;
             drawingOrder.DrawingRejectedDate = DateTime.UtcNow;
             drawingOrder.DrawingSubmitted = false;

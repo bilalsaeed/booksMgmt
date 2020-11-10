@@ -24,6 +24,7 @@ namespace booksmanagement.Dtos
         public DateTime? AssignedDate { get; set; }
         public bool DrawingRejected { get; set; }
         public DateTime? DrawingRejectedDate { get; set; }
+        public string RejectionComments { get; set; }
         public bool IsApproved { get; set; }
         public DateTime? ApprovalDate { get; set; }
     }

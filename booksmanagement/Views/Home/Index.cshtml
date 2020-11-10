@@ -7,30 +7,173 @@
 
 <div class="row" ng-controller="HomeCtrl">
 
-    <div class="col-sm-12 col-md-6" ng-if="carTree" style="font-size:12px">
-        <div class="card table-card">
-            <div class="card-header">
-                <h5>Create a drawing order</h5>
-
-            </div>
+    <div class="col-xl-12" ng-if="false">
+        <div class="card product-progress-card">
             <div class="card-block">
-                <div data-angular-treeview="false"
-                     data-tree-id="myCarTree"
-                     data-tree-model="carTree.CarBrands"
-                     data-node-id="Id"
-                     data-node-label="Name"
-                     data-node-template="template"
-                     data-node-children="childerns">
+                <div class="row pp-main">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="pp-cont">
+                            <div class="row align-items-center m-b-20">
+                                <div class="col-auto">
+                                    <i class="fa fa-book f-24 text-mute"></i>
+                                </div>
+                                <div class="col text-right">
+                                    <h2 class="m-b-0 text-c-blue">2476</h2>
+                                </div>
+                            </div>
+                            <div class="row align-items-center m-b-15">
+                                <div class="col-auto">
+                                    <p class="m-b-0">Total Books</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="pp-cont">
+                            <div class="row align-items-center m-b-20">
+                                <div class="col-auto">
+                                    <i class="fa fa-tag f-24 text-mute"></i>
+                                </div>
+                                <div class="col text-right">
+                                    <h2 class="m-b-0 text-c-red">843</h2>
+                                </div>
+                            </div>
+                            <div class="row align-items-center m-b-15">
+                                <div class="col-auto">
+                                    <p class="m-b-0">New Orders</p>
+                                </div>
+                                <div class="col text-right">
+                                    <p class="m-b-0 text-c-red"><i class="fa fa-long-arrow-alt-down m-r-10"></i>34%</p>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-c-red" style="width:75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="pp-cont">
+                            <div class="row align-items-center m-b-20">
+                                <div class="col-auto">
+                                    <i class="fa fa-random f-24 text-mute"></i>
+                                </div>
+                                <div class="col text-right">
+                                    <h2 class="m-b-0 text-c-yellow">63%</h2>
+                                </div>
+                            </div>
+                            <div class="row align-items-center m-b-15">
+                                <div class="col-auto">
+                                    <p class="m-b-0">Conversion Rate</p>
+                                </div>
+                                <div class="col text-right">
+                                    <p class="m-b-0 text-c-yellow"><i class="fa fa-long-arrow-alt-up m-r-10"></i>64%</p>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-c-yellow" style="width:65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="pp-cont">
+                            <div class="row align-items-center m-b-20">
+                                <div class="col-auto">
+                                    <i class="fa fa-dollar-sign f-24 text-mute"></i>
+                                </div>
+                                <div class="col text-right">
+                                    <h2 class="m-b-0 text-c-green">41M</h2>
+                                </div>
+                            </div>
+                            <div class="row align-items-center m-b-15">
+                                <div class="col-auto">
+                                    <p class="m-b-0">Conversion Rate</p>
+                                </div>
+                                <div class="col text-right">
+                                    <p class="m-b-0 text-c-green"><i class="fa fa-long-arrow-alt-up m-r-10"></i>54%</p>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-c-green" style="width:35%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6" ng-if="carBookTree" style="font-size:12px">
-        <div class="card table-card">
+
+    @if (!User.IsInRole(booksmanagement.Helpers.RoleName.Drawer))
+    {
+        <div class="col-xl-4 col-md-12">
+            <div class="card prod-p-card card-red cursor-pointer" ng-if="!dashboardItems.showDrawingOrderTree"
+                 ng-click="dashboardItems.showDrawingOrderTree = !dashboardItems.showDrawingOrderTree">
+                <div class="card-body">
+                    <div class="row align-items-center m-b-30">
+                        <div class="col">
+                            <h6 class="m-b-5 text-white"></h6>
+                            <h3 class="m-b-0 f-w-700 text-white">Drawing Order</h3>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-object-ungroup text-c-red f-18"></i>
+                        </div>
+                    </div>
+                    <p class="m-b-0 text-white">Create a new drawing order</p>
+                </div>
+            </div>
+            <div class="card table-card" ng-if="carTree && dashboardItems.showDrawingOrderTree" style="font-size:12px">
+                <div class="card-header">
+                    <h5>Create a drawing order</h5>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option" style="width: 30px;">
+                            <li class="first-opt" style="">
+                                <i class="fa fa-times" ng-click="dashboardItems.showDrawingOrderTree = !dashboardItems.showDrawingOrderTree"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div data-angular-treeview="false"
+                         data-tree-id="myCarTree"
+                         data-tree-model="carTree.CarBrands"
+                         data-node-id="Id"
+                         data-node-label="Name"
+                         data-node-template="template"
+                         data-node-children="childerns">
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col-xl-4 col-md-12">
+        <div class="card prod-p-card card-blue cursor-pointer" ng-if="!dashboardItems.showBookBorrowTree"
+             ng-click="dashboardItems.showBookBorrowTree = !dashboardItems.showBookBorrowTree">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Borrow Book</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-pencil-square-o text-c-blue f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Create a book borrow request</p>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="carBookTree && dashboardItems.showBookBorrowTree" style="font-size:12px">
             <div class="card-header">
                 <h5>Borrow a book</h5>
-
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showBookBorrowTree = !dashboardItems.showBookBorrowTree"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="card-block">
                 <div data-angular-treeview="false"
@@ -44,11 +187,26 @@
             </div>
         </div>
     </div>
-
-    <div class="col-sm-12 col-md-6" ng-if="allBooks">
-        <div class="card table-card">
+    <div class="col-xl-4 col-md-12">
+        <div class="card prod-p-card card-green cursor-pointer" ng-if="!dashboardItems.showAllBooks"
+             ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">All Books</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-search text-c-green f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Search a book from list</p>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="allBooks && dashboardItems.showAllBooks">
             <div class="card-header">
                 <h5>All books</h5>
+                <i class="fa fa-times cursor-pointer pull-right ml-2" ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks"></i>
                 <input type="text" class="pull-right" ng-model="bookQuery" placeholder="Search book..." />
             </div>
             <div class="card-block" style="max-height:300px; overflow-y:scroll">
@@ -57,45 +215,44 @@
                         <tbody>
                             <tr ng-repeat="book in allBooks | filter: bookQuery">
                                 <td>
-                                    <div class="d-inline-block align-middle">
-                                        <div class="d-inline-block">
+                                    <div class="d-inline-block align-middle w-100">
+                                        <div class="d-inline-block w-100">
                                             <h6>{{book.Title}}</h6>
                                             <p class="text-muted m-b-0">
                                                 {{book.Car.Name}}
                                                 {{book.CarPart.Name}}
                                                 <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
                                                 <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
-
+                                            </p>
+                                            <p class="m-b-0 text-right">
+                                                <label ng-if="book.TypeId == 1" class="badge badge-inverse-success">Soft Copy</label>
+                                                <label ng-if="book.TypeId == 2" class="badge badge-inverse-primary">Hard Copy</label>
+                                            </p>
+                                            <p class="m-b-0 text-right">
+                                                <a href="~/BookBorrow?bookId={{book.Id}}" target="_blank"
+                                                   ng-if="book.TypeId == 2 && book.Quantity>0 && book.IsActive"
+                                                   title="Borrow book" class="text-primary">
+                                                    <i class="fa fa-external-link-square"></i>
+                                                </a>
+                                                <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{book.Id}}"
+                                                   ng-if="book.TypeId == 1"
+                                                   title="Download book" class="text-success">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                                <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{book.Id}}&&SoftBookId={{book.Id}}"
+                                                   title="Part code paper" class="text-info">
+                                                    <i class="fa fa-file-text-o"></i>
+                                                </a>
+                                                @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                                                {
+                                                    <a href="~/Books/Edit/{{book.Id}}" target="_blank"
+                                                       title="Edit book" class="text-info">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                }
                                             </p>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <label ng-if="book.TypeId == 1" class="badge badge-inverse-success">Soft Copy</label>
-                                    <label ng-if="book.TypeId == 2" class="badge badge-inverse-primary">Hard Copy</label>
-                                </td>
-                                <td class="text-right">
-                                    <a href="~/BookBorrow?bookId={{book.Id}}" target="_blank"
-                                       ng-if="book.TypeId == 2 && book.Quantity>0 && book.IsActive"
-                                       title="Borrow book" class="text-primary">
-                                        <i class="fa fa-external-link-square"></i>
-                                    </a>
-                                    <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{book.Id}}"
-                                       ng-if="book.TypeId == 1"
-                                       title="Download book" class="text-success">
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                    <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{book.Id}}&&SoftBookId={{book.Id}}"
-                                       title="Part code paper" class="text-info">
-                                        <i class="fa fa-file-text-o"></i>
-                                    </a>
-                                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                                    {
-                                        <a href="~/Books/Edit/{{book.Id}}" target="_blank"
-                                           title="Edit book" class="text-info">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    }
                                 </td>
                             </tr>
                         </tbody>
@@ -105,6 +262,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="col-sm-12 col-md-6" ng-if="pendingRequests.length>0" style="font-size:12px">
         <div class="card table-card">

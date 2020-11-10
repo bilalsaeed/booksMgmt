@@ -112,15 +112,15 @@
     $scope.rejectDrawing = function (order) {
         $ngConfirm({
             title: 'Reject Drawing?',
-            content: 'Are you sure to reject this drawing?',
-            autoClose: 'cancel|10000',
+            content: '<textarea id="rejectComments" rows="4" placeholder="Rejection comments" class="form-control"></textarea>',
             buttons: {
                 submitRequest: {
                     text: 'Submit',
                     btnClass: 'btn-success',
                     action: function () {
                         var orderData = {
-                            Id: order.Id
+                            Id: order.Id,
+                            RejectionComments : $('#rejectComments').val()
                         }
                         $http.post(root + 'api/DrawingOrders/RejectDrawingOrder', orderData).then(function success(response) {
                             if (response.status == 200) {
@@ -252,7 +252,7 @@ myApp.controller('SubmitOrderCtrl',
             restrictions:
             {
                 maxNumberOfFiles:
-                    10,
+                    1,
                 allowedFileTypes:
                     ['image/*']
             }
@@ -264,8 +264,8 @@ myApp.controller('SubmitOrderCtrl',
                 target: '#uppyUploader',
                 replaceTargetContent: true,
                 showProgressDetails: true,
-                note: 'Images only, 10 files, up to 1 MB',
-                height: 450,
+                note: 'Images only, 1 file',
+                height: 250,
                 hideUploadButton: true,
                 metaFields: [
                     { id: 'name', name: 'Name', placeholder: 'file name' },

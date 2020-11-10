@@ -3,6 +3,13 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
 
     $scope.currUser = $('#currUserId').html();
 
+    $scope.dashboardItems = {
+        showDrawingOrderTree: false,
+        showBookBorrowTree: false,
+        showAllBooks: false,
+
+    }
+
    
     $scope.getCarTree = function () {
         $http.get(root + 'api/DrawingOrders/GetCarTree').then(function success(response) {
