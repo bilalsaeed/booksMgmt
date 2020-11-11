@@ -56,12 +56,14 @@ namespace booksmanagement.Controllers.api
                                 CarPartType = cp.CarPartType,
                                 collapsed = true,
                                 carPart = true,
+                                DrawingFileId = cp.DrawingFilesId,
                                 childerns = db.CarPartComponents.Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
                                 {
                                     Id = comp.Id,
                                     Name = comp.Name,
                                     CarPartId = comp.CarPartId,
-                                    carPartComp = true
+                                    carPartComp = true,
+                                    DrawingFileId = comp.DrawingFilesId
                                 }).ToList()
                             }).ToList()
                         }).ToList()
@@ -505,6 +507,20 @@ namespace booksmanagement.Controllers.api
 
             drawingOrder.IsApproved = true;
             drawingOrder.ApprovalDate = DateTime.UtcNow;
+
+            var drawingId = db.DrawingFiles.Where(d => d.DrawingOrderId == drawingOrder.Id).Select(d => d.Id).FirstOrDefault();
+
+            if(drawingId != 0)
+            {
+                if (drawingOrder.CarPartComponentId == null)
+                {
+                    var carPart = db.CarParts.Where(p => p.Id == drawingOrder.CarPartId).FirstOrDefault();
+                    if (carPart != null)
+                    {
+                        carPart.DrawingFilesId = drawingId;
+                    }
+                }
+            }
 
 
             await db.SaveChangesAsync();

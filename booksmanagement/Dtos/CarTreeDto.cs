@@ -81,6 +81,7 @@ namespace booksmanagement.Dtos
         public bool softCopy { get; set; }
         public int bookId { get; set; }
         public int softBookId { get; set; }
+        public int? DrawingFileId { get; set; }
         public List<CarPartComponentDto> childerns { get; set; }
     }
     public class CarPartComponentDto
@@ -94,6 +95,7 @@ namespace booksmanagement.Dtos
         public bool softCopy { get; set; }
         public int bookId { get; set; }
         public int softBookId { get; set; }
+        public int? DrawingFileId { get; set; }
         public List<CarPartComponentDescDto> childerns { get; set; }
     }
 

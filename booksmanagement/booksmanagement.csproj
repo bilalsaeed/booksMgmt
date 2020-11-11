@@ -529,6 +529,10 @@
     <Compile Include="Migrations\202011102104416_DrawingFileRefAddedInCarPartr.Designer.cs">
       <DependentUpon>202011102104416_DrawingFileRefAddedInCarPartr.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011111249277_DrawingFileRefAddedInCarPartComponents.cs" />
+    <Compile Include="Migrations\202011111249277_DrawingFileRefAddedInCarPartComponents.Designer.cs">
+      <DependentUpon>202011111249277_DrawingFileRefAddedInCarPartComponents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -2740,6 +2744,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011102104416_DrawingFileRefAddedInCarPartr.resx">
       <DependentUpon>202011102104416_DrawingFileRefAddedInCarPartr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111249277_DrawingFileRefAddedInCarPartComponents.resx">
+      <DependentUpon>202011111249277_DrawingFileRefAddedInCarPartComponents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

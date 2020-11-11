@@ -292,6 +292,7 @@ myApp.controller('SubmitOrderCtrl',
                 if (response.status == 200) {
                     uppy.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadDrawingImage&&DrawingOrderId=' + orderData.Id })
                     uppy.upload().then((result) => {
+                        console.log(result);
                         toaster.pop({
                             type: 'success',
                             title: '',

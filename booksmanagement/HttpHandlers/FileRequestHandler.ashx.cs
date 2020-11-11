@@ -163,15 +163,24 @@ namespace booksmanagement.HttpHandlers
                             HttpResponse resp = context.Response;
                             resp.ClearHeaders();
                             resp.ClearContent();
-                            resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
+                            resp.AddHeader("Content-Disposition", "inline; filename=" + fileObj.FileName);
+                            resp.AddHeader("Content-Type", fileObj.FileType);
                             resp.AddHeader("Content-Length", fileObj.FileSize.ToString());
-                            resp.ContentType = fileObj.FileType;
-                            resp.OutputStream.Write(fileObj.File, 0, fileObj.File.Length);
+                            resp.BinaryWrite(fileObj.File);
+                            resp.End();
+                            //resp.ContentType = fileObj.FileType;
+                            //resp.OutputStream.Write(fileObj.File, 0, fileObj.File.Length);
                         }
                     }
                     if (context.Request.QueryString["Type"].ToString() == "UploadDrawingImage")
                     {
-                        int drawingOrderId = int.Parse(context.Request.QueryString["DrawingOrderId"].ToString());
+                        string id = context.Request.QueryString["DrawingOrderId"].ToString();
+                        int drawingOrderId = 0;
+                        if (string.IsNullOrEmpty(id))
+                        {
+                            drawingOrderId = int.Parse(id);
+                        }
+                        
                         string sessionId = context.Request.QueryString["SessionId"];
                         HttpPostedFile file = context.Request.Files[0];
                         BinaryReader b = new BinaryReader(file.InputStream);
@@ -188,14 +197,15 @@ namespace booksmanagement.HttpHandlers
                         drawingFile.File = binData;
                         drawingFile.FileName = fileName;
                         drawingFile.FileType = fileExtension;
-                        drawingFile.DrawingOrderId = drawingOrderId;
+                        if(drawingOrderId != 0)
+                            drawingFile.DrawingOrderId = drawingOrderId;
                         drawingFile.Type = "P";
                         drawingFile.FileSize = file.ContentLength;
                         drawingFile.SessionId = sessionId;
                         db.DrawingFiles.Add(drawingFile);
                         db.SaveChanges();
 
-                        string json = "{\"success\":\"true\"}";
+                        string json = "{\"success\":\"true\",\"FileId\":\""+ drawingFile.Id + "\"}";
                         context.Response.Clear();
                         context.Response.ContentType = "application/json; charset=utf-8";
                         context.Response.Write(json);
@@ -204,11 +214,14 @@ namespace booksmanagement.HttpHandlers
                     if (context.Request.QueryString["Type"].ToString() == "GetDrawingFile")
                     {
                         int fileId = int.Parse(context.Request.QueryString["FileId"].ToString());
+                        string downloadAble = "";
+                        downloadAble = context.Request.QueryString["IsDownload"]?.ToString();
                         var fileObj = db.DrawingFiles.Find(fileId);
                         HttpResponse resp = context.Response;
                         resp.ClearHeaders();
                         resp.ClearContent();
-                        resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
+                        if(downloadAble == "Y")
+                            resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
                         resp.AddHeader("Content-Length", fileObj.FileSize.ToString());
                         resp.ContentType = fileObj.FileType;
                         resp.OutputStream.Write(fileObj.File, 0, fileObj.File.Length);

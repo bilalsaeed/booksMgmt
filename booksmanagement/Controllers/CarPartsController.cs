@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using booksmanagement.Models;
 using booksmanagement.Helpers;
+using System.IO;
 
 namespace booksmanagement.Controllers
 {
@@ -56,6 +57,30 @@ namespace booksmanagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string fileName = file.FileName;
+                        string fileExtension = file.ContentType;
+                        
+                        BinaryReader b = new BinaryReader(file.InputStream);
+
+                        DrawingFiles drawingFile = new DrawingFiles();
+                        drawingFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                        drawingFile.FileName = fileName;
+                        drawingFile.FileType = fileExtension;
+                        drawingFile.Type = "P";
+                        drawingFile.FileSize = file.ContentLength;
+                        db.DrawingFiles.Add(drawingFile);
+                        db.SaveChanges();
+
+                        carPart.DrawingFilesId = drawingFile.Id;
+                    }
+                }
+                
                 db.CarParts.Add(carPart);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -92,6 +117,29 @@ namespace booksmanagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string fileName = file.FileName;
+                        string fileExtension = file.ContentType;
+
+                        BinaryReader b = new BinaryReader(file.InputStream);
+
+                        DrawingFiles drawingFile = new DrawingFiles();
+                        drawingFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                        drawingFile.FileName = fileName;
+                        drawingFile.FileType = fileExtension;
+                        drawingFile.Type = "P";
+                        drawingFile.FileSize = file.ContentLength;
+                        db.DrawingFiles.Add(drawingFile);
+                        db.SaveChanges();
+
+                        carPart.DrawingFilesId = drawingFile.Id;
+                    }
+                }
                 db.Entry(carPart).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

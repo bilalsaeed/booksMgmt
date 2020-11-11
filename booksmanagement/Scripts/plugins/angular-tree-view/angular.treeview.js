@@ -22,97 +22,98 @@
 	</div>
 */
 
-(function ( angular ) {
-	'use strict';
+(function (angular) {
+    'use strict';
 
-	angular.module( 'angularTreeview', [] ).directive( 'treeModel', ['$compile', function( $compile ) {
-		return {
-			restrict: 'A',
-			link: function ( scope, element, attrs ) {
-				//tree id
-				var treeId = attrs.treeId;
-			
-				//tree model
-				var treeModel = attrs.treeModel;
+    angular.module('angularTreeview', []).directive('treeModel', ['$compile', function ($compile) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                //tree id
+                var treeId = attrs.treeId;
 
-				//node id
-				var nodeId = attrs.nodeId || 'id';
+                //tree model
+                var treeModel = attrs.treeModel;
 
-				//node label
-				var nodeLabel = attrs.nodeLabel || 'label';
+                //node id
+                var nodeId = attrs.nodeId || 'id';
 
-				//children
-				var nodeChildren = attrs.nodeChildren || 'children';
+                //node label
+                var nodeLabel = attrs.nodeLabel || 'label';
 
-				var nodeTemplate = attrs.nodeTemplate || 'template';
+                //children
+                var nodeChildren = attrs.nodeChildren || 'children';
 
-				//tree template
-				var template =
-					'<ul>' +
-						'<li data-ng-repeat="node in ' + treeModel + '">' +
-							'<i class="collapsed" data-ng-show="node.' + nodeChildren + '.length && node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
-							'<i class="expanded" data-ng-show="node.' + nodeChildren + '.length && !node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
-							'<i class="normal" data-ng-hide="node.' + nodeChildren + '.length"></i> ' +
-							'<span data-ng-class="node.selected" data-ng-click="' + treeId + '.selectNodeLabel(node)">{{node.' + nodeLabel + '}}</span>' +
-							'<a title="Create order" href="' + root + 'DrawingOrders/New?part={{node.Id}}" data-ng-show="node.carPart" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-							'<a title="Create order" href="' + root + 'DrawingOrders/New?part={{node.CarPartId}}&comp={{node.Id}}" data-ng-show="node.carPartComp" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-							'<div data-ng-hide="node.collapsed" data-tree-id="' + treeId + '" data-tree-model="node.' + nodeChildren + '" data-node-id=' + nodeId + ' data-node-label=' + nodeLabel + ' data-node-children=' + nodeChildren + '></div>' +
-						'</li>' +
-					'</ul>';
+                var nodeTemplate = attrs.nodeTemplate || 'template';
 
-				var template_book =
-					'<ul>' +
-					'<li data-ng-repeat="node in ' + treeModel + '">' +
-					'<i class="collapsed" data-ng-show="node.' + nodeChildren + '.length && node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
-					'<i class="expanded" data-ng-show="node.' + nodeChildren + '.length && !node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
-					'<i class="normal" data-ng-hide="node.' + nodeChildren + '.length"></i> ' +
-					'<span data-ng-class="node.selected" data-ng-click="' + treeId + '.selectNodeLabel(node)">{{node.' + nodeLabel + '}}</span>' +
+                //tree template
+                var template =
+                    '<ul>' +
+                    '<li data-ng-repeat="node in ' + treeModel + '">' +
+                    '<i class="collapsed" data-ng-show="node.' + nodeChildren + '.length && node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
+                    '<i class="expanded" data-ng-show="node.' + nodeChildren + '.length && !node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
+                    '<i class="normal" data-ng-hide="node.' + nodeChildren + '.length"></i> ' +
+                    '<span data-ng-class="node.selected" data-ng-click="' + treeId + '.selectNodeLabel(node)">{{node.' + nodeLabel + '}}</span>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?part={{node.Id}}" data-ng-show="node.carPart && !node.DrawingFileId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?part={{node.CarPartId}}&comp={{node.Id}}" data-ng-show="node.carPartComp && !node.DrawingFileId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="View Drawing" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={{node.DrawingFileId}}" data-ng-show="node.DrawingFileId" style="padding-left:5px;" target="_blank"><i class="fa fa-eye"></i></a>' +
+                    '<div data-ng-hide="node.collapsed" data-tree-id="' + treeId + '" data-tree-model="node.' + nodeChildren + '" data-node-id=' + nodeId + ' data-node-label=' + nodeLabel + ' data-node-children=' + nodeChildren + '></div>' +
+                    '</li>' +
+                    '</ul>';
 
-					'<a title="Borrow book" href="' + root + 'BookBorrow?bookId={{node.bookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.bookAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-					'<a title="Download book" href="' + root +'HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{node.softBookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.softCopy" style="padding-left:5px;" ><i class="fa fa-download"></i></a>' +
-					'<a title="Part code paper" href="' + root +'HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{node.bookId}}&&SoftBookId={{node.softBookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && (node.softCopy || node.bookAvailable)" style="padding-left:5px;"><i class="fa fa-file-text-o"></i></a>' +
+                var template_book =
+                    '<ul>' +
+                    '<li data-ng-repeat="node in ' + treeModel + '">' +
+                    '<i class="collapsed" data-ng-show="node.' + nodeChildren + '.length && node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
+                    '<i class="expanded" data-ng-show="node.' + nodeChildren + '.length && !node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
+                    '<i class="normal" data-ng-hide="node.' + nodeChildren + '.length"></i> ' +
+                    '<span data-ng-class="node.selected" data-ng-click="' + treeId + '.selectNodeLabel(node)">{{node.' + nodeLabel + '}}</span>' +
 
-					'<div data-ng-hide="node.collapsed" data-node-template="' + nodeTemplate + '" data-tree-id="' + treeId + '" data-tree-model="node.' + nodeChildren + '" data-node-id=' + nodeId + ' data-node-label=' + nodeLabel + ' data-node-children=' + nodeChildren + '></div>' +
-					'</li>' +
-					'</ul>';
+                    '<a title="Borrow book" href="' + root + 'BookBorrow?bookId={{node.bookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.bookAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="Download book" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{node.softBookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.softCopy" style="padding-left:5px;" target="_blank"><i class="fa fa-download"></i></a>' +
+                    '<a title="Part code paper" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{node.bookId}}&&SoftBookId={{node.softBookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && (node.softCopy || node.bookAvailable)" style="padding-left:5px;"><i class="fa fa-file-text-o"></i></a>' +
+
+                    '<div data-ng-hide="node.collapsed" data-node-template="' + nodeTemplate + '" data-tree-id="' + treeId + '" data-tree-model="node.' + nodeChildren + '" data-node-id=' + nodeId + ' data-node-label=' + nodeLabel + ' data-node-children=' + nodeChildren + '></div>' +
+                    '</li>' +
+                    '</ul>';
 
 
-				//check tree id, tree model
-				if( treeId && treeModel ) {
+                //check tree id, tree model
+                if (treeId && treeModel) {
 
-					//root node
-					if( attrs.angularTreeview ) {
-					
-						//create tree object if not exists
-						scope[treeId] = scope[treeId] || {};
+                    //root node
+                    if (attrs.angularTreeview) {
 
-						//if node head clicks,
-						scope[treeId].selectNodeHead = scope[treeId].selectNodeHead || function( selectedNode ){
+                        //create tree object if not exists
+                        scope[treeId] = scope[treeId] || {};
 
-							//Collapse or Expand
-							selectedNode.collapsed = !selectedNode.collapsed;
-						};
+                        //if node head clicks,
+                        scope[treeId].selectNodeHead = scope[treeId].selectNodeHead || function (selectedNode) {
 
-						//if node label clicks,
-						scope[treeId].selectNodeLabel = scope[treeId].selectNodeLabel || function( selectedNode ){
+                            //Collapse or Expand
+                            selectedNode.collapsed = !selectedNode.collapsed;
+                        };
 
-							//remove highlight from previous node
-							if( scope[treeId].currentNode && scope[treeId].currentNode.selected ) {
-								scope[treeId].currentNode.selected = undefined;
-							}
+                        //if node label clicks,
+                        scope[treeId].selectNodeLabel = scope[treeId].selectNodeLabel || function (selectedNode) {
 
-							//set highlight to selected node
-							selectedNode.selected = 'selected';
+                            //remove highlight from previous node
+                            if (scope[treeId].currentNode && scope[treeId].currentNode.selected) {
+                                scope[treeId].currentNode.selected = undefined;
+                            }
 
-							//set currentNode
-							scope[treeId].currentNode = selectedNode;
-						};
-					}
-					//alert(attrs.nodeTemplate);
-					//Rendering template.
-					element.html('').append($compile(attrs.nodeTemplate == 'template_book' ? template_book : template )( scope ) );
-				}
-			}
-		};
-	}]);
-})( angular );
+                            //set highlight to selected node
+                            selectedNode.selected = 'selected';
+
+                            //set currentNode
+                            scope[treeId].currentNode = selectedNode;
+                        };
+                    }
+                    //alert(attrs.nodeTemplate);
+                    //Rendering template.
+                    element.html('').append($compile(attrs.nodeTemplate == 'template_book' ? template_book : template)(scope));
+                }
+            }
+        };
+    }]);
+})(angular);
