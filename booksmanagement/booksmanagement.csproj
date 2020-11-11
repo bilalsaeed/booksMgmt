@@ -533,6 +533,38 @@
     <Compile Include="Migrations\202011111249277_DrawingFileRefAddedInCarPartComponents.Designer.cs">
       <DependentUpon>202011111249277_DrawingFileRefAddedInCarPartComponents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011111644333_PartCodeAvailableAddedInBook.cs" />
+    <Compile Include="Migrations\202011111644333_PartCodeAvailableAddedInBook.Designer.cs">
+      <DependentUpon>202011111644333_PartCodeAvailableAddedInBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011111648369_DataSeedPartCodeAvailale.cs" />
+    <Compile Include="Migrations\202011111648369_DataSeedPartCodeAvailale.Designer.cs">
+      <DependentUpon>202011111648369_DataSeedPartCodeAvailale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011111947438_GeneralMediaFilesAdded.cs" />
+    <Compile Include="Migrations\202011111947438_GeneralMediaFilesAdded.Designer.cs">
+      <DependentUpon>202011111947438_GeneralMediaFilesAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011111958165_CarGeneralMediaFileAdded.cs" />
+    <Compile Include="Migrations\202011111958165_CarGeneralMediaFileAdded.Designer.cs">
+      <DependentUpon>202011111958165_CarGeneralMediaFileAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011112037138_IsArchivedAddedInBook.cs" />
+    <Compile Include="Migrations\202011112037138_IsArchivedAddedInBook.Designer.cs">
+      <DependentUpon>202011112037138_IsArchivedAddedInBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011112050086_ArchivedAddedInCar.cs" />
+    <Compile Include="Migrations\202011112050086_ArchivedAddedInCar.Designer.cs">
+      <DependentUpon>202011112050086_ArchivedAddedInCar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011112133433_IsApprovedAddedInApplicationUser.cs" />
+    <Compile Include="Migrations\202011112133433_IsApprovedAddedInApplicationUser.Designer.cs">
+      <DependentUpon>202011112133433_IsApprovedAddedInApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011112139235_DataSeedAdminApproval.cs" />
+    <Compile Include="Migrations\202011112139235_DataSeedAdminApproval.Designer.cs">
+      <DependentUpon>202011112139235_DataSeedAdminApproval.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -546,6 +578,7 @@
     <Compile Include="Models\CarPartType.cs" />
     <Compile Include="Models\DrawingFiles.cs" />
     <Compile Include="Models\DrawingOrder.cs" />
+    <Compile Include="Models\GeneralMediaFile.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2747,6 +2780,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011111249277_DrawingFileRefAddedInCarPartComponents.resx">
       <DependentUpon>202011111249277_DrawingFileRefAddedInCarPartComponents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111644333_PartCodeAvailableAddedInBook.resx">
+      <DependentUpon>202011111644333_PartCodeAvailableAddedInBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111648369_DataSeedPartCodeAvailale.resx">
+      <DependentUpon>202011111648369_DataSeedPartCodeAvailale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111947438_GeneralMediaFilesAdded.resx">
+      <DependentUpon>202011111947438_GeneralMediaFilesAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111958165_CarGeneralMediaFileAdded.resx">
+      <DependentUpon>202011111958165_CarGeneralMediaFileAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011112037138_IsArchivedAddedInBook.resx">
+      <DependentUpon>202011112037138_IsArchivedAddedInBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011112050086_ArchivedAddedInCar.resx">
+      <DependentUpon>202011112050086_ArchivedAddedInCar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011112133433_IsApprovedAddedInApplicationUser.resx">
+      <DependentUpon>202011112133433_IsApprovedAddedInApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011112139235_DataSeedAdminApproval.resx">
+      <DependentUpon>202011112139235_DataSeedAdminApproval.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

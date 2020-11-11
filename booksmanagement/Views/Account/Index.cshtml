@@ -25,33 +25,38 @@
                                 <th>Last name</th>
                                 <th>Created date</th>
                                 <th>Role</th>
+                                <th>Approved</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
-                            {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Role)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
-                                </td>
-                            </tr>
+                            { //
+                                string rowStyle = !item.IsApproved ? "background-color:#c6f2c6" : !item.IsActive ? "background-color:#f6acac" : null;
+                                <tr style="@rowStyle">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LastName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Role)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsApproved)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>

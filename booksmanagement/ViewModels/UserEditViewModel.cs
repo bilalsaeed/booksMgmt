@@ -47,6 +47,8 @@ namespace booksmanagement.ViewModels
 
         [Display(Name = "User is active")]
         public bool IsActive { get; set; }
+        [Display(Name = "User is approved")]
+        public bool IsApproved { get; set; }
 
     }
 }

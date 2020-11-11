@@ -24,6 +24,7 @@
                                 <th>Car Name</th>
                                 <th>Brand</th>
                                 <th>@Html.DisplayNameFor(model => model.Class)</th>
+                                <th>@Html.DisplayNameFor(model => model.IsArchived)</th>
                                 <th>Created date</th>
                                 <th></th>
                             </tr>
@@ -31,24 +32,28 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CarBrand.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Class)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                    </td>
-                                </tr>
+                                string rowStyle = item.IsArchived ? "background-color:#f6acac" : null;
+                            <tr style="@rowStyle">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CarBrand.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Class)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsArchived)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>

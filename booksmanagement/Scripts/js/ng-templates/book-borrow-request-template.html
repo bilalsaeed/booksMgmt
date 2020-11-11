@@ -14,13 +14,13 @@
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label class="form-label">From date</label>
-                    <input type="date" required="required" name="fromDate" class="form-control" placeholder="From date" ng-model="fromDate" />
+                    <input type="date" required="required" name="fromDate" class="form-control" placeholder="From date" max="{{toDate | date:'yyyy-MM-dd'}}" id="txtDate" ng-model="fromDate" />
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label class="form-label">To date</label>
-                    <input type="date" required="required" name="toDate" class="form-control" placeholder="To date" ng-model="toDate" />
+                    <input type="date" required="required" name="toDate" class="form-control" placeholder="To date" min="{{fromDate | date:'yyyy-MM-dd'}}" ng-model="toDate" />
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">

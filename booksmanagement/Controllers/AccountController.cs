@@ -29,7 +29,7 @@ namespace booksmanagement.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -41,9 +41,9 @@ namespace booksmanagement.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -76,11 +76,12 @@ namespace booksmanagement.Controllers
                              user.Department,
                              user.CreatedDate,
                              user.IsActive,
+                             user.IsApproved,
                              RoleNames = (from userRole in user.Roles
                                           join role in _context.Roles on userRole.RoleId
                                           equals role.Id
                                           select role.Name).ToList()
-                         }).OrderBy(u => u.IsActive).ToList().Select(p => new UserListViewModel()
+                         }).ToList().Select(p => new UserListViewModel()
 
                          {
                              UserId = p.Id,
@@ -94,6 +95,7 @@ namespace booksmanagement.Controllers
                              Department = p.Department,
                              CreatedDate = p.CreatedDate,
                              IsActive = p.IsActive,
+                             IsApproved = p.IsApproved,
                              Role = string.Join(",", p.RoleNames)
                          });
 
@@ -130,6 +132,7 @@ namespace booksmanagement.Controllers
             user.Department = appUser.Department;
             user.Role = string.Join("", userroles);
             user.IsActive = appUser.IsActive;
+            user.IsApproved = appUser.IsApproved;
 
             return View(user);
 
@@ -160,6 +163,7 @@ namespace booksmanagement.Controllers
                 currentUser.ServiceNumber = useredit.ServiceNumber;
                 currentUser.Department = useredit.Department;
                 currentUser.IsActive = useredit.IsActive;
+                currentUser.IsApproved = useredit.IsApproved;
 
                 if (!string.IsNullOrWhiteSpace(useredit.Pasword))
                 {
@@ -211,7 +215,19 @@ namespace booksmanagement.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var user = _context.Users.Where(u => u.UserName == model.Username).FirstOrDefault();
+                    if (user.IsApproved && user.IsActive)
+                        return RedirectToLocal(returnUrl);
+                    else
+                    {
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        //ViewBag.Msg = "Please wait for admin approval!";
+                        if (!user.IsApproved)
+                            ModelState.AddModelError("", "Please wait for admin approval!");
+                        else
+                            ModelState.AddModelError("", "Your account is inactive, please contact admin!");
+                        return View(model);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -252,7 +268,7 @@ namespace booksmanagement.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -285,16 +301,18 @@ namespace booksmanagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { 
-                    UserName = model.UserName, 
-                    Email = model.Email, 
-                    FirstName = model.FirstName, 
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
                     LastName = model.LastName,
                     ContactNumber = model.ContactNumber,
                     ServiceNumber = model.ServiceNumber,
                     Department = model.Department,
-                    IsActive = model.IsActive
-            };
+                    IsActive = model.IsActive,
+                    IsApproved = true
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -302,7 +320,7 @@ namespace booksmanagement.Controllers
                     var userManager = new UserManager<ApplicationUser>(userStore);
                     userManager.AddToRole(user.Id, model.Role);
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -359,7 +377,7 @@ namespace booksmanagement.Controllers
                     var userStore = new UserStore<ApplicationUser>(_context);
                     var userManager = new UserManager<ApplicationUser>(userStore);
                     userManager.AddToRole(user.Id, model.Role);
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

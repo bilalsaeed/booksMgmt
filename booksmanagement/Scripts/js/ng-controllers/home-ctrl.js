@@ -6,7 +6,11 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
     $scope.dashboardItems = {
         showDrawingOrderTree: false,
         showBookBorrowTree: false,
+        showArchivedBookBorrowTree: false,
         showAllBooks: false,
+        showPendingRequests: false,
+        grantedRequests: false,
+        showPendingDrawingOrders:false
 
     }
 
@@ -20,9 +24,16 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
     }
 
     $scope.getCarBookTree = function () {
-        $http.get(root + 'api/DrawingOrders/GetCarBookTree').then(function success(response) {
+        $http.get(root + 'api/DrawingOrders/GetCarBookTree?archive=false').then(function success(response) {
             $scope.carBookTree = response.data;
             console.log('book tree:', $scope.carBookTree);
+        }, function error() { });
+    }
+
+    $scope.getCarArchivedBookTree = function () {
+        $http.get(root + 'api/DrawingOrders/GetCarBookTree?archive=true').then(function success(response) {
+            $scope.carArchivedBookTree = response.data;
+            console.log('archive book tree:', $scope.carArchivedBookTree);
         }, function error() { });
     }
 
@@ -129,6 +140,7 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
 
     $scope.getCarTree(); 
     $scope.getCarBookTree();
+    $scope.getCarArchivedBookTree();
     $scope.getPendingRequests();
     $scope.getGrantedRequests();
     $scope.getPendingDrawingOrders();

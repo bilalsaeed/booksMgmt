@@ -41,6 +41,8 @@ namespace booksmanagement.Models
 
         public string BookLocation { get; set; }
         public string BookNumber { get; set; }
+        public bool PartCodeAvailable { get; set; }
+        public bool SoftCopyAvailable { get; set; }
 
         [Required]
         [Display(Name = "Book type")]
@@ -51,6 +53,7 @@ namespace booksmanagement.Models
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
+        
         [Display(Name = "Created date")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }

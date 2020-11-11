@@ -99,7 +99,16 @@
                     @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "js-small" } })
                 </div>
             </div>
-            
+
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsApproved, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.IsApproved, new { htmlAttributes = new { @class = "js-small" } })
+                </div>
+            </div>
+
         </div>
     </div>
     

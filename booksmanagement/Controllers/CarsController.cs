@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using booksmanagement.Models;
 using booksmanagement.Helpers;
+using System.IO;
 
 namespace booksmanagement.Controllers
 {
@@ -51,10 +52,34 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,CarBrandId,Class,CreatedAt")] Car car)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,CarBrandId,Class,CreatedAt,IsArchived")] Car car)
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string fileName = file.FileName;
+                        string fileExtension = file.ContentType;
+
+                        BinaryReader b = new BinaryReader(file.InputStream);
+
+                        GeneralMediaFile mediaFile = new GeneralMediaFile();
+                        mediaFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                        mediaFile.FileName = fileName;
+                        mediaFile.FileType = fileExtension;
+                        //mediaFile.Type = "P";
+                        mediaFile.FileSize = file.ContentLength;
+                        db.GeneralMediaFiles.Add(mediaFile);
+                        db.SaveChanges();
+
+                        car.MaintenancePlanId = mediaFile.Id;
+                    }
+                }
+
                 db.Cars.Add(car);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -85,10 +110,41 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarBrandId,Class,CreatedAt")] Car car)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarBrandId,Class,CreatedAt,IsArchived")] Car car)
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string fileName = file.FileName;
+                        string fileExtension = file.ContentType;
+
+                        BinaryReader b = new BinaryReader(file.InputStream);
+
+                        GeneralMediaFile mediaFile = new GeneralMediaFile();
+                        mediaFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                        mediaFile.FileName = fileName;
+                        mediaFile.FileType = fileExtension;
+                        //mediaFile.Type = "P";
+                        mediaFile.FileSize = file.ContentLength;
+                        db.GeneralMediaFiles.Add(mediaFile);
+                        db.SaveChanges();
+
+                        if(car.MaintenancePlanId != null)
+                        {
+                            var oldFile = db.GeneralMediaFiles.Where(f => f.Id == car.MaintenancePlanId).FirstOrDefault();
+                            if (oldFile != null)
+                                db.GeneralMediaFiles.Remove(oldFile);
+                        }
+
+                        car.MaintenancePlanId = mediaFile.Id;
+                    }
+                }
+
                 db.Entry(car).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

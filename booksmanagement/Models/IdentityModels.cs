@@ -25,6 +25,7 @@ namespace booksmanagement.Models
         public string Department { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; }
+        public bool IsApproved { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -46,6 +47,7 @@ namespace booksmanagement.Models
         public DbSet<DrawingFiles> DrawingFiles { get; set; }
         public DbSet<BookMediaFiles> BookMediaFiles { get; set; }
         public DbSet<CarPartType> CarPartTypes { get; set; }
+        public DbSet<GeneralMediaFile> GeneralMediaFiles { get; set; }
 
         public static ApplicationDbContext Create()
         {

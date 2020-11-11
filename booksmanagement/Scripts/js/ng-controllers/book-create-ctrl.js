@@ -144,14 +144,14 @@
             return false;
         }
 
-        if (uppy.getFiles().length <= 0) {
-            toaster.pop({
-                type: 'error',
-                title: '',
-                body: "Please upload part code paper.",
-            });
-            return false;
-        }
+        //if (uppy.getFiles().length <= 0) {
+        //    toaster.pop({
+        //        type: 'error',
+        //        title: '',
+        //        body: "Please upload part code paper.",
+        //    });
+        //    return false;
+        //}
 
 
         $http.post(root + 'api/Books/PostBook', $scope.form).then(function success(response) {

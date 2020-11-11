@@ -86,7 +86,7 @@ namespace booksmanagement.Controllers.api
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<IHttpActionResult> GetCarBookTree()
+        public async Task<IHttpActionResult> GetCarBookTree(bool archive)
         {
             CarTreeBookDto carTree = new CarTreeBookDto()
             {
@@ -95,7 +95,7 @@ namespace booksmanagement.Controllers.api
                     Id = b.Id,
                     Name = b.Name,
                     collapsed = true,
-                    childerns = db.Cars.Where(c => c.CarBrandId == b.Id).Select(c => new CarBookDto
+                    childerns = db.Cars.Where(c => c.CarBrandId == b.Id && c.IsArchived == archive).Select(c => new CarBookDto
                     {
                         Id = c.Id,
                         Name = c.Name,
@@ -104,8 +104,12 @@ namespace booksmanagement.Controllers.api
                         car = true,
                         bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == null).Count() != 0,
                         softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == null).Count() != 0,
+                        partCodeAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null).Select(bk => bk.PartCodeAvailable).FirstOrDefault(),
+                        softCopyAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 1).Select(bk => bk.SoftCopyAvailable).FirstOrDefault(),
+                        maintainancePlanAvailable = c.MaintenancePlan == null?false:true,
                         bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                         softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
+                        maintainancePlanId = c.MaintenancePlanId,
                         childerns = db.CarParts.Where(cp => cp.CarId == c.Id).Select(cp => new CarPartDto
                         {
                             Id = cp.Id,
@@ -117,6 +121,8 @@ namespace booksmanagement.Controllers.api
                             CarId = cp.CarId,
                             bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Count() != 0,
                             softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Count() != 0,
+                            partCodeAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null).Select(bk => bk.PartCodeAvailable).FirstOrDefault(),
+                            softCopyAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 1).Select(bk => bk.SoftCopyAvailable).FirstOrDefault(),
                             bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                             softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
                             childerns = db.CarPartComponents.Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
@@ -128,7 +134,9 @@ namespace booksmanagement.Controllers.api
                                 collapsed = true,
                                 bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Count() != 0,
                                 softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Count() != 0,
-                                bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
+                                partCodeAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null).Select(bk => bk.PartCodeAvailable).FirstOrDefault(),
+                                softCopyAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 1).Select(bk => bk.SoftCopyAvailable).FirstOrDefault(),
+                                bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                                 softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
                                 childerns = db.CarPartComponentDescs.Where(cmpDe => cmpDe.CarPartComponentId == comp.Id).Select(cmpDe => new CarPartComponentDescDto
                                 {
@@ -138,7 +146,9 @@ namespace booksmanagement.Controllers.api
                                     carPartCompDesc = true,
                                     bookAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && (bk.TypeId == 2 && bk.Quantity != 0) && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Count() != 0,
                                     softCopy = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.TypeId == 1 && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Count() != 0,
-                                    bookId= db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
+                                    partCodeAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id).Select(bk => bk.PartCodeAvailable).FirstOrDefault(),
+                                    softCopyAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id && bk.TypeId == 1).Select(bk => bk.SoftCopyAvailable).FirstOrDefault(),
+                                    bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                                     softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == cmpDe.Id && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault()
                                 }).ToList()
                             }).ToList()

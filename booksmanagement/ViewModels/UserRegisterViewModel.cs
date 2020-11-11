@@ -53,6 +53,7 @@ namespace booksmanagement.ViewModels
 
         [Display(Name = "User is active")]
         public bool IsActive { get; set; }
+        
     }
 
     public class UserSelfRegisterViewModel

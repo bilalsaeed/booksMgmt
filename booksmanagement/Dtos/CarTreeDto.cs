@@ -56,8 +56,12 @@ namespace booksmanagement.Dtos
         public bool collapsed { get; set; }
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
+        public bool partCodeAvailable { get; set; }
+        public bool softCopyAvailable { get; set; }
+        public bool maintainancePlanAvailable { get; set; }
         public int bookId { get; set; }
         public int softBookId { get; set; }
+        public int? maintainancePlanId { get; set; }
         public bool car { get; set; }
         public List<CarPartDto> childerns { get; set; }
     }
@@ -79,6 +83,8 @@ namespace booksmanagement.Dtos
         public bool carPart { get; set; }
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
+        public bool partCodeAvailable { get; set; }
+        public bool softCopyAvailable { get; set; }
         public int bookId { get; set; }
         public int softBookId { get; set; }
         public int? DrawingFileId { get; set; }
@@ -93,6 +99,8 @@ namespace booksmanagement.Dtos
         public bool collapsed { get; set; }
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
+        public bool partCodeAvailable { get; set; }
+        public bool softCopyAvailable { get; set; }
         public int bookId { get; set; }
         public int softBookId { get; set; }
         public int? DrawingFileId { get; set; }
@@ -107,6 +115,8 @@ namespace booksmanagement.Dtos
         public bool carPartCompDesc { get; set; }
         public bool bookAvailable { get; set; }
         public bool softCopy { get; set; }
+        public bool partCodeAvailable { get; set; }
+        public bool softCopyAvailable { get; set; }
         public int bookId { get; set; }
         public int softBookId { get; set; }
     }

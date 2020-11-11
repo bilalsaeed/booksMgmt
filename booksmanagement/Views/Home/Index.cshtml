@@ -26,7 +26,7 @@
                                     <p class="m-b-0">Total Books</p>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
@@ -187,6 +187,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-xl-4 col-md-12">
         <div class="card prod-p-card card-green cursor-pointer" ng-if="!dashboardItems.showAllBooks"
              ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks">
@@ -263,12 +264,72 @@
         </div>
     </div>
 
+    <div class="col-xl-4 col-md-12">
+        <div class="card prod-p-card card-yellow cursor-pointer" ng-if="!dashboardItems.showArchivedBookBorrowTree"
+             ng-click="dashboardItems.showArchivedBookBorrowTree = !dashboardItems.showArchivedBookBorrowTree">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Archived Books</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-pencil-square-o text-c-yellow f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Create a book borrow request</p>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="carArchivedBookTree && dashboardItems.showArchivedBookBorrowTree" style="font-size:12px">
+            <div class="card-header">
+                <h5>Borrow a book</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showArchivedBookBorrowTree = !dashboardItems.showArchivedBookBorrowTree"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div data-angular-treeview="false"
+                     data-tree-id="myCarTree2"
+                     data-tree-model="carArchivedBookTree.CarBrands"
+                     data-node-id="Id"
+                     data-node-label="Name"
+                     data-node-template="template_book"
+                     data-node-children="childerns">
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="col-sm-12 col-md-6" ng-if="pendingRequests.length>0" style="font-size:12px">
-        <div class="card table-card">
+    <div class="col-xl-4 col-md-12" ng-if="pendingRequests.length>0">
+        <div class="card prod-p-card card-danger cursor-pointer" ng-if="!dashboardItems.showPendingRequests"
+             ng-click="dashboardItems.showPendingRequests = !dashboardItems.showPendingRequests">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Book Requests</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-list-ul text-c-red f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Pending book requests at your end</p>
+            </div>
+        </div>
+        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showPendingRequests">
             <div class="card-header">
                 <h5>Pending book requests</h5>
-
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showPendingRequests = !dashboardItems.showPendingRequests"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="card-block">
                 <div class="table-responsive">
@@ -336,18 +397,52 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6" ng-if="grantedRequests.length>0" style="font-size:12px">
-        <div class="card table-card">
-            <div class="card-header">
-                @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                {
-                    <h5>Books need to be collected</h5>
-                }
-                else
-                {
-                    <h5>Books need to be returned</h5>
-                }
 
+    <div class="col-xl-4 col-md-12" ng-if="grantedRequests.length>0">
+        <div class="card prod-p-card card-yellow cursor-pointer" ng-if="!dashboardItems.showGrantedRequests"
+             ng-click="dashboardItems.showGrantedRequests = !dashboardItems.showGrantedRequests">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Books Granted</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-history text-c-yellow f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">
+                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                    {
+                        <span>Books need to be collected</span>
+                    }
+                    else
+                    {
+                        <span>Books need to be returned</span>
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showGrantedRequests">
+            <div class="card-header">
+                <div class="card-header">
+                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                    {
+                        <h5>Books need to be collected</h5>
+                    }
+                    else
+                    {
+                        <h5>Books need to be returned</h5>
+                    }
+
+                </div>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showGrantedRequests = !dashboardItems.showGrantedRequests"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="card-block">
                 <div class="table-responsive">
@@ -404,11 +499,33 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6" ng-if="pendingDrawingOrders.length>0" style="font-size:12px">
-        <div class="card table-card">
+
+    <div class="col-xl-4 col-md-12" ng-if="pendingDrawingOrders.length>0">
+        <div class="card prod-p-card card-success cursor-pointer" ng-if="!dashboardItems.showPendingDrawingOrders"
+             ng-click="dashboardItems.showPendingDrawingOrders = !dashboardItems.showPendingDrawingOrders">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Drawing Orders</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-check text-c-green f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Pending drawing orders at your end</p>
+            </div>
+        </div>
+        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showPendingDrawingOrders">
             <div class="card-header">
                 <h5>Pending drawing orders</h5>
-
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showPendingDrawingOrders = !dashboardItems.showPendingDrawingOrders"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="card-block">
                 <div class="table-responsive">

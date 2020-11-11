@@ -19,6 +19,7 @@ namespace booksmanagement.ViewModels
         public string Department { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
+        public bool IsApproved { get; set; }
         public string Role { get; set; }
     }
 }

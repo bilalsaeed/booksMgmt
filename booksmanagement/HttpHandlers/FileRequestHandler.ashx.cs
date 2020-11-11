@@ -74,6 +74,13 @@ namespace booksmanagement.HttpHandlers
                         bookFile.FileSize = file.ContentLength;
                         bookFile.SessionId = sessionId;
                         db.BookMediaFiles.Add(bookFile);
+
+                        var book = db.Books.Where(bk => bk.Id == bookId).FirstOrDefault();
+                        if(book != null)
+                        {
+                            book.PartCodeAvailable = true;
+                        }
+
                         db.SaveChanges();
 
                         string json = "{\"success\":\"true\"}";
@@ -105,6 +112,14 @@ namespace booksmanagement.HttpHandlers
                         bookFile.FileSize = file.ContentLength;
                         bookFile.SessionId = sessionId;
                         db.BookMediaFiles.Add(bookFile);
+
+
+                        var book = db.Books.Where(bk => bk.Id == bookId).FirstOrDefault();
+                        if (book != null)
+                        {
+                            book.SoftCopyAvailable = true;
+                        }
+
                         db.SaveChanges();
 
                         string json = "{\"success\":\"true\"}";
@@ -163,7 +178,7 @@ namespace booksmanagement.HttpHandlers
                             HttpResponse resp = context.Response;
                             resp.ClearHeaders();
                             resp.ClearContent();
-                            resp.AddHeader("Content-Disposition", "inline; filename=" + fileObj.FileName);
+                            //resp.AddHeader("Content-Disposition", "filename=" + fileObj.FileName);
                             resp.AddHeader("Content-Type", fileObj.FileType);
                             resp.AddHeader("Content-Length", fileObj.FileSize.ToString());
                             resp.BinaryWrite(fileObj.File);
@@ -171,6 +186,22 @@ namespace booksmanagement.HttpHandlers
                             //resp.ContentType = fileObj.FileType;
                             //resp.OutputStream.Write(fileObj.File, 0, fileObj.File.Length);
                         }
+                    }
+                    if (context.Request.QueryString["Type"].ToString() == "GetMediaFile")
+                    {
+                        int fileId = int.Parse(context.Request.QueryString["FileId"].ToString());
+                        string downloadAble = "";
+                        downloadAble = context.Request.QueryString["IsDownload"]?.ToString();
+                        var fileObj = db.GeneralMediaFiles.Find(fileId);
+                        HttpResponse resp = context.Response;
+                        resp.ClearHeaders();
+                        resp.ClearContent();
+                        if (downloadAble == "Y")
+                            resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
+                        resp.AddHeader("Content-Type", fileObj.FileType);
+                        resp.AddHeader("Content-Length", fileObj.FileSize.ToString());
+                        resp.BinaryWrite(fileObj.File);
+                        resp.End();
                     }
                     if (context.Request.QueryString["Type"].ToString() == "UploadDrawingImage")
                     {
