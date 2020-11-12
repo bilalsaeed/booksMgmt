@@ -68,10 +68,13 @@
 
 @section scripts{
     <script>
-        $('#parts-table').DataTable({
-            "order": [
-                [0, "asc"]
-            ]
-        });
+        $(document).ready(function () {
+            $('#parts-table').DataTable({
+                "order": [
+                    [0, "asc"]
+                ]
+            });
+        })
+        
     </script>
 }

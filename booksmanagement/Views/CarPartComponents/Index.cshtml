@@ -61,10 +61,13 @@
 
 @section scripts{
     <script>
-        $('#partComponents-table').DataTable({
-            "order": [
-                [0, "asc"]
-            ]
-        });
+        $(document).ready(function () {
+            $('#partComponents-table').DataTable({
+                "order": [
+                    [0, "asc"]
+                ]
+            });
+        })
+        
     </script>
 }

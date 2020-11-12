@@ -55,10 +55,12 @@
 
 @section scripts{
     <script>
-        $('#brands-table').DataTable({
-            "order": [
-                [0, "asc"]
-            ]
-        });
+        $(document).ready(function () {
+            $('#brands-table').DataTable({
+                "order": [
+                    [0, "asc"]
+                ]
+            });
+        })
     </script>
 }

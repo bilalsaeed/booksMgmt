@@ -78,10 +78,13 @@
 
 @section scripts{
     <script>
-        $('#cars-table').DataTable({
-            "order": [
-                [0, "asc"]
-            ]
-        });
+        $(document).ready(function () {
+            $('#cars-table').DataTable({
+                "order": [
+                    [0, "asc"]
+                ]
+            });
+        })
+        
     </script>
 }
