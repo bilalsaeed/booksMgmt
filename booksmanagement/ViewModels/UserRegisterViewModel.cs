@@ -88,12 +88,15 @@ namespace booksmanagement.ViewModels
 
         public string Phone { get; set; }
 
+        [Required]
         [Display(Name = "Contact number")]
         public string ContactNumber { get; set; }
 
+        [Required]
         [Display(Name = "Service number")]
         public string ServiceNumber { get; set; }
 
+        [Required]
         [Display(Name = "Department")]
         public string Department { get; set; }
 

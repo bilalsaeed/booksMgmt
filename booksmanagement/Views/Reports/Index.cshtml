@@ -23,12 +23,18 @@
                                         <i class="icofont icofont-inbox"></i> Books borrowed
                                     </a>
                                 </li>
-                                @*<li class="nav-item mail-section">
+                                <li class="nav-item mail-section">
                                     <a class="nav-link waves-effect d-block" data-toggle="pill"
-                                       href="#books-statistics" role="tab" aria-selected="false">
-                                        <i class="icofont icofont-star"></i> Books statistics
+                                       href="#books-added" role="tab" aria-selected="false">
+                                        <i class="icofont icofont-star"></i> Books Added
                                     </a>
-                                </li>*@
+                                </li>
+                                <li class="nav-item mail-section">
+                                    <a class="nav-link waves-effect d-block" data-toggle="pill"
+                                       href="#drawings-added" role="tab" aria-selected="false">
+                                        <i class="icofont icofont-star"></i> Drawings Added
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +74,7 @@
                                     </div>
                                     <div class="mail-body-content">
                                         <div class="table-responsive">
-                                            <table datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance" 
+                                            <table datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance"
                                                    width="100%" dt-column-defs="vm.dtColumnDefs"
                                                    id="requests-table" class="table table-striped table-bordered nowrap">
                                                 <thead>
@@ -115,10 +121,134 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="books-statistics" role="tabpanel">
+                            <div class="tab-pane fade" id="books-added" role="tabpanel">
                                 <div class="mail-body">
+                                    <div class="mail-body-header">
+                                        <div class="row mt-1">
+                                            <div class="col-sm-12 col-md-3">
+                                                <label>From date</label>
+                                                <input type="date" class="form-control" ng-model="searchQuery.FromDate" />
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label>To date</label>
+                                                <input type="date" class="form-control" ng-model="searchQuery.ToDate" />
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1 text-right">
+                                            <div class="col-sm-12 pull-right">
+                                                <button type="button" ng-click="clearFilters()"
+                                                        ng-if="searchQuery.FromDate || searchQuery.ToDate"
+                                                        class="btn btn-warning btn-xs waves-effect waves-light">
+                                                    <i class="fa fa-times"></i> Clear filters
+                                                </button>
+                                                <button type="button" ng-click="getAllBooks()"
+                                                        class="btn btn-primary btn-xs waves-effect waves-light">
+                                                    <i class="fa fa-search"></i> Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="mail-body-content">
-                                        Books Statistics
+                                        <div class="table-responsive">
+                                            <table datatable="ng" dt-options="vmBooks.dtOptions" dt-instance="vmBooks.dtInstance"
+                                                   width="100%" dt-column-defs="vmBooks.dtColumnDefs"
+                                                   id="requests-table" class="table table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Book</th>
+                                                        <th>Car part</th>
+                                                        <th>Addition Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="book in allBooks">
+                                                        <td>
+                                                            {{book.Title}}
+                                                        </td>
+                                                        <td>
+                                                            {{book.Car.Name}}
+                                                            {{book.CarPart.Name}}
+                                                            <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
+                                                            <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
+
+
+                                                        </td>
+                                                        <td>
+                                                            {{book.CreatedDate | date : 'dd-MMM-yyyy'}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="drawings-added" role="tabpanel">
+                                <div class="mail-body">
+                                    <div class="mail-body-header">
+                                        <div class="row mt-1">
+                                            <div class="col-sm-12 col-md-3">
+                                                <label>From date</label>
+                                                <input type="date" class="form-control" ng-model="searchQuery.FromDate" />
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <label>To date</label>
+                                                <input type="date" class="form-control" ng-model="searchQuery.ToDate" />
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1 text-right">
+                                            <div class="col-sm-12 pull-right">
+                                                <button type="button" ng-click="clearFilters()"
+                                                        ng-if="searchQuery.FromDate || searchQuery.ToDate"
+                                                        class="btn btn-warning btn-xs waves-effect waves-light">
+                                                    <i class="fa fa-times"></i> Clear filters
+                                                </button>
+                                                <button type="button" ng-click="getAllDrawings()"
+                                                        class="btn btn-primary btn-xs waves-effect waves-light">
+                                                    <i class="fa fa-search"></i> Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mail-body-content">
+                                        <div class="table-responsive">
+                                            <table datatable="ng" dt-options="vmDrawings.dtOptions" dt-instance="vmDrawings.dtInstance"
+                                                   width="100%" dt-column-defs="vmDrawings.dtColumnDefs"
+                                                   id="requests-table" class="table table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Applicant</th>
+                                                        <th>Car Part</th>
+                                                        <th>Status</th>
+                                                        <th>Date</th>
+                                                        <th>Purpose</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="drawing in allDrawings">
+                                                        <td>{{drawing.Applicant.FirstName}} {{drawing.Applicant.LastName}}</td>
+                                                        <td>
+                                                            {{drawing.CarPart.Name}}
+                                                            <span ng-if="drawing.CarPartComponent"> > {{drawing.CarPartComponent.Name}}</span>
+                                                            ({{drawing.CarPart.Car.CarBrand.Name}} {{drawing.CarPart.Car.Name}})
+                                                        </td>
+                                                        <td>
+                                                            <label ng-if="drawing.DrawingRejected && !drawing.IsApproved" class="badge badge-inverse-danger">Rejected</label>
+                                                            <label ng-if="!drawing.AssignedTo" class="badge badge-inverse-primary">Pending</label>
+                                                            <label ng-if="drawing.AssignedTo && !drawing.IsApproved && !drawing.DrawingSubmitted" class="badge badge-inverse-success">Assigned</label>
+                                                            <label ng-if="drawing.DrawingSubmitted && !drawing.IsApproved" class="badge badge-inverse-warning">Drawing Submitted</label>
+                                                            <label ng-if="drawing.IsApproved" class="badge badge-inverse-info">Approved</label>
+                                                        </td>
+                                                        <td>
+                                                            {{drawing.AppliedDate | date : 'dd-MMM-yyyy'}}
+                                                        </td>
+                                                        <td>
+                                                            {{drawing.Purpose}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

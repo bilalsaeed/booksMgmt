@@ -5,6 +5,7 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
 
     $scope.dashboardItems = {
         showDrawingOrderTree: false,
+        showAvailableDrawingOrderTree: false,
         showBookBorrowTree: false,
         showArchivedBookBorrowTree: false,
         showAllBooks: false,
@@ -16,10 +17,17 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
 
    
     $scope.getCarTree = function () {
-        $http.get(root + 'api/DrawingOrders/GetCarTree').then(function success(response) {
+        $http.get(root + 'api/DrawingOrders/GetCarTree?drawingAvailable=false').then(function success(response) {
             $scope.carTree = response.data;
             $scope.carTreeBook = angular.copy($scope.carTree);
             console.log('tree:', $scope.carTree);
+        }, function error() { });
+    }
+
+    $scope.getCarTreeAvailable = function () {
+        $http.get(root + 'api/DrawingOrders/GetCarTree?drawingAvailable=true').then(function success(response) {
+            $scope.carTreeAvailable = response.data;
+            console.log('carTreeAvailable:', $scope.carTreeAvailable);
         }, function error() { });
     }
 
@@ -139,6 +147,7 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
     }
 
     $scope.getCarTree(); 
+    $scope.getCarTreeAvailable();
     $scope.getCarBookTree();
     $scope.getCarArchivedBookTree();
     $scope.getPendingRequests();

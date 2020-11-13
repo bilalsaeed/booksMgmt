@@ -36,6 +36,23 @@ namespace booksmanagement.Controllers.api
                 .Include(b => b.CarPartComponent)
                 .Include(b => b.CarPartComponentDesc);
         }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> SearchBooks([FromBody] BookRequestSearchDto searchDto)
+        {
+            var books = await db.Books
+                .Where(b =>
+                        (searchDto.FromDate == null || b.CreatedDate >= searchDto.FromDate) &&
+                        (searchDto.ToDate == null || b.CreatedDate <= searchDto.ToDate)
+                    )
+                .Include(b => b.Car)
+                .Include(b => b.CarPart)
+                .Include(b => b.CarPartComponent)
+                .Include(b => b.CarPartComponentDesc).ToListAsync();
+
+            return Ok(books);
+        }
+
         public IQueryable<Book> GetSoftBooks()
         {
             return db.Books

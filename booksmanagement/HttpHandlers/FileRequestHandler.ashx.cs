@@ -253,9 +253,10 @@ namespace booksmanagement.HttpHandlers
                         resp.ClearContent();
                         if(downloadAble == "Y")
                             resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
+                        resp.AddHeader("Content-Type", fileObj.FileType);
                         resp.AddHeader("Content-Length", fileObj.FileSize.ToString());
-                        resp.ContentType = fileObj.FileType;
-                        resp.OutputStream.Write(fileObj.File, 0, fileObj.File.Length);
+                        resp.BinaryWrite(fileObj.File);
+                        resp.End();
                     }
                     if (context.Request.QueryString["Type"].ToString() == "GetDrawingFileThumbnail")
                     {
