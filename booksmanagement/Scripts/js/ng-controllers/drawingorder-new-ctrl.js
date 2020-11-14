@@ -122,7 +122,8 @@ myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $ui
                                 CarPartComponentId: $scope.CarPartComponentId,
                                 Description: $scope.Description,
                                 Purpose: $scope.Purpose,
-                                Location: $scope.Location
+                                Location: $scope.Location,
+                                JobNumber: $scope.JobNumber
                             }
                             $scope.saveDrawingOrder(orderData);
                         }

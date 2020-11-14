@@ -37,7 +37,7 @@
         showProgressDetails: true,
         note: '1 document only',
         height: 150,
-        width:300,
+        width: 300,
         hideUploadButton: true,
         locale: {
             strings: { dropPaste: 'Upload part code paper, %{browse}' },
@@ -98,8 +98,10 @@
     }
 
     $scope.bookTypes = [
-        { Name:"Soft copy", Id : "1" },
-        { Name:"Hard copy", Id : "2"}
+        { Name: "Soft copy", Id: "1" },
+        { Name: "Hard copy", Id: "2" },
+        { Name: "Both", Id: "3" }
+
     ];
 
     $scope.getCars();
@@ -112,7 +114,7 @@
     //Other logical functions here
 
     $scope.carSelected = function () {
-        
+
     }
 
     $scope.partSelected = function () {
@@ -156,27 +158,41 @@
 
         $http.post(root + 'api/Books/PostBook', $scope.form).then(function success(response) {
             if (response.status == 201) {
-                uppy.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadBookPartCode&&BookId=' + response.data.Id })
-                uppy.upload().then((result) => {
-                    console.log('first', result);
-                    uppy_soft.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadBookSoftCopy&&BookId=' + response.data.Id })
-                    uppy_soft.upload().then((res1) => {
-                        console.log('second', res1);
-                        window.location.href = root + 'Books';
+                if ($scope.form.TypeId == 1 || $scope.form.TypeId == 2) {
+                    uppy.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadBookPartCode&&BookId=' + response.data.Id })
+                    uppy.upload().then((result) => {
+                        console.log('first', result);
+                        uppy_soft.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadBookSoftCopy&&BookId=' + response.data.Id })
+                        uppy_soft.upload().then((res1) => {
+                            console.log('second', res1);
+                            window.location.href = root + 'Books';
+                        });
                     });
-                });
+                }
+                else if ($scope.form.TypeId == 3) {
+                    uppy.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadBothBookPartCode&&HardId=' + response.data.hardId + '&&SoftId=' + response.data.softId })
+                    uppy.upload().then((result) => {
+                        console.log('first', result);
+                        uppy_soft.use(Uppy.XHRUpload, { endpoint: root + 'HttpHandlers/FileRequestHandler.ashx?Type=UploadBookSoftCopy&&BookId=' + response.data.softId })
+                        uppy_soft.upload().then((res1) => {
+                            console.log('second', res1);
+                            window.location.href = root + 'Books';
+                        });
+                    });
+                }
+
 
             }
             else {
                 console.log(response);
             }
-            
+
         }, function error(error) {
-                toaster.pop({
-                    type: 'error',
-                    title: '',
-                    body: error.data.Message,
-                });
+            toaster.pop({
+                type: 'error',
+                title: '',
+                body: error.data.Message,
+            });
         });
     }
 

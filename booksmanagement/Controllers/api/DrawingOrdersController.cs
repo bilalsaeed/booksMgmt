@@ -283,6 +283,7 @@ namespace booksmanagement.Controllers.api
                 Description = orderRequest.Description,
                 Purpose = orderRequest.Purpose,
                 Location = orderRequest.Location,
+                JobNumber = orderRequest.JobNumber,
                 ApplicantId = appUser?.Id
             };
 

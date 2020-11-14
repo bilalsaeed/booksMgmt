@@ -89,6 +89,58 @@ namespace booksmanagement.HttpHandlers
                         context.Response.Write(json);
                         context.Response.End();
                     }
+                    if (context.Request.QueryString["Type"].ToString() == "UploadBothBookPartCode")
+                    {
+                        int softId = int.Parse(context.Request.QueryString["SoftId"].ToString());
+                        int hardId = int.Parse(context.Request.QueryString["HardId"].ToString());
+
+                        string sessionId = context.Request.QueryString["SessionId"];
+                        HttpPostedFile file = context.Request.Files[0];
+                        BinaryReader b = new BinaryReader(file.InputStream);
+                        byte[] binData = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+
+                        string fileName = file.FileName;
+                        string fileExtension = file.ContentType;
+
+                        BookMediaFiles bookFile = new BookMediaFiles();
+                        bookFile.File = binData;
+                        bookFile.FileName = fileName;
+                        bookFile.FileType = fileExtension;
+                        bookFile.BookId = softId;
+                        bookFile.Type = "P";
+                        bookFile.FileSize = file.ContentLength;
+                        bookFile.SessionId = sessionId;
+                        db.BookMediaFiles.Add(bookFile);
+
+                        BookMediaFiles hardFile = new BookMediaFiles();
+                        hardFile.File = binData;
+                        hardFile.FileName = fileName;
+                        hardFile.FileType = fileExtension;
+                        hardFile.BookId = hardId;
+                        hardFile.Type = "P";
+                        hardFile.FileSize = file.ContentLength;
+                        hardFile.SessionId = sessionId;
+                        db.BookMediaFiles.Add(hardFile);
+
+                        var book = db.Books.Where(bk => bk.Id == softId).FirstOrDefault();
+                        if (book != null)
+                        {
+                            book.PartCodeAvailable = true;
+                        }
+                        var hardBook = db.Books.Where(bk => bk.Id == hardId).FirstOrDefault();
+                        if (hardBook != null)
+                        {
+                            hardBook.PartCodeAvailable = true;
+                        }
+
+                        db.SaveChanges();
+
+                        string json = "{\"success\":\"true\"}";
+                        context.Response.Clear();
+                        context.Response.ContentType = "application/json; charset=utf-8";
+                        context.Response.Write(json);
+                        context.Response.End();
+                    }
                     if (context.Request.QueryString["Type"].ToString() == "UploadBookSoftCopy")
                     {
                         int bookId = int.Parse(context.Request.QueryString["BookId"].ToString());

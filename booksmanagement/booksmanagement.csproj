@@ -565,6 +565,10 @@
     <Compile Include="Migrations\202011112139235_DataSeedAdminApproval.Designer.cs">
       <DependentUpon>202011112139235_DataSeedAdminApproval.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011141744120_JobNumberAddedInDrawingOrder.cs" />
+    <Compile Include="Migrations\202011141744120_JobNumberAddedInDrawingOrder.Designer.cs">
+      <DependentUpon>202011141744120_JobNumberAddedInDrawingOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -2804,6 +2808,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011112139235_DataSeedAdminApproval.resx">
       <DependentUpon>202011112139235_DataSeedAdminApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141744120_JobNumberAddedInDrawingOrder.resx">
+      <DependentUpon>202011141744120_JobNumberAddedInDrawingOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

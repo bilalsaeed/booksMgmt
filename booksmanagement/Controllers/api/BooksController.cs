@@ -147,10 +147,56 @@ namespace booksmanagement.Controllers.api
 
             try
             {
-                db.Books.Add(book);
-                await db.SaveChangesAsync();
+                var softBookId = 0;
+                var hardBookId = 0;
+                if (book.TypeId == 3)
+                {
+                    var softBook = new Book();
+                    softBook.TypeId = 1;
+                    softBook.Title = book.Title;
+                    softBook.Description = book.Description;
+                    softBook.Keywords = book.Keywords;
+                    softBook.CarId = book.CarId;
+                    softBook.CarPartId = book.CarPartId;
+                    softBook.CarPartComponentId = book.CarPartComponentId;
+                    softBook.CarPartComponentDescId = book.CarPartComponentDescId;
+                    softBook.BookLocation = book.BookLocation;
+                    softBook.BookNumber = book.BookNumber;
+                    softBook.PartCodeAvailable = book.PartCodeAvailable;
+                    softBook.SoftCopyAvailable = book.SoftCopyAvailable;
+                    softBook.IsActive = book.IsActive;
+                    softBook.DownloadLink = book.DownloadLink;
+                    db.Books.Add(softBook);
 
-                return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
+                    var hardBook = new Book();
+                    hardBook.TypeId = 2;
+                    hardBook.Title = book.Title;
+                    hardBook.Description = book.Description;
+                    hardBook.Keywords = book.Keywords;
+                    hardBook.CarId = book.CarId;
+                    hardBook.CarPartId = book.CarPartId;
+                    hardBook.CarPartComponentId = book.CarPartComponentId;
+                    hardBook.CarPartComponentDescId = book.CarPartComponentDescId;
+                    hardBook.BookLocation = book.BookLocation;
+                    hardBook.BookNumber = book.BookNumber;
+                    hardBook.PartCodeAvailable = book.PartCodeAvailable;
+                    hardBook.IsActive = book.IsActive;
+                    hardBook.Quantity = book.Quantity;
+                    db.Books.Add(hardBook);
+
+                    await db.SaveChangesAsync();
+
+                    softBookId = softBook.Id;
+                    hardBookId = hardBook.Id;
+                }
+                else if (book.TypeId == 1 || book.TypeId == 2)
+                {
+                    db.Books.Add(book);
+
+                    await db.SaveChangesAsync();
+                }
+
+                return CreatedAtRoute("DefaultApi", new { id = book.Id, softId = softBookId, hardId = hardBookId }, new { id = book.Id, softId = softBookId, hardId = hardBookId });
             }
             catch(Exception ex)
             {
