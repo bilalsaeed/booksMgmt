@@ -592,6 +592,8 @@
     <Compile Include="ViewModels\UserRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\fonts\google-font-opensans.css" />
+    <Content Include="Content\fonts\google-font-quicksand.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -775,6 +777,8 @@
     <Content Include="Scripts\assets\pages\data-table\extensions\buttons\css\buttons.dataTables.min.css" />
     <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\buttons.colVis.min.js" />
     <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\buttons.flash.min.js" />
+    <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\buttons.html5.min.js" />
+    <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\buttons.print.min.js" />
     <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\dataTables.buttons.min.js" />
     <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\extension-btns-custom.js" />
     <Content Include="Scripts\assets\pages\data-table\extensions\buttons\js\jszip.min.js" />
@@ -2567,6 +2571,8 @@
     <Content Include="Scripts\vendor\switchery\css\switchery.min.css" />
     <Content Include="Scripts\vendor\switchery\js\switchery.min.js" />
     <Content Include="Scripts\vendor\underscore\js\underscore-min.js" />
+    <Content Include="Scripts\vendor\uppy\css\uppy.min.css" />
+    <Content Include="Scripts\vendor\uppy\js\uppy.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
