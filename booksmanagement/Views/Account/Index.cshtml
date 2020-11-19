@@ -11,7 +11,7 @@
     </a>
 </p>
 
-<div class="row">
+<div class="row" ng-controller="AccountCtrl">
     <div class="col-sm-12">
         <div class="card">
 
@@ -54,7 +54,12 @@
                                     </td>
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
+                                        <input type="button" name="submit" ng-click="deleteUser('@item.UserId')" class="btn btn-danger" value="Delete" />
+                                        @*@using (Html.BeginForm("DeleteConfirmed", "Account", new { id = item.UserId }, FormMethod.Post, new { id = "formDeleteUser" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                        }*@
                                     </td>
                                 </tr>
                             }
@@ -67,6 +72,7 @@
 </div>
 
 @section scripts{
+    <script src="~/Scripts/js/ng-controllers/account-ctrl.js"></script>
     <script>
         $('#users-table').DataTable({
             "order": [

@@ -2318,6 +2318,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\angular-scripts.js" />
+    <Content Include="Scripts\js\ng-controllers\account-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-borrow-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-create-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-edit-ctrl.js" />

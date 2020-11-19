@@ -186,7 +186,43 @@ namespace booksmanagement.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Userid is not provided.");
 
+            var user = await UserManager.FindByIdAsync(id);
+            if (user.Id != User.Identity.GetUserId())
+            {
+                try
+                {
+                    await UserManager.DeleteAsync(user);
+                }
+                catch (Exception ex)
+                {
+                    var message = "";
+                    if(ex.InnerException != null)
+                    {
+                        message = ex.InnerException.InnerException.Message;
+                        if(message.Contains("DELETE statement conflicted with the REFERENCE constraint"))
+                        {
+                            message = "User has data in other screens, this user can not be deleted.";
+                        }
+                    }
+                    else
+                    {
+                        message = ex.Message;
+                    }
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, message);
+                }
+                //ViewBag.Msg = "Deleted the user!";
+                return new HttpStatusCodeResult(HttpStatusCode.OK, "User deleted successfully.");
+            }
+
+            //ViewBag.Msg = "Could not delete this user!";
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Could not delete this user.");
+        }
 
         //
         // GET: /Account/Login
