@@ -3,7 +3,8 @@
         Drawing order for
         <u>{{order.CarPart.Name}}</u>
         <u><span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span></u>
-        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+        <span ng-if="order.CarPart">({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})</span>
+        <span ng-if="!order.CarPart">{{order.Car.CarBrand.Name}} {{order.Car.Name}}</span>
     </h3>
 
 </div>

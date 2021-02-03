@@ -13,8 +13,10 @@ namespace booksmanagement.Dtos
         public string Purpose { get; set; }
         public string Location { get; set; }
         public string JobNumber { get; set; }
+        public Car Car { get; set; }
+        public int CarId { get; set; }
         public CarPart CarPart { get; set; }
-        public int CarPartId { get; set; }
+        public int? CarPartId { get; set; }
         public CarPartComponent CarPartComponent { get; set; }
         public int? CarPartComponentId { get; set; }
         public ApplicationUser Applicant { get; set; }

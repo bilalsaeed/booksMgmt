@@ -569,6 +569,18 @@
     <Compile Include="Migrations\202011141744120_JobNumberAddedInDrawingOrder.Designer.cs">
       <DependentUpon>202011141744120_JobNumberAddedInDrawingOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102031804424_DrawingOrderIdAddedInCarParts.cs" />
+    <Compile Include="Migrations\202102031804424_DrawingOrderIdAddedInCarParts.Designer.cs">
+      <DependentUpon>202102031804424_DrawingOrderIdAddedInCarParts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102031855002_DrawingOrderIdAddedInCar.cs" />
+    <Compile Include="Migrations\202102031855002_DrawingOrderIdAddedInCar.Designer.cs">
+      <DependentUpon>202102031855002_DrawingOrderIdAddedInCar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102031900390_CarAddedInDrawingOrder.cs" />
+    <Compile Include="Migrations\202102031900390_CarAddedInDrawingOrder.Designer.cs">
+      <DependentUpon>202102031900390_CarAddedInDrawingOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Book.cs" />
@@ -2322,9 +2334,11 @@
     <Content Include="Scripts\js\ng-controllers\book-borrow-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-create-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-edit-ctrl.js" />
+    <Content Include="Scripts\js\ng-controllers\books-list-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\book-requests-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-list-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\drawingorder-new-ctrl.js" />
+    <Content Include="Scripts\js\ng-controllers\drawings-list-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\home-ctrl.js" />
     <Content Include="Scripts\js\ng-controllers\reports-ctrl.js" />
     <Content Include="Scripts\js\ng-modules\angular-animate.min.js" />
@@ -2333,7 +2347,9 @@
     <Content Include="Scripts\js\ng-templates\approve-bookrequest-template.html" />
     <Content Include="Scripts\js\ng-templates\assign-drawingorder-template.html" />
     <Content Include="Scripts\js\ng-templates\book-borrow-request-template.html" />
+    <Content Include="Scripts\js\ng-templates\books-list-template.html" />
     <Content Include="Scripts\js\ng-templates\drawingorder-new-template.html" />
+    <Content Include="Scripts\js\ng-templates\drawings-list-template.html" />
     <Content Include="Scripts\js\ng-templates\submit-drawingorder-template.html" />
     <Content Include="Scripts\js\ng-templates\view-bookrequest-template.html" />
     <Content Include="Scripts\js\ng-templates\view-drawingorder-template.html" />
@@ -2818,6 +2834,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011141744120_JobNumberAddedInDrawingOrder.resx">
       <DependentUpon>202011141744120_JobNumberAddedInDrawingOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102031804424_DrawingOrderIdAddedInCarParts.resx">
+      <DependentUpon>202102031804424_DrawingOrderIdAddedInCarParts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102031855002_DrawingOrderIdAddedInCar.resx">
+      <DependentUpon>202102031855002_DrawingOrderIdAddedInCar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102031900390_CarAddedInDrawingOrder.resx">
+      <DependentUpon>202102031900390_CarAddedInDrawingOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

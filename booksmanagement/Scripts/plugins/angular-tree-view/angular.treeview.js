@@ -54,9 +54,10 @@
                     '<i class="expanded" data-ng-show="node.' + nodeChildren + '.length && !node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
                     '<i class="normal" data-ng-hide="node.' + nodeChildren + '.length"></i> ' +
                     '<span data-ng-class="node.selected" data-ng-click="' + treeId + '.selectNodeLabel(node)">{{node.' + nodeLabel + '}}</span>' +
-                    '<a title="Create order" href="' + root + 'DrawingOrders/New?part={{node.Id}}" data-ng-show="node.carPart && !node.DrawingFileId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-                    '<a title="Create order" href="' + root + 'DrawingOrders/New?part={{node.CarPartId}}&comp={{node.Id}}" data-ng-show="node.carPartComp && !node.DrawingFileId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-                    '<a title="View Drawing" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={{node.DrawingFileId}}" data-ng-show="node.DrawingFileId" style="padding-left:5px;" target="_blank"><i class="fa fa-eye"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.Id}}" data-ng-show="node.car && !node.DrawingOrderId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.CarId}}&part={{node.Id}}" data-ng-show="node.carPart && !node.DrawingOrderId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.CarId}}&part={{node.CarPartId}}&comp={{node.Id}}" data-ng-show="node.carPartComp && !node.DrawingOrderId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="View Drawing" href="javascript:void(0)" ng-click="openDrawingsList(node.DrawingOrderId)" data-ng-show="node.DrawingOrderId" style="padding-left:5px;"><i class="fa fa-eye"></i></a>' +
                     '<div data-ng-hide="node.collapsed" data-tree-id="' + treeId + '" data-tree-model="node.' + nodeChildren + '" data-node-id=' + nodeId + ' data-node-label=' + nodeLabel + ' data-node-children=' + nodeChildren + '></div>' +
                     '</li>' +
                     '</ul>';
@@ -71,7 +72,7 @@
 
                     '<a title="Borrow book" href="' + root + 'BookBorrow?bookId={{node.bookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.bookAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
                     //'<a title="Borrow is not available right now" href="#" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && !node.bookAvailable" style="padding-left:5px;" class="disabled"><i class="fa fa-external-link-square"></i></a>' +
-                    '<a title="Download book" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{node.softBookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.softCopy && node.softCopyAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-download"></i></a>' +
+                    '<a title="Download book" href="javascript:void(0)" ng-click="openBooksList(node.softBookId)" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && node.softCopy && node.softCopyAvailable" style="padding-left:5px;"><i class="fa fa-download"></i></a>' +
                     '<a title="Part code paper" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{node.bookId}}&&SoftBookId={{node.softBookId}}" data-ng-show="(node.car || node.carPart || node.carPartComp ||node.carPartCompDesc) && (node.softCopy || node.bookAvailable) && node.partCodeAvailable" style="padding-left:5px;"><i class="fa fa-file-text-o"></i></a>' +
                     '<a title="Maintenance plan" href="' + root + 'HttpHandlers/FileRequestHandler.ashx?Type=GetMediaFile&&FileId={{node.maintainancePlanId}}" data-ng-show="node.car && node.maintainancePlanAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-car"></i></a>' +
 

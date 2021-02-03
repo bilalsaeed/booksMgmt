@@ -24,7 +24,7 @@
         restrictions:
         {
             maxNumberOfFiles:
-                1,
+                5,
             allowedFileTypes:
                 ['.pdf']
         }

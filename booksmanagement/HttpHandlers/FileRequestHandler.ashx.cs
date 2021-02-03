@@ -145,25 +145,30 @@ namespace booksmanagement.HttpHandlers
                     {
                         int bookId = int.Parse(context.Request.QueryString["BookId"].ToString());
                         string sessionId = context.Request.QueryString["SessionId"];
-                        HttpPostedFile file = context.Request.Files[0];
-                        BinaryReader b = new BinaryReader(file.InputStream);
-                        byte[] binData = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                        //HttpPostedFile files = context.Request.Files[0];
+                        HttpFileCollection files = context.Request.Files;
+                        for (int i = 0; i < files.Count; i++)
+                        {
+                            HttpPostedFile file = files[i];
+                            BinaryReader b = new BinaryReader(file.InputStream);
+                            byte[] binData = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
 
-                        string fileName = file.FileName;
-                        string fileExtension = file.ContentType;
+                            string fileName = file.FileName;
+                            string fileExtension = file.ContentType;
 
-                        var oldFiles = db.BookMediaFiles.Where(m => m.BookId == bookId && m.Type == "S").ToList();
-                        db.BookMediaFiles.RemoveRange(oldFiles);
+                            //var oldFiles = db.BookMediaFiles.Where(m => m.BookId == bookId && m.Type == "S").ToList();
+                            //db.BookMediaFiles.RemoveRange(oldFiles);
 
-                        BookMediaFiles bookFile = new BookMediaFiles();
-                        bookFile.File = binData;
-                        bookFile.FileName = fileName;
-                        bookFile.FileType = fileExtension;
-                        bookFile.BookId = bookId;
-                        bookFile.Type = "S";
-                        bookFile.FileSize = file.ContentLength;
-                        bookFile.SessionId = sessionId;
-                        db.BookMediaFiles.Add(bookFile);
+                            BookMediaFiles bookFile = new BookMediaFiles();
+                            bookFile.File = binData;
+                            bookFile.FileName = fileName;
+                            bookFile.FileType = fileExtension;
+                            bookFile.BookId = bookId;
+                            bookFile.Type = "S";
+                            bookFile.FileSize = file.ContentLength;
+                            bookFile.SessionId = sessionId;
+                            db.BookMediaFiles.Add(bookFile);
+                        }
 
 
                         var book = db.Books.Where(bk => bk.Id == bookId).FirstOrDefault();
@@ -255,40 +260,61 @@ namespace booksmanagement.HttpHandlers
                         resp.BinaryWrite(fileObj.File);
                         resp.End();
                     }
+                    if (context.Request.QueryString["Type"].ToString() == "GetBookMediaFile")
+                    {
+                        int fileId = int.Parse(context.Request.QueryString["FileId"].ToString());
+                        string downloadAble = "";
+                        downloadAble = context.Request.QueryString["IsDownload"]?.ToString();
+                        var fileObj = db.BookMediaFiles.Find(fileId);
+                        HttpResponse resp = context.Response;
+                        resp.ClearHeaders();
+                        resp.ClearContent();
+                        if (downloadAble == "Y")
+                            resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
+                        resp.AddHeader("Content-Type", fileObj.FileType);
+                        resp.AddHeader("Content-Length", fileObj.FileSize.ToString());
+                        resp.BinaryWrite(fileObj.File);
+                        resp.End();
+                    }
                     if (context.Request.QueryString["Type"].ToString() == "UploadDrawingImage")
                     {
                         string id = context.Request.QueryString["DrawingOrderId"].ToString();
                         int drawingOrderId = 0;
-                        if (string.IsNullOrEmpty(id))
+                        if (!string.IsNullOrEmpty(id))
                         {
                             drawingOrderId = int.Parse(id);
                         }
                         
                         string sessionId = context.Request.QueryString["SessionId"];
-                        HttpPostedFile file = context.Request.Files[0];
-                        BinaryReader b = new BinaryReader(file.InputStream);
-                        byte[] binData = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                        //HttpPostedFile file = context.Request.Files[0];
+                        HttpFileCollection files = context.Request.Files;
+                        for (int i = 0; i < files.Count; i++)
+                        {
+                            HttpPostedFile file = files[i];
+                            BinaryReader b = new BinaryReader(file.InputStream);
+                            byte[] binData = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
 
-                        string fileName = file.FileName;
-                        string fileExtension = file.ContentType;
+                            string fileName = file.FileName;
+                            string fileExtension = file.ContentType;
 
-                        //var oldFiles = db.DrawingFiles.Where(m => m.DrawingOrderId == drawingOrderId && m.Type == "P").ToList();
-                        //db.DrawingFiles.RemoveRange(oldFiles);
+                            var oldFiles = db.DrawingFiles.Where(m => m.DrawingOrderId == drawingOrderId && m.Type == "P").ToList();
+                            db.DrawingFiles.RemoveRange(oldFiles);
 
 
-                        DrawingFiles drawingFile = new DrawingFiles();
-                        drawingFile.File = binData;
-                        drawingFile.FileName = fileName;
-                        drawingFile.FileType = fileExtension;
-                        if(drawingOrderId != 0)
-                            drawingFile.DrawingOrderId = drawingOrderId;
-                        drawingFile.Type = "P";
-                        drawingFile.FileSize = file.ContentLength;
-                        drawingFile.SessionId = sessionId;
-                        db.DrawingFiles.Add(drawingFile);
+                            DrawingFiles drawingFile = new DrawingFiles();
+                            drawingFile.File = binData;
+                            drawingFile.FileName = fileName;
+                            drawingFile.FileType = fileExtension;
+                            if (drawingOrderId != 0)
+                                drawingFile.DrawingOrderId = drawingOrderId;
+                            drawingFile.Type = "P";
+                            drawingFile.FileSize = file.ContentLength;
+                            drawingFile.SessionId = sessionId;
+                            db.DrawingFiles.Add(drawingFile);
+                        }
                         db.SaveChanges();
 
-                        string json = "{\"success\":\"true\",\"FileId\":\""+ drawingFile.Id + "\"}";
+                        string json = "{\"success\":\"true\"}";
                         context.Response.Clear();
                         context.Response.ContentType = "application/json; charset=utf-8";
                         context.Response.Write(json);

@@ -1,6 +1,34 @@
 ﻿
 myApp.controller('DrawingOrderNewCtrl', function ($scope, $filter, $http, $location, $uibModal, toaster, $ngConfirm) {
 
+
+    $scope.getCars = function () {
+        $http.get(root + 'api/Cars/GetCars').then(function success(response) {
+            $scope.cars = response.data;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('car')) {
+                var selectedCar;
+                var keepGoing = true;
+                angular.forEach($scope.cars, function (item, key) {
+                    if (keepGoing) {
+                        if (item.Id == urlParams.get('car')) {
+                            selectedCar = item;
+                            keepGoing = false;
+                        }
+                    }
+                });
+
+                if (selectedCar) {
+                    $scope.openDrawingOrderModal(selectedCar);
+                }
+            }
+
+            //console.log('all parts:', $scope.carParts);
+
+        }, function error() { });
+    }
+
     $scope.getCarParts = function () {
         $http.get(root + 'api/CarParts/GetCarParts').then(function success(response) {
             $scope.carParts = response.data;
@@ -28,21 +56,21 @@ myApp.controller('DrawingOrderNewCtrl', function ($scope, $filter, $http, $locat
         }, function error() { });
     }
 
-    $scope.getCarParts();
-
+    //$scope.getCarParts();
+    $scope.getCars();
 
 
     //Other logical functions here
 
-    $scope.openDrawingOrderModal = function (part) {
+    $scope.openDrawingOrderModal = function (car) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: root + 'Scripts/js/ng-templates/drawingorder-new-template.html',
             controller: 'DrawingOrderCreateCtrl',
             size: 'lg',
             resolve: {
-                part: function () {
-                    return part;
+                car: function () {
+                    return car;
                 }
             }
         });
@@ -54,11 +82,40 @@ myApp.controller('DrawingOrderNewCtrl', function ($scope, $filter, $http, $locat
     }
 });
 
-myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $uibModalInstance, toaster, $ngConfirm, part) {
-    $scope.part = part;
+myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $uibModalInstance, toaster, $ngConfirm, car) {
+    $scope.car = car;
+
+    $scope.getCarParts = function () {
+        $http.get(root + 'api/CarParts/GetCarParts').then(function success(response) {
+            $scope.carParts = response.data;
+            $scope.carPartsOriginal = response.data;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('part')) {
+                var selectedPart;
+                var keepGoing = true;
+                angular.forEach($scope.carParts, function (item, key) {
+                    if (keepGoing) {
+                        if (item.Id == urlParams.get('part')) {
+                            selectedPart = item;
+                            keepGoing = false;
+                        }
+                    }
+                });
+
+                if (selectedPart) {
+                    $scope.CarPartId = selectedPart.Id;
+                    $scope.getCarPartComponents();
+                }
+            }
+
+            //console.log('carParts:', $scope.carParts);
+        }, function error() { });
+    }
+
 
     $scope.getCarPartComponents = function () {
-        $http.get(root + 'api/CarPartComponents/GetCarPartComponentsByPart?partId=' + $scope.part.Id).then(function success(response) {
+        $http.get(root + 'api/CarPartComponents/GetCarPartComponentsByPart?partId=' + $scope.CarPartId).then(function success(response) {
             $scope.carPartComponents = response.data;
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -81,10 +138,11 @@ myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $ui
         }, function error() { });
     }
 
-    $scope.getCarPartComponents();
+    $scope.getCarParts();
 
 
     //Other logical functions here
+
 
     $scope.saveDrawingOrder = function (orderData) {
         $http.post(root + 'api/DrawingOrders/SaveDrawingOrder', orderData).then(function success(response) {
@@ -118,7 +176,8 @@ myApp.controller('DrawingOrderCreateCtrl', function ($scope, $filter, $http, $ui
                         btnClass: 'btn-success',
                         action: function () {
                             var orderData = {
-                                CarPartId: $scope.part.Id,
+                                CarId: $scope.car.Id,
+                                CarPartId: $scope.CarPartId,
                                 CarPartComponentId: $scope.CarPartComponentId,
                                 Description: $scope.Description,
                                 Purpose: $scope.Purpose,

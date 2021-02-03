@@ -1,10 +1,21 @@
 ﻿<div class="modal-header">
-    <h3 class="modal-title">Creating drawing order for <b><u>{{part.Name}}</u></b></h3>
+    <h3 class="modal-title">Creating drawing order for <b><u>{{car.Name}}</u></b></h3>
 
 </div>
 <div class="modal-body">
     <form role="form" name="orderForm">
         <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-label">Car part</label>
+                    <select class="form-control custom-select border"
+                            ng-change="getCarPartComponents()"
+                            ng-options="item.Id as item.Name for item in carParts"
+                            ng-model="CarPartId">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label class="form-label">Car part component</label>

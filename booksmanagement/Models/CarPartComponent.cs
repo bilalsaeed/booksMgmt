@@ -17,6 +17,7 @@ namespace booksmanagement.Models
 
         public DrawingFiles DrawingFiles { get; set; }
         public int? DrawingFilesId { get; set; }
+        public int? DrawingOrderId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

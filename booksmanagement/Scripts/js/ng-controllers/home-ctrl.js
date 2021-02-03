@@ -342,6 +342,34 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
         });
     }
 
+    $scope.openBooksList = function (bookid) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: root + 'Scripts/js/ng-templates/books-list-template.html',
+            controller: 'BooksListCtrl',
+            size: 'lg',
+            resolve: {
+                bookid: function () {
+                    return bookid;
+                }
+            }
+        });
+    }
+
+    $scope.openDrawingsList = function (orderid) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: root + 'Scripts/js/ng-templates/drawings-list-template.html',
+            controller: 'DrawingsListCtrl',
+            size: 'lg',
+            resolve: {
+                orderid: function () {
+                    return orderid;
+                }
+            }
+        });
+    }
+
 });
 
 myApp.controller('ViewRequestCtrl', function ($scope, $uibModalInstance, toaster, $ngConfirm, request) {

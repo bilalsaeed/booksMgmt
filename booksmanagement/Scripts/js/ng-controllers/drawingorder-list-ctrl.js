@@ -252,7 +252,7 @@ myApp.controller('SubmitOrderCtrl',
             restrictions:
             {
                 maxNumberOfFiles:
-                    1,
+                    5,
                 allowedFileTypes:
                     ['image/*']
             }

@@ -46,7 +46,8 @@
                                     <td>
                                         {{order.CarPart.Name}}
                                         <span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span>
-                                        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+                                        <span ng-if="order.CarPart">({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})</span>
+                                        <span ng-if="!order.CarPart">{{order.Car.CarBrand.Name}} {{order.Car.Name}}</span>
                                     </td>
                                     <td>
                                         <label ng-if="order.DrawingRejected && !order.IsApproved" class="badge badge-inverse-danger">Rejected</label>
@@ -87,7 +88,8 @@
                                     <td>
                                         {{order.CarPart.Name}}
                                         <span ng-if="order.CarPartComponent"> > {{order.CarPartComponent.Name}}</span>
-                                        ({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})
+                                        <span ng-if="order.CarPart">({{order.CarPart.Car.CarBrand.Name}} {{order.CarPart.Car.Name}})</span>
+                                        <span ng-if="!order.CarPart">{{order.Car.CarBrand.Name}} {{order.Car.Name}}</span>
                                     </td>
                                     <td>
                                         <label ng-if="order.DrawingRejected && !order.IsApproved" class="badge badge-inverse-danger">Rejected</label>

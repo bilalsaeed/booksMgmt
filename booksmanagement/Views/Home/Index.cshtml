@@ -110,57 +110,57 @@
         </div>
     </div>
 
-
-    @if (!User.IsInRole(booksmanagement.Helpers.RoleName.Drawer))
-    {
-        <div class="col-xl-4 col-md-12">
-            <div class="card prod-p-card card-red cursor-pointer" ng-if="!dashboardItems.showDrawingOrderTree"
-                 ng-click="dashboardItems.showDrawingOrderTree = !dashboardItems.showDrawingOrderTree">
-                <div class="card-body">
-                    <div class="row align-items-center m-b-30">
-                        <div class="col">
-                            <h6 class="m-b-5 text-white"></h6>
-                            <h3 class="m-b-0 f-w-700 text-white">Drawing Order</h3>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fa fa-object-ungroup text-c-red f-18"></i>
-                        </div>
+    @* Documents *@
+    <div class="col-xl-4 col-md-12">
+        <div class="card prod-p-card card-blue cursor-pointer" ng-if="!dashboardItems.showBookBorrowTree"
+             ng-click="dashboardItems.showBookBorrowTree = !dashboardItems.showBookBorrowTree">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Documents</h3>
                     </div>
-                    <p class="m-b-0 text-white">Create a new drawing order</p>
+                    <div class="col-auto">
+                        <i class="fa fa-book text-c-blue f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Create a book borrow request</p>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="!carBookTree && dashboardItems.showBookBorrowTree">
+            <div class="card-block tree-loader">
+                <span>
+                    <i class="fa fa-spinner fa-spin"></i> Loading please wait...
+                </span>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="carBookTree && dashboardItems.showBookBorrowTree" style="font-size:12px">
+            <div class="card-header">
+                <h5>Borrow a book</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showBookBorrowTree = !dashboardItems.showBookBorrowTree"></i>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="card table-card" ng-if="!carTree && dashboardItems.showDrawingOrderTree">
-                <div class="card-block tree-loader">
-                    <span>
-                        <i class="fa fa-spinner fa-spin"></i> Loading please wait...
-                    </span>
-                </div>
-            </div>
-            <div class="card table-card" ng-if="carTree && dashboardItems.showDrawingOrderTree" style="font-size:12px">
-                <div class="card-header">
-                    <h5>Create a drawing order</h5>
-                    <div class="card-header-right">
-                        <ul class="list-unstyled card-option" style="width: 30px;">
-                            <li class="first-opt" style="">
-                                <i class="fa fa-times" ng-click="dashboardItems.showDrawingOrderTree = !dashboardItems.showDrawingOrderTree"></i>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card-block">
-                    <div data-angular-treeview="false"
-                         data-tree-id="myCarTree"
-                         data-tree-model="carTree.CarBrands"
-                         data-node-id="Id"
-                         data-node-label="Name"
-                         data-node-template="template"
-                         data-node-children="childerns">
-                    </div>
+            <div class="card-block">
+                <div data-angular-treeview="false"
+                     data-tree-id="myCarTree1"
+                     data-tree-model="carBookTree.CarBrands"
+                     data-node-id="Id"
+                     data-node-label="Name"
+                     data-node-template="template_book"
+                     data-node-children="childerns">
                 </div>
             </div>
         </div>
+    </div>
 
+    @if (!User.IsInRole(booksmanagement.Helpers.RoleName.Drawer))
+    {
+        //Drawings
         <div class="col-xl-4 col-md-12">
             <div class="card prod-p-card card-green cursor-pointer" ng-if="!dashboardItems.showAvailableDrawingOrderTree"
                  ng-click="dashboardItems.showAvailableDrawingOrderTree = !dashboardItems.showAvailableDrawingOrderTree">
@@ -168,7 +168,7 @@
                     <div class="row align-items-center m-b-30">
                         <div class="col">
                             <h6 class="m-b-5 text-white"></h6>
-                            <h3 class="m-b-0 f-w-700 text-white">Available Drawings</h3>
+                            <h3 class="m-b-0 f-w-700 text-white">Drawings</h3>
                         </div>
                         <div class="col-auto">
                             <i class="fa fa-eye text-c-green f-18"></i>
@@ -210,387 +210,153 @@
         </div>
     }
 
-<div class="col-xl-4 col-md-12">
-    <div class="card prod-p-card card-blue cursor-pointer" ng-if="!dashboardItems.showBookBorrowTree"
-         ng-click="dashboardItems.showBookBorrowTree = !dashboardItems.showBookBorrowTree">
-        <div class="card-body">
-            <div class="row align-items-center m-b-30">
-                <div class="col">
-                    <h6 class="m-b-5 text-white"></h6>
-                    <h3 class="m-b-0 f-w-700 text-white">Borrow Book</h3>
+    @* Search *@
+    <div class="col-xl-4 col-md-12">
+        <div class="card prod-p-card card-green cursor-pointer" ng-if="!dashboardItems.showAllBooks"
+             ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Search</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-search text-c-green f-18"></i>
+                    </div>
                 </div>
-                <div class="col-auto">
-                    <i class="fa fa-pencil-square-o text-c-blue f-18"></i>
-                </div>
-            </div>
-            <p class="m-b-0 text-white">Create a book borrow request</p>
-        </div>
-    </div>
-    <div class="card table-card" ng-if="!carBookTree && dashboardItems.showBookBorrowTree">
-        <div class="card-block tree-loader">
-            <span>
-                <i class="fa fa-spinner fa-spin"></i> Loading please wait...
-            </span>
-        </div>
-    </div>
-    <div class="card table-card" ng-if="carBookTree && dashboardItems.showBookBorrowTree" style="font-size:12px">
-        <div class="card-header">
-            <h5>Borrow a book</h5>
-            <div class="card-header-right">
-                <ul class="list-unstyled card-option" style="width: 30px;">
-                    <li class="first-opt" style="">
-                        <i class="fa fa-times" ng-click="dashboardItems.showBookBorrowTree = !dashboardItems.showBookBorrowTree"></i>
-                    </li>
-                </ul>
+                <p class="m-b-0 text-white">Search a book from list</p>
             </div>
         </div>
-        <div class="card-block">
-            <div data-angular-treeview="false"
-                 data-tree-id="myCarTree1"
-                 data-tree-model="carBookTree.CarBrands"
-                 data-node-id="Id"
-                 data-node-label="Name"
-                 data-node-template="template_book"
-                 data-node-children="childerns">
+        <div class="card table-card" ng-if="!allBooks && dashboardItems.showAllBooks">
+            <div class="card-block tree-loader">
+                <span>
+                    <i class="fa fa-spinner fa-spin"></i> Loading please wait...
+                </span>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="col-xl-4 col-md-12">
-    <div class="card prod-p-card card-green cursor-pointer" ng-if="!dashboardItems.showAllBooks"
-         ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks">
-        <div class="card-body">
-            <div class="row align-items-center m-b-30">
-                <div class="col">
-                    <h6 class="m-b-5 text-white"></h6>
-                    <h3 class="m-b-0 f-w-700 text-white">All Books</h3>
-                </div>
-                <div class="col-auto">
-                    <i class="fa fa-search text-c-green f-18"></i>
-                </div>
+        <div class="card table-card" ng-if="allBooks && dashboardItems.showAllBooks">
+            <div class="card-header">
+                <h5>All books</h5>
+                <i class="fa fa-times cursor-pointer pull-right ml-2" ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks"></i>
+                <input type="text" class="pull-right" ng-model="bookQuery" placeholder="Search book..." />
             </div>
-            <p class="m-b-0 text-white">Search a book from list</p>
-        </div>
-    </div>
-    <div class="card table-card" ng-if="!allBooks && dashboardItems.showAllBooks">
-        <div class="card-block tree-loader">
-            <span>
-                <i class="fa fa-spinner fa-spin"></i> Loading please wait...
-            </span>
-        </div>
-    </div>
-    <div class="card table-card" ng-if="allBooks && dashboardItems.showAllBooks">
-        <div class="card-header">
-            <h5>All books</h5>
-            <i class="fa fa-times cursor-pointer pull-right ml-2" ng-click="dashboardItems.showAllBooks = !dashboardItems.showAllBooks"></i>
-            <input type="text" class="pull-right" ng-model="bookQuery" placeholder="Search book..." />
-        </div>
-        <div class="card-block" style="max-height:300px; overflow-y:scroll">
-            <div class="table-responsive">
-                <table class="table table-hover m-b-0 without-header">
-                    <tbody>
-                        <tr ng-repeat="book in allBooks | filter: bookQuery">
-                            <td>
-                                <div class="d-inline-block align-middle w-100">
-                                    <div class="d-inline-block w-100">
-                                        <h6>{{book.Title}}</h6>
-                                        <p class="text-muted m-b-0">
-                                            {{book.Car.Name}}
-                                            {{book.CarPart.Name}}
-                                            <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
-                                            <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
-                                        </p>
-                                        <p class="m-b-0 text-right">
-                                            <label ng-if="book.TypeId == 1" class="badge badge-inverse-success">Soft Copy</label>
-                                            <label ng-if="book.TypeId == 2" class="badge badge-inverse-primary">Hard Copy</label>
-                                        </p>
-                                        <p class="m-b-0 text-right">
-                                            <a href="~/BookBorrow?bookId={{book.Id}}" target="_blank"
-                                               ng-if="book.TypeId == 2 && book.Quantity>0 && book.IsActive"
-                                               title="Borrow book" class="text-primary">
-                                                <i class="fa fa-external-link-square"></i>
-                                            </a>
-                                            <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookSoftCopy&&BookId={{book.Id}}"
-                                               ng-if="book.TypeId == 1"
-                                               title="Download book" class="text-success">
-                                                <i class="fa fa-download"></i>
-                                            </a>
-                                            <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{book.Id}}&&SoftBookId={{book.Id}}"
-                                               title="Part code paper" class="text-info">
-                                                <i class="fa fa-file-text-o"></i>
-                                            </a>
-                                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                                            {
-                                                <a href="~/Books/Edit/{{book.Id}}" target="_blank"
-                                                   title="Edit book" class="text-info">
-                                                    <i class="fa fa-pencil"></i>
+            <div class="card-block" style="max-height:300px; overflow-y:scroll">
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0 without-header">
+                        <tbody>
+                            <tr ng-repeat="book in allBooks | filter: bookQuery">
+                                <td>
+                                    <div class="d-inline-block align-middle w-100">
+                                        <div class="d-inline-block w-100">
+                                            <h6>{{book.Title}}</h6>
+                                            <p class="text-muted m-b-0">
+                                                {{book.Car.Name}}
+                                                {{book.CarPart.Name}}
+                                                <span ng-if="book.CarPartComponent">>{{book.CarPartComponent.Name}}</span>
+                                                <span ng-if="book.CarPartComponentDesc">>{{book.CarPartComponentDesc.Name}}</span>
+                                            </p>
+                                            <p class="m-b-0 text-right">
+                                                <label ng-if="book.TypeId == 1" class="badge badge-inverse-success">Soft Copy</label>
+                                                <label ng-if="book.TypeId == 2" class="badge badge-inverse-primary">Hard Copy</label>
+                                            </p>
+                                            <p class="m-b-0 text-right">
+                                                <a href="~/BookBorrow?bookId={{book.Id}}" target="_blank"
+                                                   ng-if="book.TypeId == 2 && book.Quantity>0 && book.IsActive"
+                                                   title="Borrow book" class="text-primary">
+                                                    <i class="fa fa-external-link-square"></i>
                                                 </a>
-                                            }
-                                        </p>
+                                                <a href="javascript:void(0)" ng-click="openBooksList(book.Id)"
+                                                   ng-if="book.TypeId == 1"
+                                                   title="Download book" class="text-success">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                                <a href="~/HttpHandlers/FileRequestHandler.ashx?Type=GetBookPartCode&&BookId={{book.Id}}&&SoftBookId={{book.Id}}"
+                                                   title="Part code paper" class="text-info">
+                                                    <i class="fa fa-file-text-o"></i>
+                                                </a>
+                                                @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                                                {
+                                                    <a href="~/Books/Edit/{{book.Id}}" target="_blank"
+                                                       title="Edit book" class="text-info">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                }
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="col-xl-4 col-md-12">
-    <div class="card prod-p-card card-yellow cursor-pointer" ng-if="!dashboardItems.showArchivedBookBorrowTree"
-         ng-click="dashboardItems.showArchivedBookBorrowTree = !dashboardItems.showArchivedBookBorrowTree">
-        <div class="card-body">
-            <div class="row align-items-center m-b-30">
-                <div class="col">
-                    <h6 class="m-b-5 text-white"></h6>
-                    <h3 class="m-b-0 f-w-700 text-white">Archived Books</h3>
-                </div>
-                <div class="col-auto">
-                    <i class="fa fa-pencil-square-o text-c-yellow f-18"></i>
-                </div>
-            </div>
-            <p class="m-b-0 text-white">Create a book borrow request</p>
-        </div>
-    </div>
-    <div class="card table-card" ng-if="!carArchivedBookTree && dashboardItems.showArchivedBookBorrowTree">
-        <div class="card-block tree-loader">
-            <span>
-                <i class="fa fa-spinner fa-spin"></i> Loading please wait...
-            </span>
-        </div>
-    </div>
-    <div class="card table-card" ng-if="carArchivedBookTree && dashboardItems.showArchivedBookBorrowTree" style="font-size:12px">
-        <div class="card-header">
-            <h5>Borrow a book</h5>
-            <div class="card-header-right">
-                <ul class="list-unstyled card-option" style="width: 30px;">
-                    <li class="first-opt" style="">
-                        <i class="fa fa-times" ng-click="dashboardItems.showArchivedBookBorrowTree = !dashboardItems.showArchivedBookBorrowTree"></i>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="card-block">
-            <div data-angular-treeview="false"
-                 data-tree-id="myCarTree2"
-                 data-tree-model="carArchivedBookTree.CarBrands"
-                 data-node-id="Id"
-                 data-node-label="Name"
-                 data-node-template="template_book"
-                 data-node-children="childerns">
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div class="col-xl-4 col-md-12" ng-if="pendingRequests.length>0">
-        <div class="card prod-p-card card-danger cursor-pointer" ng-if="!dashboardItems.showPendingRequests"
-             ng-click="dashboardItems.showPendingRequests = !dashboardItems.showPendingRequests">
-            <div class="card-body">
-                <div class="row align-items-center m-b-30">
-                    <div class="col">
-                        <h6 class="m-b-5 text-white"></h6>
-                        <h3 class="m-b-0 f-w-700 text-white">Book Requests</h3>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa fa-list-ul text-c-red f-18"></i>
-                    </div>
-                </div>
-                <p class="m-b-0 text-white">Pending book requests at your end</p>
-            </div>
-        </div>
-        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showPendingRequests">
-            <div class="card-header">
-                <h5>Pending book requests</h5>
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option" style="width: 30px;">
-                        <li class="first-opt" style="">
-                            <i class="fa fa-times" ng-click="dashboardItems.showPendingRequests = !dashboardItems.showPendingRequests"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-                <div class="table-responsive">
-                    <table class="table table-hover m-b-0">
-                        <thead>
-                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                            {
-                                <tr>
-                                    <th>Applicant</th>
-                                    <th>Book</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr>
-                                    <th>Book</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            }
-
-                        </thead>
-                        <tbody>
-                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                            {
-                                <tr ng-repeat="request in pendingRequests">
-                                    <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
-                                    <td>{{request.Book.Title}}</td>
-                                    <td>
-                                        <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
-                                        <label ng-if="request.Status != 1" class="badge badge-inverse-primary">Other</label>
-                                    </td>
-                                    <td>
-                                        <a href="#" title="Approve" ng-click="approveBookRequest(request.Id)" data-toggle="tooltip" data-placement="top" data-trigger="hover">
-                                            <i class="fa fa-check text-c-green"></i>
-                                        </a>
-                                        <a href="#" title="View detail" ng-click="openApproveRequestModal(request)" data-toggle="tooltip" data-placement="top" data-trigger="hover">
-                                            <i class="fa fa-eye text-c-blue"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr ng-repeat="request in pendingRequests">
-                                    <td>{{request.Book.Title}}</td>
-                                    <td>
-                                        <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
-                                        <label ng-if="request.Status != 1" class="badge badge-inverse-primary">Other</label>
-                                    </td>
-                                    <td>
-                                        <a href="#" title="View detail" ng-click="openViewRequestModal(request)" data-toggle="tooltip" data-placement="top" data-trigger="hover">
-                                            <i class="fa fa-eye text-c-blue"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
 
-
-    <div class="col-xl-4 col-md-12" ng-if="grantedRequests.length>0">
-        <div class="card prod-p-card card-yellow cursor-pointer" ng-if="!dashboardItems.showGrantedRequests"
-             ng-click="dashboardItems.showGrantedRequests = !dashboardItems.showGrantedRequests">
-            <div class="card-body">
-                <div class="row align-items-center m-b-30">
-                    <div class="col">
-                        <h6 class="m-b-5 text-white"></h6>
-                        <h3 class="m-b-0 f-w-700 text-white">Books Granted</h3>
+    @if (!User.IsInRole(booksmanagement.Helpers.RoleName.Drawer))
+    {
+        //Create Drawing
+        <div class="col-xl-4 col-md-12">
+            <div class="card prod-p-card card-red cursor-pointer" ng-if="!dashboardItems.showDrawingOrderTree"
+                 ng-click="dashboardItems.showDrawingOrderTree = !dashboardItems.showDrawingOrderTree">
+                <div class="card-body">
+                    <div class="row align-items-center m-b-30">
+                        <div class="col">
+                            <h6 class="m-b-5 text-white"></h6>
+                            <h3 class="m-b-0 f-w-700 text-white">Create Drawing</h3>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-object-ungroup text-c-red f-18"></i>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fa fa-history text-c-yellow f-18"></i>
-                    </div>
+                    <p class="m-b-0 text-white">Create a new drawing order</p>
                 </div>
-                <p class="m-b-0 text-white">
-                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                    {
-                        <span>Books need to be collected</span>
-                    }
-                    else
-                    {
-                        <span>Books need to be returned</span>
-                    }
-                </p>
             </div>
-        </div>
-        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showGrantedRequests">
-            <div class="card-header">
+            <div class="card table-card" ng-if="!carTree && dashboardItems.showDrawingOrderTree">
+                <div class="card-block tree-loader">
+                    <span>
+                        <i class="fa fa-spinner fa-spin"></i> Loading please wait...
+                    </span>
+                </div>
+            </div>
+            <div class="card table-card" ng-if="carTree && dashboardItems.showDrawingOrderTree" style="font-size:12px">
                 <div class="card-header">
-                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                    {
-                        <h5>Books need to be collected</h5>
-                    }
-                    else
-                    {
-                        <h5>Books need to be returned</h5>
-                    }
-
+                    <h5>Create a drawing order</h5>
+                    <div class="card-header-right">
+                        <ul class="list-unstyled card-option" style="width: 30px;">
+                            <li class="first-opt" style="">
+                                <i class="fa fa-times" ng-click="dashboardItems.showDrawingOrderTree = !dashboardItems.showDrawingOrderTree"></i>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="card-header-right">
-                    <ul class="list-unstyled card-option" style="width: 30px;">
-                        <li class="first-opt" style="">
-                            <i class="fa fa-times" ng-click="dashboardItems.showGrantedRequests = !dashboardItems.showGrantedRequests"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-block">
-                <div class="table-responsive">
-                    <table class="table table-hover m-b-0">
-                        <thead>
-                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                            {
-                                <tr>
-                                    <th>Applicant</th>
-                                    <th>Book</th>
-                                    <th>Date</th>
-                                    <th></th>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr>
-                                    <th>Book</th>
-                                    <th>Date</th>
-                                </tr>
-                            }
 
-                        </thead>
-                        <tbody>
-                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
-                            {
-                                <tr ng-repeat="request in grantedRequests">
-                                    <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
-                                    <td>{{request.Book.Title}}</td>
-                                    <td>
-                                        {{request.FromDate | date : 'dd-MMM-yyyy'}} - <br />{{request.ToDate | date : 'dd-MMM-yyyy'}}
-                                    </td>
-                                    <td>
-                                        <a href="#" ng-if="request.Status == 3" title="Collect book" ng-click="collectBook(request.Id)">
-                                            <i class="fa fa-history text-c-blue"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr ng-repeat="request in grantedRequests">
-                                    <td>{{request.Book.Title}}</td>
-                                    <td>
-                                        {{request.FromDate | date : 'dd-MMM-yyyy'}} - {{request.ToDate | date : 'dd-MMM-yyyy'}}
-                                    </td>
-                                </tr>
-                            }
-
-                        </tbody>
-                    </table>
+                <div class="card-block">
+                    <div data-angular-treeview="false"
+                         data-tree-id="myCarTree"
+                         data-tree-model="carTree.CarBrands"
+                         data-node-id="Id"
+                         data-node-label="Name"
+                         data-node-template="template"
+                         data-node-children="childerns">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 
 
+    @* Drawing job order *@
     <div class="col-xl-4 col-md-12" ng-if="pendingDrawingOrders.length>0">
+
         <div class="card prod-p-card card-success cursor-pointer" ng-if="!dashboardItems.showPendingDrawingOrders"
              ng-click="dashboardItems.showPendingDrawingOrders = !dashboardItems.showPendingDrawingOrders">
             <div class="card-body">
                 <div class="row align-items-center m-b-30">
                     <div class="col">
                         <h6 class="m-b-5 text-white"></h6>
-                        <h3 class="m-b-0 f-w-700 text-white">Drawing Orders</h3>
+                        <h3 class="m-b-0 f-w-700 text-white">Drawing job order</h3>
                     </div>
                     <div class="col-auto">
                         <i class="fa fa-check text-c-green f-18"></i>
@@ -711,6 +477,252 @@
         </div>
     </div>
 
+    @* Archived *@
+    <div class="col-xl-4 col-md-12">
+        <div class="card prod-p-card card-yellow cursor-pointer" ng-if="!dashboardItems.showArchivedBookBorrowTree"
+             ng-click="dashboardItems.showArchivedBookBorrowTree = !dashboardItems.showArchivedBookBorrowTree">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Archived</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-pencil-square-o text-c-yellow f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Create a book borrow request</p>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="!carArchivedBookTree && dashboardItems.showArchivedBookBorrowTree">
+            <div class="card-block tree-loader">
+                <span>
+                    <i class="fa fa-spinner fa-spin"></i> Loading please wait...
+                </span>
+            </div>
+        </div>
+        <div class="card table-card" ng-if="carArchivedBookTree && dashboardItems.showArchivedBookBorrowTree" style="font-size:12px">
+            <div class="card-header">
+                <h5>Borrow a book</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showArchivedBookBorrowTree = !dashboardItems.showArchivedBookBorrowTree"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div data-angular-treeview="false"
+                     data-tree-id="myCarTree2"
+                     data-tree-model="carArchivedBookTree.CarBrands"
+                     data-node-id="Id"
+                     data-node-label="Name"
+                     data-node-template="template_book"
+                     data-node-children="childerns">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Book Requests *@
+    <div class="col-xl-4 col-md-12" ng-if="pendingRequests.length>0">
+        <div class="card prod-p-card card-danger cursor-pointer" ng-if="!dashboardItems.showPendingRequests"
+             ng-click="dashboardItems.showPendingRequests = !dashboardItems.showPendingRequests">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Book Requests</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-list-ul text-c-red f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">Pending book requests at your end</p>
+            </div>
+        </div>
+        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showPendingRequests">
+            <div class="card-header">
+                <h5>Pending book requests</h5>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showPendingRequests = !dashboardItems.showPendingRequests"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0">
+                        <thead>
+                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                            {
+                                <tr>
+                                    <th>Applicant</th>
+                                    <th>Book</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            }
+
+                        </thead>
+                        <tbody>
+                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                            {
+                                <tr ng-repeat="request in pendingRequests">
+                                    <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
+                                    <td>{{request.Book.Title}}</td>
+                                    <td>
+                                        <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
+                                        <label ng-if="request.Status != 1" class="badge badge-inverse-primary">Other</label>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="Approve" ng-click="approveBookRequest(request.Id)" data-toggle="tooltip" data-placement="top" data-trigger="hover">
+                                            <i class="fa fa-check text-c-green"></i>
+                                        </a>
+                                        <a href="#" title="View detail" ng-click="openApproveRequestModal(request)" data-toggle="tooltip" data-placement="top" data-trigger="hover">
+                                            <i class="fa fa-eye text-c-blue"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr ng-repeat="request in pendingRequests">
+                                    <td>{{request.Book.Title}}</td>
+                                    <td>
+                                        <label ng-if="request.Status == 1" class="badge badge-inverse-primary">Pending</label>
+                                        <label ng-if="request.Status != 1" class="badge badge-inverse-primary">Other</label>
+                                    </td>
+                                    <td>
+                                        <a href="#" title="View detail" ng-click="openViewRequestModal(request)" data-toggle="tooltip" data-placement="top" data-trigger="hover">
+                                            <i class="fa fa-eye text-c-blue"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Books Granted *@
+    <div class="col-xl-4 col-md-12" ng-if="grantedRequests.length>0">
+        <div class="card prod-p-card card-yellow cursor-pointer" ng-if="!dashboardItems.showGrantedRequests"
+             ng-click="dashboardItems.showGrantedRequests = !dashboardItems.showGrantedRequests">
+            <div class="card-body">
+                <div class="row align-items-center m-b-30">
+                    <div class="col">
+                        <h6 class="m-b-5 text-white"></h6>
+                        <h3 class="m-b-0 f-w-700 text-white">Books Granted</h3>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-history text-c-yellow f-18"></i>
+                    </div>
+                </div>
+                <p class="m-b-0 text-white">
+                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                    {
+                        <span>Books need to be collected</span>
+                    }
+                    else
+                    {
+                        <span>Books need to be returned</span>
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="card table-card" style="font-size:12px" ng-if="dashboardItems.showGrantedRequests">
+            <div class="card-header">
+                <div class="card-header">
+                    @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                    {
+                        <h5>Books need to be collected</h5>
+                    }
+                    else
+                    {
+                        <h5>Books need to be returned</h5>
+                    }
+
+                </div>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option" style="width: 30px;">
+                        <li class="first-opt" style="">
+                            <i class="fa fa-times" ng-click="dashboardItems.showGrantedRequests = !dashboardItems.showGrantedRequests"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0">
+                        <thead>
+                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                            {
+                                <tr>
+                                    <th>Applicant</th>
+                                    <th>Book</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Date</th>
+                                </tr>
+                            }
+
+                        </thead>
+                        <tbody>
+                            @if (@User.IsInRole(booksmanagement.Helpers.RoleName.Admin))
+                            {
+                                <tr ng-repeat="request in grantedRequests">
+                                    <td>{{request.Applicant.FirstName}} {{request.Applicant.LastName}}</td>
+                                    <td>{{request.Book.Title}}</td>
+                                    <td>
+                                        {{request.FromDate | date : 'dd-MMM-yyyy'}} - <br />{{request.ToDate | date : 'dd-MMM-yyyy'}}
+                                    </td>
+                                    <td>
+                                        <a href="#" ng-if="request.Status == 3" title="Collect book" ng-click="collectBook(request.Id)">
+                                            <i class="fa fa-history text-c-blue"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr ng-repeat="request in grantedRequests">
+                                    <td>{{request.Book.Title}}</td>
+                                    <td>
+                                        {{request.FromDate | date : 'dd-MMM-yyyy'}} - {{request.ToDate | date : 'dd-MMM-yyyy'}}
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 </div>
 
@@ -718,4 +730,6 @@
 @section Scripts {
     <script src="~/Scripts/js/ng-controllers/home-ctrl.js"></script>
     <script src="~/Scripts/js/ng-controllers/drawingorder-list-ctrl.js"></script>
+    <script src="~/Scripts/js/ng-controllers/books-list-ctrl.js"></script>
+    <script src="~/Scripts/js/ng-controllers/drawings-list-ctrl.js"></script>
 }

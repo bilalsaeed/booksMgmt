@@ -82,7 +82,7 @@ namespace booksmanagement.Controllers.api
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                FullName = u.FirstName +" "+ u.LastName
+                FullName = u.FirstName + " " + u.LastName
             });
         }
 
@@ -97,6 +97,16 @@ namespace booksmanagement.Controllers.api
             }
 
             return Ok(book);
+        }
+
+
+        [HttpGet]
+        public async Task<IHttpActionResult> GetBookSoftFiles(int id)
+        {
+            var fileObj = await db.BookMediaFiles.Where(b => b.BookId == id && b.Type == "S")
+                .Select(b => new { Id= b.Id, FileName= b.FileName }).ToListAsync();
+            
+            return Ok(fileObj);
         }
 
         // PUT: api/Books/5
@@ -126,7 +136,7 @@ namespace booksmanagement.Controllers.api
                 {
                     return NotFound();
                 }
-                
+
                 if (ex.InnerException.InnerException.Message.ToLower().Contains("cannot insert duplicate key row in object"))
                     return BadRequest("Book already exists for this");
                 else
@@ -198,9 +208,9 @@ namespace booksmanagement.Controllers.api
 
                 return CreatedAtRoute("DefaultApi", new { id = book.Id, softId = softBookId, hardId = hardBookId }, new { id = book.Id, softId = softBookId, hardId = hardBookId });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(ex.InnerException.InnerException.Message.ToLower().Contains("cannot insert duplicate key row in object"))
+                if (ex.InnerException.InnerException.Message.ToLower().Contains("cannot insert duplicate key row in object"))
                     return BadRequest("Book already exists for this");
                 else
                     return BadRequest(ex.Message);
@@ -304,7 +314,7 @@ namespace booksmanagement.Controllers.api
         //    {
         //        return new HttpResponseMessage(HttpStatusCode.NotFound);
         //    }
-            
+
         //}
 
         //[System.Web.Http.HttpGet]
