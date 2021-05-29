@@ -14,9 +14,10 @@ namespace booksmanagement.Models
         public int CarId { get; set; }
         public CarPartType CarPartType { get; set; }
         public int CarPartTypeId { get; set; }
-        public DrawingFiles DrawingFiles { get; set; }
-        public int? DrawingFilesId { get; set; }
+        //public DrawingFiles DrawingFiles { get; set; }
+        //public int? DrawingFilesId { get; set; }
         public int? DrawingOrderId { get; set; }
+        public bool IsDrawingAvailable { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

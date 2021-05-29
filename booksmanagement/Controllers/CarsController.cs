@@ -56,32 +56,55 @@ namespace booksmanagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Request.Files.Count > 0)
-                {
-                    var file = Request.Files[0];
-
-                    if (file != null && file.ContentLength > 0)
-                    {
-                        string fileName = file.FileName;
-                        string fileExtension = file.ContentType;
-
-                        BinaryReader b = new BinaryReader(file.InputStream);
-
-                        GeneralMediaFile mediaFile = new GeneralMediaFile();
-                        mediaFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
-                        mediaFile.FileName = fileName;
-                        mediaFile.FileType = fileExtension;
-                        //mediaFile.Type = "P";
-                        mediaFile.FileSize = file.ContentLength;
-                        db.GeneralMediaFiles.Add(mediaFile);
-                        db.SaveChanges();
-
-                        car.MaintenancePlanId = mediaFile.Id;
-                    }
-                }
 
                 db.Cars.Add(car);
                 await db.SaveChangesAsync();
+
+                if (Request.Files.Count > 0)
+                {
+                    var files = Request.Files;
+                    //var file = Request.Files[0];
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        var file = files[i];
+                        //file.
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            string fileName = file.FileName;
+                            string fileExtension = file.ContentType;
+
+                            BinaryReader b = new BinaryReader(file.InputStream);
+
+                            if (files.GetKey(i) == "file")
+                            {
+                                GeneralMediaFile mediaFile = new GeneralMediaFile();
+                                mediaFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                                mediaFile.FileName = fileName;
+                                mediaFile.FileType = fileExtension;
+                                //mediaFile.Type = "P";
+                                mediaFile.FileSize = file.ContentLength;
+                                db.GeneralMediaFiles.Add(mediaFile);
+                                db.SaveChanges();
+                                car.MaintenancePlanId = mediaFile.Id;
+                            }
+                            else if (files.GetKey(i) == "Drawingfile")
+                            {
+                                DrawingFiles drawingFile = new DrawingFiles();
+                                drawingFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                                drawingFile.FileName = fileName;
+                                drawingFile.FileType = fileExtension;
+                                drawingFile.Type = "P";
+                                drawingFile.FileSize = file.ContentLength;
+                                drawingFile.CarId = car.Id;
+                                db.DrawingFiles.Add(drawingFile);
+                                car.IsDrawingAvailable = true;
+                            }
+
+                        }
+                    }
+                    db.SaveChanges();
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -110,39 +133,64 @@ namespace booksmanagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarBrandId,Class,CreatedAt,IsArchived")] Car car)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,CarBrandId,Class,CreatedAt,IsArchived,MaintenancePlanId,IsDrawingAvailable")] Car car)
         {
             if (ModelState.IsValid)
             {
                 if (Request.Files.Count > 0)
                 {
-                    var file = Request.Files[0];
-
-                    if (file != null && file.ContentLength > 0)
+                    bool drawingsFound = false;
+                    var oldDrawings = db.DrawingFiles.Where(d => d.CarId == car.Id).ToList();
+                    var files = Request.Files;
+                    //var file = Request.Files[0];
+                    for (int i = 0; i < files.Count; i++)
                     {
-                        string fileName = file.FileName;
-                        string fileExtension = file.ContentType;
-
-                        BinaryReader b = new BinaryReader(file.InputStream);
-
-                        GeneralMediaFile mediaFile = new GeneralMediaFile();
-                        mediaFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
-                        mediaFile.FileName = fileName;
-                        mediaFile.FileType = fileExtension;
-                        //mediaFile.Type = "P";
-                        mediaFile.FileSize = file.ContentLength;
-                        db.GeneralMediaFiles.Add(mediaFile);
-                        db.SaveChanges();
-
-                        if(car.MaintenancePlanId != null)
+                        var file = files[i];
+                        //file.
+                        if (file != null && file.ContentLength > 0)
                         {
-                            var oldFile = db.GeneralMediaFiles.Where(f => f.Id == car.MaintenancePlanId).FirstOrDefault();
-                            if (oldFile != null)
-                                db.GeneralMediaFiles.Remove(oldFile);
-                        }
+                            string fileName = file.FileName;
+                            string fileExtension = file.ContentType;
 
-                        car.MaintenancePlanId = mediaFile.Id;
+                            BinaryReader b = new BinaryReader(file.InputStream);
+
+                            if (files.GetKey(i) == "file")
+                            {
+                                GeneralMediaFile mediaFile = new GeneralMediaFile();
+                                mediaFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                                mediaFile.FileName = fileName;
+                                mediaFile.FileType = fileExtension;
+                                //mediaFile.Type = "P";
+                                mediaFile.FileSize = file.ContentLength;
+                                db.GeneralMediaFiles.Add(mediaFile);
+                                db.SaveChanges();
+                                if (car.MaintenancePlanId != null)
+                                {
+                                    var oldFile = db.GeneralMediaFiles.Where(f => f.Id == car.MaintenancePlanId).FirstOrDefault();
+                                    if (oldFile != null)
+                                        db.GeneralMediaFiles.Remove(oldFile);
+                                }
+                                car.MaintenancePlanId = mediaFile.Id;
+                            }
+                            else if (files.GetKey(i) == "Drawingfile")
+                            {
+                                drawingsFound = true;
+                                DrawingFiles drawingFile = new DrawingFiles();
+                                drawingFile.File = b.ReadBytes(int.Parse(file.InputStream.Length.ToString()));
+                                drawingFile.FileName = fileName;
+                                drawingFile.FileType = fileExtension;
+                                drawingFile.Type = "P";
+                                drawingFile.FileSize = file.ContentLength;
+                                drawingFile.CarId = car.Id;
+                                db.DrawingFiles.Add(drawingFile);
+                                car.IsDrawingAvailable = true;
+                            }
+
+                        }
                     }
+                    if(drawingsFound)
+                        db.DrawingFiles.RemoveRange(oldDrawings);
+
                 }
 
                 db.Entry(car).State = EntityState.Modified;

@@ -356,15 +356,33 @@ myApp.controller('HomeCtrl', function ($scope, $filter, $http, $uibModal, toaste
         });
     }
 
-    $scope.openDrawingsList = function (orderid) {
+    $scope.openDrawingsList = function (node) {
+        console.log(node);
+        var carId = 0;
+        var carPartId = 0;
+        var carPartCompId = 0;
+        if (node.car)
+            carId = node.Id;
+        else if (node.carPart)
+            carPartId = node.Id
+        else if (node.carPartComp)
+            carPartCompId = node.Id
+
+
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: root + 'Scripts/js/ng-templates/drawings-list-template.html',
             controller: 'DrawingsListCtrl',
             size: 'lg',
             resolve: {
-                orderid: function () {
-                    return orderid;
+                carId: function () {
+                    return carId;
+                },
+                carPartId: function () {
+                    return carPartId;
+                },
+                carPartCompId: function () {
+                    return carPartCompId;
                 }
             }
         });

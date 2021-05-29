@@ -76,7 +76,7 @@ namespace booksmanagement.HttpHandlers
                         db.BookMediaFiles.Add(bookFile);
 
                         var book = db.Books.Where(bk => bk.Id == bookId).FirstOrDefault();
-                        if(book != null)
+                        if (book != null)
                         {
                             book.PartCodeAvailable = true;
                         }
@@ -284,7 +284,9 @@ namespace booksmanagement.HttpHandlers
                         {
                             drawingOrderId = int.Parse(id);
                         }
-                        
+                        DrawingOrder drawingOrder = db.DrawingOrders.Find(id);
+
+
                         string sessionId = context.Request.QueryString["SessionId"];
                         //HttpPostedFile file = context.Request.Files[0];
                         HttpFileCollection files = context.Request.Files;
@@ -305,8 +307,15 @@ namespace booksmanagement.HttpHandlers
                             drawingFile.File = binData;
                             drawingFile.FileName = fileName;
                             drawingFile.FileType = fileExtension;
-                            if (drawingOrderId != 0)
-                                drawingFile.DrawingOrderId = drawingOrderId;
+                            //if (drawingOrderId != 0)
+                            //    drawingFile.DrawingOrderId = drawingOrderId;
+                            if (drawingOrder.CarPartComponentId != null || drawingOrder.CarPartComponentId != 0)
+                                drawingFile.CarPartComponentId = drawingOrder.CarPartComponentId;
+                            else if (drawingOrder.CarPartId != null || drawingOrder.CarPartId != 0)
+                                drawingFile.CarPartId = drawingOrder.CarPartId;
+                            else if (drawingOrder.CarId != null || drawingOrder.CarId != 0)
+                                drawingFile.CarId = drawingOrder.CarId;
+
                             drawingFile.Type = "P";
                             drawingFile.FileSize = file.ContentLength;
                             drawingFile.SessionId = sessionId;
@@ -329,7 +338,7 @@ namespace booksmanagement.HttpHandlers
                         HttpResponse resp = context.Response;
                         resp.ClearHeaders();
                         resp.ClearContent();
-                        if(downloadAble == "Y")
+                        if (downloadAble == "Y")
                             resp.AddHeader("Content-Disposition", "attachment; filename=" + fileObj.FileName);
                         resp.AddHeader("Content-Type", fileObj.FileType);
                         resp.AddHeader("Content-Length", fileObj.FileSize.ToString());

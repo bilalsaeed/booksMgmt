@@ -63,7 +63,7 @@
             <label class="control-label col-md-6">Car part component</label>
             <div class="col-md-12">
                 <select class="form-control custom-select" ng-change="componentSelected()" ng-disabled="form.CarPartComponentDescId"
-                        ng-options="item.Id as item.Name for item in carPartComponents | filter: { CarPartId: !!form.CarPartId?form.CarPartId: undefined }"
+                        ng-options="item.Id as item.Name for item in carPartComponents | filter: carPartComponentsFilter"
                         ng-model="form.CarPartComponentId">
                     <option></option>
                 </select>
@@ -75,7 +75,7 @@
             <label class="control-label col-md-6">Component Description</label>
             <div class="col-md-12">
                 <select class="form-control custom-select" ng-change="componentDescSelected()"
-                        ng-options="item.Id as item.Name for item in carPartComponentDescs | filter: { CarPartComponentId: !!form.CarPartComponentId?form.CarPartComponentId: undefined}"
+                        ng-options="item.Id as item.Name for item in carPartComponentDescs | filter: carPartComponentDescsFilter"
                         ng-model="form.CarPartComponentDescId">
                     <option></option>
                 </select>

@@ -54,10 +54,10 @@
                     '<i class="expanded" data-ng-show="node.' + nodeChildren + '.length && !node.collapsed" data-ng-click="' + treeId + '.selectNodeHead(node)"></i>' +
                     '<i class="normal" data-ng-hide="node.' + nodeChildren + '.length"></i> ' +
                     '<span data-ng-class="node.selected" data-ng-click="' + treeId + '.selectNodeLabel(node)">{{node.' + nodeLabel + '}}</span>' +
-                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.Id}}" data-ng-show="node.car && !node.DrawingOrderId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.CarId}}&part={{node.Id}}" data-ng-show="node.carPart && !node.DrawingOrderId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.CarId}}&part={{node.CarPartId}}&comp={{node.Id}}" data-ng-show="node.carPartComp && !node.DrawingOrderId" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
-                    '<a title="View Drawing" href="javascript:void(0)" ng-click="openDrawingsList(node.DrawingOrderId)" data-ng-show="node.DrawingOrderId" style="padding-left:5px;"><i class="fa fa-eye"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.Id}}" data-ng-show="node.car && !node.IsDrawingAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.CarId}}&part={{node.Id}}" data-ng-show="node.carPart && !node.IsDrawingAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="Create order" href="' + root + 'DrawingOrders/New?car={{node.CarId}}&part={{node.CarPartId}}&comp={{node.Id}}" data-ng-show="node.carPartComp && !node.IsDrawingAvailable" style="padding-left:5px;" target="_blank"><i class="fa fa-external-link-square"></i></a>' +
+                    '<a title="View Drawing" href="javascript:void(0)" ng-click="openDrawingsList(node)" data-ng-show="node.IsDrawingAvailable" style="padding-left:5px;"><i class="fa fa-eye"></i></a>' +
                     '<div data-ng-hide="node.collapsed" data-tree-id="' + treeId + '" data-tree-model="node.' + nodeChildren + '" data-node-id=' + nodeId + ' data-node-label=' + nodeLabel + ' data-node-children=' + nodeChildren + '></div>' +
                     '</li>' +
                     '</ul>';

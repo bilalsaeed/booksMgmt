@@ -33,25 +33,37 @@ namespace booksmanagement.Controllers.api
 
             CarTreeDto carTree = new CarTreeDto()
             {
-                CarBrands = db.CarBrands
+                CarBrands = db.CarBrands.OrderBy(b => b.Name)
                 .Select(b => new CarBrandDto()
 
                 {
                     Id = b.Id,
                     Name = b.Name,
                     collapsed = true,
-                    childerns = db.Cars
+                    childerns = db.Cars.OrderBy(x => x.Name)
                     .Where(c => c.CarBrandId == b.Id
-                    && db.CarParts
-                        .Where(cp => cp.CarId == c.Id && (drawingAvailable ||
-                            db.CarPartComponents
-                            .Where(cmp => cmp.CarPartId == cp.Id && cmp.DrawingOrderId == null)
-                            .Count() > 0 || cp.DrawingOrderId == null)
-                        && (!drawingAvailable ||
-                            db.CarPartComponents
-                            .Where(cmp => cmp.CarPartId == cp.Id && cmp.DrawingOrderId != null)
-                            .Count() > 0 || cp.DrawingOrderId != null))
+                    && (!drawingAvailable || db.CarParts.Where(cp => cp.CarId == c.Id
+                         && (drawingAvailable ||
+                             db.CarPartComponents
+                             .Where(cmp => cmp.CarPartId == cp.Id && !cmp.IsDrawingAvailable)
+                             .Count() > 0 || !cp.IsDrawingAvailable)
+                         && (!drawingAvailable ||
+                             db.CarPartComponents
+                             .Where(cmp => cmp.CarPartId == cp.Id && cmp.IsDrawingAvailable)
+                             .Count() > 0 || cp.IsDrawingAvailable))
                         .Count() > 0
+                        || c.IsDrawingAvailable)
+                    && (drawingAvailable || db.CarParts.Where(cp => cp.CarId == c.Id
+                         && (drawingAvailable ||
+                             db.CarPartComponents
+                             .Where(cmp => cmp.CarPartId == cp.Id && !cmp.IsDrawingAvailable)
+                             .Count() > 0 || !cp.IsDrawingAvailable)
+                         && (!drawingAvailable ||
+                             db.CarPartComponents
+                             .Where(cmp => cmp.CarPartId == cp.Id && cmp.IsDrawingAvailable)
+                             .Count() > 0 || cp.IsDrawingAvailable))
+                        .Count() > 0
+                        || !c.IsDrawingAvailable)
                         )
                     .Select(c => new CarDto
                     {
@@ -61,18 +73,25 @@ namespace booksmanagement.Controllers.api
                         collapsed = true,
                         car = true,
                         DrawingOrderId = c.DrawingOrderId,
-                        childerns = db.CarPartTypes.Where(ct => db.CarParts
-                        .Where(cp => cp.CarId == c.Id && (drawingAvailable || db.CarPartComponents.Where(cmp => cmp.CarPartId == cp.Id && cmp.DrawingOrderId == null).Count() > 0 || cp.DrawingOrderId == null)
-                            && (!drawingAvailable || db.CarPartComponents.Where(cmp => cmp.CarPartId == cp.Id && cmp.DrawingOrderId != null).Count() > 0 || cp.DrawingOrderId != null))
+                        IsDrawingAvailable = c.IsDrawingAvailable,
+                        childerns = db.CarPartTypes.OrderBy(x => x.Name).Where(ct => db.CarParts
+                        .Where(cp => cp.CarId == c.Id && (drawingAvailable ||
+                            db.CarPartComponents
+                            .Where(cmp => cmp.CarPartId == cp.Id && !cmp.IsDrawingAvailable)
+                            .Count() > 0 || !cp.IsDrawingAvailable)
+                        && (!drawingAvailable ||
+                            db.CarPartComponents
+                            .Where(cmp => cmp.CarPartId == cp.Id && cmp.IsDrawingAvailable)
+                            .Count() > 0 || cp.IsDrawingAvailable))
                         .Select(x => x.CarPartTypeId).ToList().Contains(ct.Id)).Select(ct => new CarPartTypeDto
                         {
                             Id = ct.Id,
                             Name = ct.Name,
                             collapsed = true,
-                            childerns = db.CarParts
+                            childerns = db.CarParts.OrderBy(x => x.Name)
                             .Where(cp => cp.CarPartTypeId == ct.Id && cp.CarId == c.Id
-                                   && (drawingAvailable || db.CarPartComponents.Where(cmp => cmp.CarPartId == cp.Id && cmp.DrawingOrderId == null).Count() > 0 || cp.DrawingOrderId == null)
-                                   && (!drawingAvailable || db.CarPartComponents.Where(cmp => cmp.CarPartId == cp.Id && cmp.DrawingOrderId != null).Count() > 0 || cp.DrawingOrderId != null))
+                                   && (drawingAvailable || db.CarPartComponents.Where(cmp => cmp.CarPartId == cp.Id && !cmp.IsDrawingAvailable).Count() > 0 || !cp.IsDrawingAvailable)
+                                   && (!drawingAvailable || db.CarPartComponents.Where(cmp => cmp.CarPartId == cp.Id && cmp.IsDrawingAvailable).Count() > 0 || cp.IsDrawingAvailable))
                             .Select(cp => new CarPartDto
                             {
                                 Id = cp.Id,
@@ -83,10 +102,11 @@ namespace booksmanagement.Controllers.api
                                 collapsed = true,
                                 carPart = true,
                                 DrawingOrderId = cp.DrawingOrderId,
-                                childerns = db.CarPartComponents
+                                IsDrawingAvailable = cp.IsDrawingAvailable,
+                                childerns = db.CarPartComponents.OrderBy(x => x.Name)
                                 .Where(comp => comp.CarPartId == cp.Id
-                                        && (drawingAvailable || comp.DrawingOrderId == null)
-                                        && (!drawingAvailable || comp.DrawingOrderId != null))
+                                        && (drawingAvailable || !comp.IsDrawingAvailable)
+                                        && (!drawingAvailable || comp.IsDrawingAvailable))
                                 .Select(comp => new CarPartComponentDto
                                 {
                                     Id = comp.Id,
@@ -94,7 +114,8 @@ namespace booksmanagement.Controllers.api
                                     CarId = c.Id,
                                     CarPartId = comp.CarPartId,
                                     carPartComp = true,
-                                    DrawingOrderId = comp.DrawingOrderId
+                                    DrawingOrderId = comp.DrawingOrderId,
+                                    IsDrawingAvailable = comp.IsDrawingAvailable
                                 }).ToList()
                             }).ToList()
                         }).ToList()
@@ -121,12 +142,12 @@ namespace booksmanagement.Controllers.api
         {
             CarTreeBookDto carTree = new CarTreeBookDto()
             {
-                CarBrands = db.CarBrands.Select(b => new CarBrandBookDto()
+                CarBrands = db.CarBrands.OrderBy(b => b.Name).Select(b => new CarBrandBookDto()
                 {
                     Id = b.Id,
                     Name = b.Name,
                     collapsed = true,
-                    childerns = db.Cars.Where(c => c.CarBrandId == b.Id && c.IsArchived == archive).Select(c => new CarBookDto
+                    childerns = db.Cars.OrderBy(x => x.Name).Where(c => c.CarBrandId == b.Id && c.IsArchived == archive).Select(c => new CarBookDto
                     {
                         Id = c.Id,
                         Name = c.Name,
@@ -141,7 +162,7 @@ namespace booksmanagement.Controllers.api
                         bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                         softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
                         maintainancePlanId = c.MaintenancePlanId,
-                        childerns = db.CarParts.Where(cp => cp.CarId == c.Id).Select(cp => new CarPartDto
+                        childerns = db.CarParts.OrderBy(x => x.Name).Where(cp => cp.CarId == c.Id).Select(cp => new CarPartDto
                         {
                             Id = cp.Id,
                             Name = cp.Name,
@@ -156,7 +177,7 @@ namespace booksmanagement.Controllers.api
                             softCopyAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 1).Select(bk => bk.SoftCopyAvailable).FirstOrDefault(),
                             bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                             softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
-                            childerns = db.CarPartComponents.Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
+                            childerns = db.CarPartComponents.OrderBy(x => x.Name).Where(comp => comp.CarPartId == cp.Id).Select(comp => new CarPartComponentDto
                             {
                                 Id = comp.Id,
                                 Name = comp.Name,
@@ -169,7 +190,7 @@ namespace booksmanagement.Controllers.api
                                 softCopyAvailable = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 1).Select(bk => bk.SoftCopyAvailable).FirstOrDefault(),
                                 bookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 2).Select(bk => bk.Id).FirstOrDefault(),
                                 softBookId = db.Books.Where(bk => bk.CarId == c.Id && bk.IsActive && bk.CarPartId == cp.Id && bk.CarPartComponentId == comp.Id && bk.CarPartComponentDescId == null && bk.TypeId == 1).Select(bk => bk.Id).FirstOrDefault(),
-                                childerns = db.CarPartComponentDescs.Where(cmpDe => cmpDe.CarPartComponentId == comp.Id).Select(cmpDe => new CarPartComponentDescDto
+                                childerns = db.CarPartComponentDescs.OrderBy(x => x.Name).Where(cmpDe => cmpDe.CarPartComponentId == comp.Id).Select(cmpDe => new CarPartComponentDescDto
                                 {
                                     Id = cmpDe.Id,
                                     Name = cmpDe.Name,
@@ -411,8 +432,121 @@ namespace booksmanagement.Controllers.api
             //if (appUrl != "/")
             //    appUrl = "/" + appUrl;
 
+            var drawingOrder = db.DrawingOrders.Find(id);
+            List<DrawingFiles> drawingFiles = new List<DrawingFiles>();
+            if (drawingOrder.CarPartComponentId != null || drawingOrder.CarPartComponentId != 0)
+                drawingFiles = await db.DrawingFiles.Where(a => a.CarPartComponentId == drawingOrder.CarPartComponentId).ToListAsync();
+            else if (drawingOrder.CarPartId != null || drawingOrder.CarPartId != 0)
+                drawingFiles = await db.DrawingFiles.Where(a => a.CarPartId == drawingOrder.CarPartId).ToListAsync();
+            else if (drawingOrder.CarId != null || drawingOrder.CarId != 0)
+                drawingFiles = await db.DrawingFiles.Where(a => a.CarId == drawingOrder.CarId).ToListAsync();
+
             var address = $"{request.Url.Scheme}://{request.Url.Host}:{request.Url.Port}{appUrl}";
-            var files = await db.DrawingFiles.Where(a => a.DrawingOrderId == id).ToListAsync();
+            //var files = await db.DrawingFiles.Where(a => a.DrawingOrderId == id).ToListAsync();
+            var list = from k in drawingFiles
+                       select new
+                       {
+                           k.Id,
+                           k.FileType,
+                           k.DrawingOrderId,
+                           k.FileName,
+                           k.FileSize,
+                           k.Type,
+                           thumbUrl = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFileThumbnail&&FileId={k.Id}&&width=100&&height=100",
+                           url = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={k.Id}"
+
+                       };
+
+            return Ok(list);
+        }
+
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> GetCarDrawingFiles(int id)
+        {
+            var request = HttpContext.Current.Request;
+
+            var appUrl = HttpRuntime.AppDomainAppVirtualPath;
+            //if (appUrl != "/")
+            //    appUrl = "/" + appUrl;
+
+
+            var address = $"{request.Url.Scheme}://{request.Url.Host}:{request.Url.Port}{appUrl}";
+            var files = await db.DrawingFiles.Where(a => a.CarId == id).ToListAsync();
+            var list = from k in files
+                       select new
+                       {
+                           k.Id,
+                           k.FileType,
+                           k.DrawingOrderId,
+                           k.FileName,
+                           k.FileSize,
+                           k.Type,
+                           thumbUrl = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFileThumbnail&&FileId={k.Id}&&width=100&&height=100",
+                           url = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={k.Id}"
+
+                       };
+
+            return Ok(list);
+        }
+
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> GetCarPartDrawingFiles(int id)
+        {
+            var request = HttpContext.Current.Request;
+
+            var appUrl = HttpRuntime.AppDomainAppVirtualPath;
+            //if (appUrl != "/")
+            //    appUrl = "/" + appUrl;
+
+
+            var address = $"{request.Url.Scheme}://{request.Url.Host}:{request.Url.Port}{appUrl}";
+            var files = await db.DrawingFiles.Where(a => a.CarPartId == id)
+                .Select(a => new
+                {
+                    a.Id,
+                    a.FileType,
+                    a.DrawingOrderId,
+                    a.FileName,
+                    a.FileSize,
+                    a.Type
+                }).ToListAsync();
+            var list = from k in files
+                       select new
+                       {
+                           k.Id,
+                           k.FileType,
+                           k.DrawingOrderId,
+                           k.FileName,
+                           k.FileSize,
+                           k.Type,
+                           thumbUrl = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFileThumbnail&&FileId={k.Id}&&width=100&&height=100",
+                           url = $"{address}/HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={k.Id}"
+
+                       };
+
+            return Ok(list);
+        }
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> GetCarPartCompDrawingFiles(int id)
+        {
+            var request = HttpContext.Current.Request;
+
+            var appUrl = HttpRuntime.AppDomainAppVirtualPath;
+            //if (appUrl != "/")
+            //    appUrl = "/" + appUrl;
+
+
+            var address = $"{request.Url.Scheme}://{request.Url.Host}:{request.Url.Port}{appUrl}";
+            var files = await db.DrawingFiles.Where(a => a.CarPartComponentId == id)
+                .Select(a => new
+                {
+                    a.Id,
+                    a.FileType,
+                    a.DrawingOrderId,
+                    a.FileName,
+                    a.FileSize,
+                    a.Type
+                }).ToListAsync();
             var list = from k in files
                        select new
                        {
@@ -578,35 +712,34 @@ namespace booksmanagement.Controllers.api
             drawingOrder.IsApproved = true;
             drawingOrder.ApprovalDate = DateTime.UtcNow;
 
-            var drawingId = db.DrawingFiles.Where(d => d.DrawingOrderId == drawingOrder.Id).Select(d => d.Id).FirstOrDefault();
-
-            if (drawingId != 0)
+            if (drawingOrder.CarPartComponentId != null || drawingOrder.CarPartComponentId != 0)
             {
-                if (drawingOrder.CarPartComponentId == null && drawingOrder.CarPartId != null)
-                {
-                    var carPart = db.CarParts.Where(p => p.Id == drawingOrder.CarPartId).FirstOrDefault();
-                    if (carPart != null)
-                    {
-                        //carPart.DrawingFilesId = drawingId;
-                        carPart.DrawingOrderId = orderRequest.Id;
-                    }
-                }
-                else if (drawingOrder.CarPartComponentId == null && drawingOrder.CarPartId == null)
-                {
-                    var car = db.Cars.Where(p => p.Id == drawingOrder.CarId).FirstOrDefault();
-                    if (car != null)
-                    {
-                        car.DrawingOrderId = orderRequest.Id;
-                    }
-                }
-                else
+                var drawingsCount = db.DrawingFiles.Where(d => d.CarPartComponentId == drawingOrder.CarPartComponentId).Count();
+                if (drawingsCount > 0)
                 {
                     var carPartComp = db.CarPartComponents.Where(p => p.Id == drawingOrder.CarPartComponentId).FirstOrDefault();
                     if (carPartComp != null)
-                    {
-                        //carPartComp.DrawingFilesId = drawingId;
-                        carPartComp.DrawingOrderId = orderRequest.Id;
-                    }
+                        carPartComp.IsDrawingAvailable = true;
+                }
+            }
+            else if (drawingOrder.CarPartId != null || drawingOrder.CarPartId != 0)
+            {
+                var drawingsCount = db.DrawingFiles.Where(d => d.CarPartId == drawingOrder.CarPartId).Count();
+                if (drawingsCount > 0)
+                {
+                    var carPart = db.CarParts.Where(p => p.Id == drawingOrder.CarPartId).FirstOrDefault();
+                    if (carPart != null)
+                        carPart.IsDrawingAvailable = true;
+                }
+            }
+            else if (drawingOrder.CarId != null || drawingOrder.CarId != 0)
+            {
+                var drawingsCount = db.DrawingFiles.Where(d => d.CarId == drawingOrder.CarId).Count();
+                if (drawingsCount > 0)
+                {
+                    var car = db.Cars.Where(p => p.Id == drawingOrder.CarId).FirstOrDefault();
+                    if (car != null)
+                        car.IsDrawingAvailable = true;
                 }
             }
 

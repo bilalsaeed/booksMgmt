@@ -23,8 +23,6 @@
             false,
         restrictions:
         {
-            maxNumberOfFiles:
-                5,
             allowedFileTypes:
                 ['.pdf']
         }
@@ -112,6 +110,32 @@
 
 
     //Other logical functions here
+
+    $scope.carPartComponentsFilter = function (item) {
+        if ($scope.form.CarPartId && $scope.form.CarId)
+            return item.CarPartId === $scope.form.CarPartId && item.CarPart.CarId === $scope.form.CarId
+
+        if ($scope.form.CarId)
+            return item.CarPart.CarId === $scope.form.CarId
+        
+        return item;
+    };
+
+    $scope.carPartComponentDescsFilter = function (item) {
+        if ($scope.form.CarPartComponentId && $scope.form.CarPartId && $scope.form.CarId)
+            return item.CarPartComponentId === $scope.form.CarPartComponentId
+                && item.CarPartComponent.CarPartId === $scope.form.CarPartId
+                && item.CarPartComponent.CarPart.CarId === $scope.form.CarId
+
+        if ($scope.form.CarPartId && $scope.form.CarId)
+            return item.CarPartComponent.CarPartId === $scope.form.CarPartId
+                && item.CarPartComponent.CarPart.CarId === $scope.form.CarId
+
+        if ($scope.form.CarId)
+            return item.CarPartComponent.CarPart.CarId === $scope.form.CarId
+
+        return item;
+    };
 
     $scope.carSelected = function () {
 

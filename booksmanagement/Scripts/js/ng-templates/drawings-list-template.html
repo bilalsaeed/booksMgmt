@@ -11,9 +11,14 @@
                 <i class="fa fa-download"></i> {{file.FileName}}
             </a>-->
             <ul class="gallery gallery1">
-                <li ng-repeat="image in files" style="cursor:pointer;">
-                    <a ng-click="openLightboxModal($index)">
+                <li ng-repeat="image in files" style="cursor:pointer;" class="py-4">
+                    <a ng-click="openLightboxModal($index)" ng-if="image.FileType != 'application/pdf'">
                         <img ng-src="{{image.thumbUrl}}" class="img-thumbnail">
+                    </a>
+                    <a href="HttpHandlers/FileRequestHandler.ashx?Type=GetDrawingFile&&FileId={{image.Id}}" target="_blank"
+                       class="p-4 img-thumbnail" ng-if="image.FileType == 'application/pdf'">
+                        <i class="fa fa-file-pdf-o fa-2x"></i>
+                        <small>{{image.FileName}}</small>
                     </a>
                 </li>
             </ul>

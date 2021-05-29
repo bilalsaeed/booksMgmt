@@ -19,6 +19,7 @@ namespace booksmanagement.Models
         [Display(Name = "Archived")]
         public bool IsArchived { get; set; }
         public int? DrawingOrderId { get; set; }
+        public bool IsDrawingAvailable { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

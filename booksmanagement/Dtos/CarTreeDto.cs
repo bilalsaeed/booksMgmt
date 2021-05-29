@@ -47,6 +47,7 @@ namespace booksmanagement.Dtos
         public bool bookAvailable { get; set; }
         public bool car { get; set; }
         public int? DrawingOrderId { get; set; }
+        public bool IsDrawingAvailable { get; set; }
         public List<CarPartTypeDto> childerns { get; set; }
     }
     public class CarBookDto
@@ -90,6 +91,7 @@ namespace booksmanagement.Dtos
         public int softBookId { get; set; }
         public int? DrawingFileId { get; set; }
         public int? DrawingOrderId { get; set; }
+        public bool IsDrawingAvailable { get; set; }
         public List<CarPartComponentDto> childerns { get; set; }
     }
     public class CarPartComponentDto
@@ -108,6 +110,7 @@ namespace booksmanagement.Dtos
         public int softBookId { get; set; }
         public int? DrawingFileId { get; set; }
         public int? DrawingOrderId { get; set; }
+        public bool IsDrawingAvailable { get; set; }
         public List<CarPartComponentDescDto> childerns { get; set; }
     }
 

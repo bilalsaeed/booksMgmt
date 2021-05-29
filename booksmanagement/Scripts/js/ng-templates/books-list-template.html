@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-sm-12" ng-repeat="file in files">
+        <div class="col-sm-12" ng-repeat="file in files | orderBy:'FileName'">
             <a href="HttpHandlers/FileRequestHandler.ashx?Type=GetBookMediaFile&&FileId={{file.Id}}" target="_blank" class="p-2">
                 <i class="fa fa-download"></i> {{file.FileName}}
             </a>

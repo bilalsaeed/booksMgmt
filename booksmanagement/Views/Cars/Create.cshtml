@@ -40,7 +40,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.IsArchived, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.IsArchived, new { htmlAttributes = new {  } })
+            @Html.EditorFor(model => model.IsArchived, new { htmlAttributes = new { } })
         </div>
     </div>
 
@@ -50,6 +50,14 @@
         </label>
         <div class="col-md-10">
             <input type="file" value="" name="file" accept="application/pdf,image/png, image/jpeg" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Drawing Image
+        </label>
+        <div class="col-md-10">
+            <input type="file" value="" name="Drawingfile" multiple />
         </div>
     </div>
 

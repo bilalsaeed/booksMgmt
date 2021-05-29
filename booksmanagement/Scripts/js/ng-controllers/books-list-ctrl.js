@@ -5,7 +5,7 @@
     $scope.getBookMediaList = function(){
         $http.get(root + 'api/Books/GetBookSoftFiles/' + $scope.bookid).then(function success(response) {
             $scope.files = response.data;
-            //console.log('book files:', $scope.files);
+            console.log('book files:', $scope.files);
         }, function error() { });
     }
 
